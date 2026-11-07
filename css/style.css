@@ -9,3 +9,29 @@
 .player-marker{left:50%;top:57%;transform:translate(-50%,-50%);transition:left .09s linear,top .09s linear;user-select:none;pointer-events:none}
 #nearby-hint{margin:10px 0 0;color:var(--gold);font-weight:900;min-height:18px}
 .location:focus-visible,.pixel-button:focus-visible,.small-button:focus-visible{outline:3px solid #fff4a8;outline-offset:4px}
+
+/* Cross-platform and touch controls */
+.mobile-controls{display:none;align-items:center;justify-content:center;gap:22px;padding:18px 8px 6px;touch-action:none}
+.dpad{display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,46px);gap:5px}
+.move-button{border:2px solid #8297a8;border-radius:9px;background:#263e52;color:#fff4d7;font-size:20px;font-weight:900;box-shadow:0 4px 0 #0b1723;touch-action:none;user-select:none;-webkit-user-select:none}
+.move-button:active,.move-button.pressed{transform:translateY(3px);box-shadow:0 1px 0 #0b1723;background:#49677e}
+.move-up{grid-column:2;grid-row:1}.move-left{grid-column:1;grid-row:2}.move-down{grid-column:2;grid-row:2}.move-right{grid-column:3;grid-row:2}
+.interact-button{border:2px solid #f6c75b;border-radius:8px;background:#f6c75b;color:#302719;padding:14px 16px;font-family:"Press Start 2P";font-size:8px;line-height:1.8;box-shadow:0 4px 0 #875b22;touch-action:manipulation}
+.interact-button:active{transform:translateY(3px);box-shadow:0 1px 0 #875b22}
+.touch-hint{font-size:10px;color:#b9c9d3;max-width:130px;line-height:1.5}
+button{touch-action:manipulation}
+.answer-button{min-height:48px}
+@media(max-width:800px),(pointer:coarse){.mobile-controls{display:flex}}
+@media(max-width:520px){
+ .mobile-controls{gap:12px;padding-top:14px;flex-wrap:wrap}
+ .dpad{grid-template-columns:repeat(3,52px);grid-template-rows:repeat(2,48px)}
+ .move-button{font-size:18px}
+ .interact-button{padding:13px 12px;font-size:7px}
+ .touch-hint{max-width:100%;flex-basis:100%;text-align:center;margin:0}
+ .quest-panel,.map-panel{padding:14px}
+ .modal{padding:8px}
+ .modal-card{padding:24px 17px;max-height:94vh}
+ .modal-card h2{font-size:14px}
+ .question-text{font-size:18px}
+}
+@media(hover:none){.location:hover{transform:none;filter:none}.location:active{transform:scale(.97)}}
