@@ -78,3 +78,66 @@ function updateHud(){
 }
 function closeMission(){$("mission-modal").classList.add("hidden");state.active=null}
 function toast(message){const t=$("toast");t.textContent=message;t.classList.remove("hidden");setTimeout(()=>t.classList.add("hidden"),2600)}
+
+
+// --- PLAYER EXPLORATION ---
+const player = { x: 50, y: 57, step: 2.2 };
+const playerMarker = document.querySelector(".player-marker");
+const kingdomMap = document.querySelector(".kingdom-map");
+const nearbyHint = $("nearby-hint");
+let nearbyMission = null;
+
+function updatePlayerPosition() {
+  playerMarker.style.left = player.x + "%";
+  playerMarker.style.top = player.y + "%";
+  findNearbyMission();
+}
+
+function findNearbyMission() {
+  const mapRect = kingdomMap.getBoundingClientRect();
+  const px = mapRect.left + (player.x / 100) * mapRect.width;
+  const py = mapRect.top + (player.y / 100) * mapRect.height;
+  let closest = null;
+  let closestDistance = Infinity;
+
+  document.querySelectorAll(".location").forEach(button => {
+    const r = button.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const distance = Math.hypot(px - cx, py - cy);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closest = Number(button.dataset.mission);
+    }
+  });
+
+  nearbyMission = closestDistance < 105 ? closest : null;
+  if (nearbyHint) {
+    nearbyHint.textContent = nearbyMission !== null
+      ? "Press E to enter " + missions[nearbyMission].name + "!"
+      : "Explore the kingdom and find a building.";
+  }
+}
+
+document.addEventListener("keydown", event => {
+  if ($("game-screen").classList.contains("hidden") || !$("mission-modal").classList.contains("hidden")) return;
+  const key = event.key.toLowerCase();
+  const movement = {
+    arrowup: [0, -1], w: [0, -1],
+    arrowdown: [0, 1], s: [0, 1],
+    arrowleft: [-1, 0], a: [-1, 0],
+    arrowright: [1, 0], d: [1, 0]
+  };
+
+  if (movement[key]) {
+    event.preventDefault();
+    player.x = Math.max(3, Math.min(97, player.x + movement[key][0] * player.step));
+    player.y = Math.max(5, Math.min(95, player.y + movement[key][1] * player.step));
+    updatePlayerPosition();
+  } else if (key === "e" && nearbyMission !== null) {
+    openMission(nearbyMission);
+  }
+});
+
+window.addEventListener("resize", findNearbyMission);
+updatePlayerPosition();
