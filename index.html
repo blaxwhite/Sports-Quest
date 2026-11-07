@@ -55,7 +55,17 @@
             <div class="player-marker" title="Your adventure begins here">🧑‍🚀</div>
             <div class="map-sign">WELCOME, CHAMPION!</div>
           </div>
-          <p class="map-caption">SELECT A LOCATION TO EXPLORE <span>✦</span></p>
+          <div class="mobile-controls" aria-label="Touch movement controls">
+    <div class="dpad">
+      <button class="move-button move-up" data-move="up" aria-label="Move up">▲</button>
+      <button class="move-button move-left" data-move="left" aria-label="Move left">◀</button>
+      <button class="move-button move-down" data-move="down" aria-label="Move down">▼</button>
+      <button class="move-button move-right" data-move="right" aria-label="Move right">▶</button>
+    </div>
+    <button id="interact-button" class="interact-button">INTERACT <span>↗</span></button>
+    <p class="touch-hint">Use the arrows to explore, then tap INTERACT near a building.</p>
+  </div>
+  <p class="map-caption">SELECT A LOCATION TO EXPLORE <span>✦</span></p>
         </section>
       </div>
     </section>
