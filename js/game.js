@@ -151,7 +151,7 @@ let touchMoveTimer = null;
 let activeTouchDirection = null;
 
 function movePlayer(direction) {
-  if (!touchDirections[direction] || $("game-screen").classList.contains("hidden") || !$("mission-modal").classList.contains("hidden") === false) return;
+  if (!touchDirections[direction] || $("game-screen").classList.contains("hidden") || !$("mission-modal").classList.contains("hidden")) return;
   const [dx, dy] = touchDirections[direction];
   player.x = Math.max(3, Math.min(97, player.x + dx * player.step));
   player.y = Math.max(5, Math.min(95, player.y + dy * player.step));
