@@ -87,6 +87,15 @@ const kingdomMap = document.querySelector(".kingdom-map");
 const nearbyHint = $("nearby-hint");
 let nearbyMission = null;
 
+let walkAnimationTimer = null;
+function animatePlayer(direction) {
+  playerMarker.classList.remove("face-left");
+  if (direction === "left") playerMarker.classList.add("face-left");
+  playerMarker.classList.add("walking");
+  clearTimeout(walkAnimationTimer);
+  walkAnimationTimer = setTimeout(() => playerMarker.classList.remove("walking"), 190);
+}
+
 function updatePlayerPosition() {
   playerMarker.style.left = player.x + "%";
   playerMarker.style.top = player.y + "%";
@@ -152,7 +161,7 @@ let activeTouchDirection = null;
 
 function movePlayer(direction) {
   if (!touchDirections[direction] || $("game-screen").classList.contains("hidden") || !$("mission-modal").classList.contains("hidden")) return;
-  const [dx, dy] = touchDirections[direction];
+  const [dx, dy] = touchDirections[direction];\n  animatePlayer(direction);
   player.x = Math.max(3, Math.min(97, player.x + dx * player.step));
   player.y = Math.max(5, Math.min(95, player.y + dy * player.step));
   updatePlayerPosition();
