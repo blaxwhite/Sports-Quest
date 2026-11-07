@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101b2b">
+  <title>Sports Quest: Kingdom of Champions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main id="app">
+    <section id="title-screen" class="screen title-screen">
+      <div class="title-card">
+        <p class="eyebrow">A YEAR 5 ENGLISH ADVENTURE</p>
+        <h1>SPORTS<br><span>QUEST</span></h1>
+        <p class="subtitle">KINGDOM OF CHAMPIONS</p>
+        <p class="intro">Six challenges. Six emblems. One legendary Sports Festival.</p>
+        <button id="start-button" class="pixel-button gold-button">START ADVENTURE <span>▶</span></button>
+        <p class="tiny-note">Use your curiosity. Become a champion.</p>
+      </div>
+      <div class="floating-ball ball-one">⚽</div><div class="floating-ball ball-two">🏀</div><div class="floating-ball ball-three">🏆</div>
+    </section>
+
+    <section id="game-screen" class="screen game-screen hidden">
+      <header class="hud">
+        <div class="brand"><span class="brand-icon">🏆</span><div><strong>SPORTS QUEST</strong><small>KINGDOM OF CHAMPIONS</small></div></div>
+        <div class="stats"><div class="stat"><small>EXPERIENCE</small><strong id="xp-value">0 XP</strong></div><div class="stat"><small>EMBLEMS</small><strong id="emblem-value">0 / 6</strong></div></div>
+        <button id="help-button" class="icon-button" aria-label="How to play">?</button>
+      </header>
+      <div class="kingdom-layout">
+        <aside class="quest-panel">
+          <p class="panel-kicker">YOUR QUEST</p>
+          <h2>Restore the<br>Sports Festival!</h2>
+          <p class="quest-copy">The kingdom needs a champion. Visit each location, complete its English challenge and collect all six Champion Emblems.</p>
+          <div class="progress-track"><div id="progress-fill"></div></div>
+          <p id="progress-label" class="progress-label">0 of 6 challenges completed</p>
+          <div class="emblem-row" id="emblem-row"><span>◇</span><span>◇</span><span>◇</span><span>◇</span><span>◇</span><span>◇</span></div>
+          <div class="controls-hint"><b>HOW TO PLAY</b><br>Choose a location on the map to begin its mission.</div>
+        </aside>
+        <section class="map-panel" aria-label="Kingdom map">
+          <div class="map-heading"><span>✦ THE KINGDOM ✦</span><span class="map-coords">WORLD MAP / 01</span></div>
+          <div class="kingdom-map">
+            <div class="river"></div><div class="path path-a"></div><div class="path path-b"></div><div class="path path-c"></div>
+            <div class="map-deco tree tree-a">🌲</div><div class="map-deco tree tree-b">🌳</div><div class="map-deco tree tree-c">🌲</div><div class="map-deco tree tree-d">🌳</div>
+            <div class="map-deco flower flower-a">✿</div><div class="map-deco flower flower-b">✿</div><div class="map-deco flower flower-c">✿</div>
+            <button class="location loc-training" data-mission="0"><span class="building">🏟️</span><span class="loc-name">TRAINING GROUNDS</span><span class="loc-status">VOCABULARY</span></button>
+            <button class="location loc-listening" data-mission="1"><span class="building">📯</span><span class="loc-name">ANNOUNCEMENT HALL</span><span class="loc-status">LISTENING</span></button>
+            <button class="location loc-reading" data-mission="2"><span class="building">📚</span><span class="loc-name">KNOWLEDGE LIBRARY</span><span class="loc-status">READING</span></button>
+            <button class="location loc-strategy" data-mission="3"><span class="building">⛺</span><span class="loc-name">STRATEGY CAMP</span><span class="loc-status">TEAM TACTICS</span></button>
+            <button class="location loc-festival" data-mission="4"><span class="building">🎪</span><span class="loc-name">FESTIVAL GROUNDS</span><span class="loc-status">PLANNING</span></button>
+            <button class="location loc-arena" data-mission="5"><span class="building">🏆</span><span class="loc-name">CHAMPION ARENA</span><span class="loc-status">FINAL CHALLENGE</span></button>
+            <div class="player-marker" title="Your adventure begins here">🧑‍🚀</div>
+            <div class="map-sign">WELCOME, CHAMPION!</div>
+          </div>
+          <p class="map-caption">SELECT A LOCATION TO EXPLORE <span>✦</span></p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div id="mission-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="mission-title">
+    <div class="modal-card">
+      <button id="close-modal" class="close-button" aria-label="Close">×</button>
+      <div id="mission-content"></div>
+    </div>
+  </div>
+  <div id="toast" class="toast hidden" role="status"></div>
+  <script src="js/game.js"></script>
+</body>
+</html>
