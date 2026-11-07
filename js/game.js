@@ -140,6 +140,7 @@ document.addEventListener("keydown", event => {
 
   if (movement[key]) {
     event.preventDefault();
+    animatePlayer(key === "a" || key === "arrowleft" ? "left" : key === "d" || key === "arrowright" ? "right" : key === "w" || key === "arrowup" ? "up" : "down");
     player.x = Math.max(3, Math.min(97, player.x + movement[key][0] * player.step));
     player.y = Math.max(5, Math.min(95, player.y + movement[key][1] * player.step));
     updatePlayerPosition();
