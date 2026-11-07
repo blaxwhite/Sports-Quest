@@ -141,3 +141,49 @@ document.addEventListener("keydown", event => {
 
 window.addEventListener("resize", findNearbyMission);
 updatePlayerPosition();
+
+
+// --- TOUCHSCREEN MOVEMENT CONTROLS ---
+const touchDirections = {
+  up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0]
+};
+let touchMoveTimer = null;
+let activeTouchDirection = null;
+
+function movePlayer(direction) {
+  if (!touchDirections[direction] || $("game-screen").classList.contains("hidden") || !$("mission-modal").classList.contains("hidden") === false) return;
+  const [dx, dy] = touchDirections[direction];
+  player.x = Math.max(3, Math.min(97, player.x + dx * player.step));
+  player.y = Math.max(5, Math.min(95, player.y + dy * player.step));
+  updatePlayerPosition();
+}
+
+function stopTouchMovement() {
+  if (touchMoveTimer) clearInterval(touchMoveTimer);
+  touchMoveTimer = null;
+  activeTouchDirection = null;
+  document.querySelectorAll(".move-button").forEach(button => button.classList.remove("pressed"));
+}
+
+document.querySelectorAll(".move-button").forEach(button => {
+  const direction = button.dataset.move;
+  const start = event => {
+    event.preventDefault();
+    stopTouchMovement();
+    activeTouchDirection = direction;
+    button.classList.add("pressed");
+    movePlayer(direction);
+    touchMoveTimer = setInterval(() => movePlayer(direction), 125);
+  };
+  button.addEventListener("pointerdown", start);
+  button.addEventListener("pointerup", stopTouchMovement);
+  button.addEventListener("pointerleave", stopTouchMovement);
+  button.addEventListener("pointercancel", stopTouchMovement);
+});
+
+$("interact-button").addEventListener("click", () => {
+  if (nearbyMission !== null) openMission(nearbyMission);
+  else toast("Move closer to a building first!");
+});
+
+// On touch devices, tapping a building remains a direct, accessible way to start it.
