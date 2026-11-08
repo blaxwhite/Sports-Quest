@@ -33,3 +33,57 @@ body{background:#0d1824;color:#f7efd9}.site-bg{background:radial-gradient(ellips
 .game-mission-card{isolation:isolate}.game-mission-card .mission-art{background-image:linear-gradient(145deg,#31574f,#1c3947)!important}.mission-art-scene{position:absolute;inset:0;opacity:.22;background-image:linear-gradient(135deg,transparent 45%,#f9d98c 46%,transparent 47%),radial-gradient(circle at 20% 30%,#fff 1px,transparent 2px);background-size:90px 90px,28px 28px}.mission-card .mission-link{border-top:1px solid #3c5660;padding-top:13px}.mission-complete{color:#9be0b4!important}.mission-state{font:7px 'Press Start 2P';color:#a8c3b5;letter-spacing:.4px}.mission-player-hud{display:flex;align-items:center;gap:12px;padding:11px 14px;margin:0 0 16px;border:1px solid #526b64;border-radius:10px;background:#172f3d;color:#e8e8d8;font-size:11px}.mission-player-hud .hud-gem{font-size:20px}.mission-player-hud strong{color:#f5ce79}.mission-player-hud .hud-spacer{flex:1}
 @media(max-width:560px){.quest-hud{padding:13px;align-items:flex-start}.quest-hud-label{font-size:7px}.quest-hud-rank{font-size:12px}.quest-hud-track{width:34vw}.quest-hud-xp strong{font-size:13px}.mission-player-hud{font-size:10px;gap:8px}}
 @media(prefers-reduced-motion:reduce){.mission-card,.mission-art .emoji,.quest-hud-track span{transition:none!important}}
+
+/* 3.2 PIXEL KINGDOM ART DIRECTION — inspired by the generated concept sheet */
+:root{--gold:#f6cc70;--pixel-edge:#9c8250}
+body{image-rendering:auto}
+.topnav{border-bottom:2px solid #6c654d}
+.brand-icon{border-radius:7px;box-shadow:3px 3px 0 #08131b, inset 0 0 0 2px #d7b76e}
+.hero{min-height:690px;background:
+ linear-gradient(180deg,#10253722 0%,#10253700 50%,#0c1a25aa 100%),
+ radial-gradient(ellipse at 76% 70%,#d69b4a35,transparent 30%),
+ radial-gradient(ellipse at 78% 30%,#7bb5a355,transparent 42%),
+ linear-gradient(135deg,#172c3b,#294b50 55%,#172b39)}
+.hero:before{content:"";position:absolute;inset:auto 0 0;height:145px;pointer-events:none;background:linear-gradient(180deg,transparent,#0c1925 94%),repeating-linear-gradient(90deg,#263f3d 0 22px,#203936 22px 44px);clip-path:polygon(0 45%,8% 28%,16% 48%,24% 18%,34% 47%,45% 12%,56% 43%,68% 20%,78% 48%,90% 15%,100% 40%,100% 100%,0 100%);opacity:.72}
+.hero-copy{position:relative;z-index:2}
+.hero h1{font-family:'Press Start 2P','Space Grotesk',sans-serif;font-size:clamp(30px,4.4vw,58px);line-height:1.35;letter-spacing:-.06em;text-shadow:4px 4px 0 #08131c,7px 7px 0 #08131c}
+.hero-sub{font-family:'Press Start 2P',monospace;font-size:clamp(8px,1vw,11px);letter-spacing:.02em;line-height:2;color:#f1d18b}
+.hero p.lead{color:#d1ddd3;text-shadow:0 2px 4px #07131c}
+.hero-art{height:460px}
+.portal{width:min(100%,500px);border-radius:0;background:
+ radial-gradient(ellipse at 50% 58%,#ffdd8c 0 7%,#b87543 8% 11%,transparent 12%),
+ radial-gradient(ellipse at 50% 56%,#77a878 0 23%,#315e58 24% 34%,transparent 35%),
+ radial-gradient(ellipse at 50% 62%,#203f4a 0 48%,transparent 49%),
+ linear-gradient(180deg,#263f59 0%,#c58d61 60%,#263e43 100%);
+ clip-path:polygon(50% 0,100% 17%,100% 84%,75% 100%,24% 100%,0 80%,0 20%);filter:drop-shadow(0 20px 0 #07131c)}
+.portal:before{inset:8%;border:4px solid #e5c47c;border-radius:0;transform:rotate(0);clip-path:polygon(50% 0,100% 15%,100% 85%,50% 100%,0 85%,0 15%)}
+.portal:after{inset:17%;border:2px dashed #fff0bd;border-radius:0;transform:rotate(0);clip-path:polygon(50% 0,100% 15%,100% 85%,50% 100%,0 85%,0 15%)}
+.castle{width:195px;height:170px;background:linear-gradient(90deg,#b58c60,#f2ca7c 48%,#9c7654);border:6px solid #4d4a43;box-shadow:inset 0 0 0 5px #e7c68a;clip-path:polygon(0 35%,12% 35%,12% 8%,28% 8%,28% 35%,37% 35%,37% 0,63% 0,63% 35%,72% 35%,72% 8%,88% 8%,88% 35%,100% 35%,100% 100%,0 100%)}
+.castle:after{width:34px;height:58px;left:42%;background:#384b50;border:4px solid #b98b51;border-bottom:0}
+.hero-stamp{border-radius:7px;border:2px solid #a98a4f;box-shadow:4px 4px 0 #08131c}
+.btn,.nav-cta{border-radius:7px;border:2px solid #7c613b;box-shadow:0 5px 0 #80562a, inset 0 1px 0 #fff8}
+.btn-dark{border-color:#667e79;box-shadow:0 5px 0 #07131c,inset 0 1px 0 #fff3}
+.section{position:relative}
+.section-head h2{font-family:'Press Start 2P',monospace;font-size:clamp(17px,2.4vw,27px);line-height:1.8;letter-spacing:-.04em}
+.feature{border-radius:8px;border:2px solid #52685f;box-shadow:4px 4px 0 #07131c}
+.feature-icon{border-radius:7px;border:1px solid #8d8059}
+.mission-card{border-radius:8px;border:2px solid #62735f;box-shadow:0 6px 0 #08131c,0 12px 22px #0005}
+.mission-card:hover{border-color:#f5d17e;box-shadow:0 8px 0 #08131c,0 20px 30px #0007}
+.mission-art{height:170px;border-bottom:2px solid #7e7655;background-color:#31554b!important}
+.mission-art:before{border:2px dashed #f4d58c99;border-radius:0;clip-path:polygon(50% 0,100% 20%,100% 80%,50% 100%,0 80%,0 20%)}
+.mission-art:after{border:2px solid #f4d58c66;border-radius:0;clip-path:polygon(50% 0,100% 20%,100% 80%,50% 100%,0 80%,0 20%)}
+.mission-art .emoji{font-size:72px;filter:drop-shadow(4px 5px 0 #09141d)}
+.mission-number{border-radius:3px;border:2px solid #b79b62;font-family:'Press Start 2P';font-size:7px}
+.mission-body{padding:20px}
+.mission-body h3{font-family:'Press Start 2P';font-size:12px;line-height:1.8}
+.mission-body p{font-size:12px}
+.mission-link{font-family:'Press Start 2P';font-size:8px;letter-spacing:-.03em}
+.progress-panel{border-radius:8px;border:2px solid #617364;box-shadow:0 7px 0 #08131c}
+.progress-stat strong{font-family:'Press Start 2P';font-size:17px}
+.mission-hero{border-bottom:2px solid #8c805d}
+.mission-hero h1{font-family:'Press Start 2P';font-size:clamp(18px,3vw,32px);line-height:1.8;letter-spacing:-.04em}
+.mission-hero-art{filter:drop-shadow(4px 6px 0 #07131c)}
+.activity-card,.side-card{border-radius:8px;border:2px solid #536c63;box-shadow:0 6px 0 #08131c,0 13px 25px #0004}
+.activity-area,.question,.choice,.match-item,.field{border-radius:7px}
+.quest-hud{border-radius:7px;border:2px solid #786c4d;box-shadow:0 5px 0 #08131c}
+@media(max-width:560px){.hero{min-height:0}.hero h1{font-size:28px}.hero-art{height:290px}.portal{width:280px}.mission-body h3{font-size:10px}.section-head h2{font-size:16px}}
