@@ -158,3 +158,26 @@ body{image-rendering:auto}
  .arcade-page .arcade-match-grid>div{padding:6px}
  .arcade-page .arcade-tile{font-size:11px;padding:11px 5px}
 }
+
+/* SIDE-SCROLLER COLLECTION 3.0 */
+.sidequest-heading{margin:54px 0 22px;padding-top:32px;border-top:2px dashed #52675d}
+.sidequest-heading h2{font:clamp(15px,2.2vw,23px)/1.8 'Press Start 2P';color:#fff0d2;margin:12px 0}
+.sidequest-heading p{color:#aebfc0;font-size:13px}
+.sidequest-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sidequest-grid .arcade-card-art{height:145px}
+.side-art-kingdom{background:linear-gradient(180deg,#6da5a0,#284d4b 65%,#172f35)}
+.side-art-dash{background:linear-gradient(180deg,#e6b86d,#9b5d4e 65%,#493944)}
+.side-art-treasure{background:linear-gradient(180deg,#91b88a,#365e4c 65%,#1d3940)}
+.side-art-sports{background:linear-gradient(180deg,#79a8c1,#41647a 65%,#203849)}
+.side-art-scene{font-size:clamp(28px,4vw,48px);filter:drop-shadow(3px 4px 0 #08131c);z-index:1}
+.arcade-canvas-wrap{background:#0b1922;border:2px solid #8a7950;border-radius:7px;padding:10px;box-shadow:inset 0 0 0 2px #ffffff0b}
+#sidegame-canvas{display:block;width:100%;height:auto;aspect-ratio:900/420;image-rendering:pixelated;background:#254b50;border:1px solid #62715b;touch-action:none}
+.sidegame-hud{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#f6d58a;font:9px 'Press Start 2P';line-height:1.8;margin:4px 0 12px}
+.sidegame-instructions{color:#c4d1c6;font-size:12px;line-height:1.7;margin:12px 0}
+.sidegame-controls{display:flex;justify-content:center;align-items:center;gap:9px;flex-wrap:wrap;margin-top:14px}
+.sidegame-controls button{min-width:54px;min-height:48px;border:2px solid #8a7950;border-radius:6px;background:#294352;color:#fff0d2;font-weight:900;font-size:19px;box-shadow:0 4px 0 #07121a;touch-action:none}
+.sidegame-controls button:active{transform:translateY(3px);box-shadow:0 1px 0 #07121a}
+.sidegame-controls .action{min-width:94px;background:#e4b85f;color:#2c2a26;font:9px 'Press Start 2P';line-height:1.7}
+.sidegame-result{text-align:center;color:#fff0d2;padding:16px;font-weight:800}
+.sidegame-result button{margin-top:10px}
+@media(max-width:560px){.sidequest-grid{grid-template-columns:1fr}.sidequest-heading h2{font-size:14px}.sidegame-hud{font-size:7px}.sidegame-controls button{min-width:48px;min-height:46px}}
