@@ -85,6 +85,8 @@ function drawBackground(){
  // Track in strong perspective
  poly([[405,horizon],[555,horizon],[930,H],[30,H]],'#9a7650');
  poly([[420,horizon],[540,horizon],[860,H],[100,H]],'#b28c5d');
+ // Optional painted track texture, clipped to the road and scrolled downward.
+ if(assets.track?.complete&&assets.track.naturalWidth){ctx.save();ctx.beginPath();ctx.moveTo(405,horizon);ctx.lineTo(555,horizon);ctx.lineTo(930,H);ctx.lineTo(30,H);ctx.closePath();ctx.clip();const texY=horizon+(state.trackOffset*360);ctx.drawImage(assets.track,55,texY-360,850,390);ctx.drawImage(assets.track,55,texY+30,850,390);ctx.restore()}
  // track texture scrolling downward
  for(let i=0;i<15;i++){const t=((i/15+state.trackOffset)%1);const y=horizon+t*t*(H-horizon);const half=75+t*405;ctx.strokeStyle='rgba(255,239,194,'+(.08+t*.12)+')';ctx.lineWidth=1+t*2;ctx.beginPath();ctx.moveTo(W/2-half,y);ctx.lineTo(W/2+half,y);ctx.stroke()}
  // lane markings
