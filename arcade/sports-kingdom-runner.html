@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#17243c">
+<title>Sports Kingdom Runner | SPORTS QUEST</title>
+<style>
+:root{--navy:#14243a;--navy2:#203650;--gold:#f3c96b;--cream:#fff3d6;--green:#4d7955;--red:#c95850}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#101d30;color:var(--cream);font-family:Georgia,serif}body{padding:18px;background:radial-gradient(ellipse at 50% 0,#304b5c,#101d30 70%)}button{font:inherit;cursor:pointer}
+.top{max-width:1100px;margin:0 auto 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{color:var(--gold);text-decoration:none;font:700 13px monospace;letter-spacing:1px}.back{color:var(--cream);text-decoration:none;border:1px solid #8d7952;padding:9px 13px;border-radius:8px;font:12px monospace}
+.shell{max-width:1100px;margin:auto}.heading{text-align:center;margin:8px 0 14px}.eyebrow{color:var(--gold);font:11px monospace;letter-spacing:3px}.heading h1{font-size:clamp(25px,5vw,43px);margin:7px 0;color:#ffe3a0;text-shadow:0 3px #78552d}.heading p{margin:0;color:#c5d0d0;font:13px monospace}
+.gameframe{position:relative;border:4px solid #9b7844;border-radius:14px;overflow:hidden;background:#182b3d;box-shadow:0 12px 0 #091421,0 22px 55px #0008}
+canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;touch-action:none}
+.hud{position:absolute;z-index:2;left:12px;right:12px;top:10px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}.hudbox{background:#102139dc;border:2px solid #c5a45e;border-radius:8px;padding:7px 11px;min-width:100px;box-shadow:0 3px #091421}.hudlabel{font:9px monospace;color:#d6bd81;letter-spacing:1px}.hudvalue{font:bold 18px monospace;color:#fff0c4;margin-top:3px}.hearts{color:#ef7669;letter-spacing:3px}
+.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#091525c9;z-index:5;padding:16px}.panel{width:min(480px,100%);background:linear-gradient(145deg,#2c4557,#17283e);border:3px solid #d3ae64;border-radius:14px;padding:22px;text-align:center;box-shadow:0 8px 0 #091421,0 20px 50px #0009}.panel h2{color:#ffe2a0;margin:5px 0 10px;font-size:clamp(22px,4vw,32px)}.panel p{color:#e3e1d4;line-height:1.5;font:13px/1.6 monospace}.mainbtn,.answer{border:2px solid #f4d78e;background:linear-gradient(#f6d88e,#c28b43);color:#263349;border-radius:8px;padding:12px 18px;font:bold 13px monospace;box-shadow:0 4px #76512d}.mainbtn:active,.answer:active{transform:translateY(2px);box-shadow:0 2px #76512d}.answerlist{display:grid;gap:9px;margin-top:15px}.answer{background:#f3e4c2;text-align:left;width:100%;box-shadow:0 3px #8c744c}.answer:hover{background:#ffe7a9}.answer:disabled{opacity:.55}
+.controls{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 3px 0}.controlgroup{display:flex;gap:9px}.touch{width:62px;height:53px;border-radius:10px;border:2px solid #b9985c;background:linear-gradient(#304b61,#172a40);color:#ffe4a4;font:bold 17px monospace;box-shadow:0 4px #091421;touch-action:none}.touch.jump{width:86px;background:linear-gradient(#66865d,#344d3c)}.touch:active{transform:translateY(3px);box-shadow:0 1px #091421}.hint{font:10px/1.5 monospace;color:#b9c4c4;text-align:center}.hidden{display:none!important}.foot{text-align:center;color:#9daeb0;font:10px monospace;margin:13px 0 0}
+@media(max-width:600px){body{padding:9px}.top{margin-bottom:10px}.hud{left:6px;right:6px;top:6px}.hudbox{padding:5px 7px;min-width:0}.hudlabel{font-size:7px}.hudvalue{font-size:14px}.controls{padding-top:10px}.touch{width:54px;height:50px}.touch.jump{width:76px}.hint{font-size:8px}.panel{padding:16px}}
+</style>
+</head>
+<body>
+<header class="top"><a class="brand" href="../index.html">✦ SPORTS QUEST</a><a class="back" href="../arcade.html">← ARCADE ZONE</a></header>
+<main class="shell">
+<section class="heading"><div class="eyebrow">KINGDOM OF CHAMPIONS · ARCADE QUEST 01</div><h1>SPORTS KINGDOM RUNNER</h1><p>RUN THE TRACK · DODGE THE HURDLES · PROVE YOUR WORD POWER</p></section>
+<section class="gameframe">
+<canvas id="game" width="960" height="540" aria-label="Sports Kingdom Runner game"></canvas>
+<div class="hud">
+ <div class="hudbox"><div class="hudlabel">DISTANCE</div><div class="hudvalue" id="distance">0000 m</div></div>
+ <div class="hudbox"><div class="hudlabel">CHAMPION SCORE</div><div class="hudvalue" id="score">000000</div></div>
+ <div class="hudbox"><div class="hudlabel">HEALTH</div><div class="hudvalue hearts" id="health">♥ ♥ ♥</div></div>
+ <div class="hudbox"><div class="hudlabel">XP</div><div class="hudvalue" id="xp">0</div></div>
+</div>
+<div class="overlay" id="startScreen"><div class="panel"><div class="eyebrow">A ROYAL SPORTS FESTIVAL AWAITS</div><h2>Ready, Champion?</h2><p>Run through the stadium in three lanes. Switch lanes to avoid cones and hurdles. Jump over low hurdles, collect golden stars and answer the Wisdom Gates to earn bonus XP.</p><p><b>PC:</b> ← → / A D to move · ↑ / W / SPACE to jump<br><b>Mobile:</b> use the buttons below the track.</p><button class="mainbtn" id="startBtn">START RUN</button></div></div>
+<div class="overlay hidden" id="questionScreen"><div class="panel"><div class="eyebrow">✦ THE WISDOM GATE ✦</div><h2>Prove Your Sports Knowledge</h2><p id="questionText"></p><div class="answerlist" id="answers"></div><p id="questionFeedback" aria-live="polite"></p></div></div>
+<div class="overlay hidden" id="endScreen"><div class="panel"><div class="eyebrow">RUN COMPLETE</div><h2 id="endTitle">Champion!</h2><p id="endSummary"></p><button class="mainbtn" id="restartBtn">RUN AGAIN</button></div></div>
+</section>
+<div class="controls">
+ <div class="controlgroup"><button class="touch" data-control="left" aria-label="Move left">◀</button><button class="touch" data-control="right" aria-label="Move right">▶</button></div>
+ <div class="hint">DODGE LEFT / RIGHT<br>JUMP OVER HURDLES</div>
+ <div class="controlgroup"><button class="touch jump" data-control="jump">▲ JUMP</button></div>
+</div>
+<p class="foot">SPORTS QUEST · PLAY FAIR · LEARN MORE · HAVE FUN</p>
+</main>
+<script>
+(()=> {
+'use strict';
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d'),W=960,H=540;
+const $=id=>document.getElementById(id);
+const assets={};
+const assetPaths={
+ playerRun:'../assets/images/arcade/player_run.png',
+ playerJump:'../assets/images/arcade/player_jump.png',
+ track:'../assets/images/arcade/stadium_track.png',
+ hurdle:'../assets/images/arcade/hurdle_obstacle.png',
+ cone:'../assets/images/arcade/sports_cone.png',
+ backdrop:'../assets/images/arcade/scroll_bg.jpg'
+};
+Object.entries(assetPaths).forEach(([key,src])=>{const img=new Image();img.src=src;img.onload=()=>{assets[key]=img};img.onerror=()=>{};assets[key]=img});
+const questions=[
+ {q:'Which piece of equipment protects a player’s head when cycling?',a:['Helmet','Whistle','Racket'],correct:0,why:'A helmet protects the head.'},
+ {q:'Which sport uses a racket and a shuttlecock?',a:['Football','Badminton','Swimming'],correct:1,why:'Badminton is played with a racket and shuttlecock.'},
+ {q:'What should athletes do before exercising?',a:['Warm up','Go to sleep','Skip water'],correct:0,why:'A warm-up prepares the body for exercise.'},
+ {q:'Which word means moving quickly on foot?',a:['Throw','Run','Catch'],correct:1,why:'To run means to move quickly on foot.'},
+ {q:'Which item is used to score a goal in football?',a:['A ball','A helmet','A netball post'],correct:0,why:'Players kick a ball towards the goal.'},
+ {q:'What is good sportsmanship?',a:['Laughing at others','Cheating','Respecting teammates and opponents'],correct:2,why:'Good sportsmanship means being fair and respectful.'},
+ {q:'Which verb means to send a ball to a teammate?',a:['Pass','Dodge','Stretch'],correct:0,why:'Players pass the ball to teammates.'}
+];
+let state,raf=0,last=0,gateClock=0,spawnClock=0,questionIndex=0,gateOpen=false,keys={};
+const horizon=180,lanes=[-1,0,1];
+function reset(){state={running:false,over:false,lane:1,playerX:0,jump:0,dist:0,score:0,xp:0,lives:3,speed:0.34,objects:[],trackOffset:0,boost:0,elapsed:0,gateDue:15};gateClock=0;spawnClock=0;questionIndex=0;gateOpen=false;updateHud()}
+function updateHud(){$('distance').textContent=String(Math.floor(state.dist)).padStart(4,'0')+' m';$('score').textContent=String(state.score).padStart(6,'0');$('health').textContent=Array.from({length:3},(_,i)=>i<state.lives?'♥':'♡').join(' ');$('xp').textContent=state.xp}
+function image(key,x,y,w,h){const img=assets[key];if(img&&img.complete&&img.naturalWidth){ctx.drawImage(img,x,y,w,h);return true}return false}
+function poly(points,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);points.slice(1).forEach(p=>ctx.lineTo(p[0],p[1]));ctx.closePath();ctx.fill()}
+function drawBackground(){
+ if(assets.backdrop?.complete&&assets.backdrop.naturalWidth){ctx.drawImage(assets.backdrop,0,0,W,250)}else{
+  const sky=ctx.createLinearGradient(0,0,0,250);sky.addColorStop(0,'#7ca3ad');sky.addColorStop(1,'#e6c99a');ctx.fillStyle=sky;ctx.fillRect(0,0,W,250);
+  ctx.fillStyle='#d7c18f';ctx.beginPath();ctx.arc(770,75,39,0,Math.PI*2);ctx.fill();
+  // Stadium stands and flags
+  poly([[0,135],[960,135],[960,255],[0,255]],'#536c69');
+  for(let i=0;i<12;i++){const x=i*86;ctx.fillStyle=i%2?'#d1b783':'#b58f62';ctx.fillRect(x,145,72,86);ctx.fillStyle='#e9d6ad';ctx.fillRect(x+5,153,62,6);for(let j=0;j<4;j++){ctx.fillStyle='#354f5c';ctx.fillRect(x+8+j*14,169,8,35)}}
+  ctx.fillStyle='#d5b36f';ctx.fillRect(0,230,960,8);
+  // distant pennants
+  for(let i=0;i<9;i++){const x=35+i*112;ctx.strokeStyle='#e9d4a0';ctx.beginPath();ctx.moveTo(x,72);ctx.lineTo(x,112);ctx.stroke();poly([[x,73],[x+22,80],[x,88]],i%2?'#b85d4c':'#e2b95f')}
+ }
+ // Track in strong perspective
+ poly([[405,horizon],[555,horizon],[930,H],[30,H]],'#9a7650');
+ poly([[420,horizon],[540,horizon],[860,H],[100,H]],'#b28c5d');
+ // track texture scrolling downward
+ for(let i=0;i<15;i++){const t=((i/15+state.trackOffset)%1);const y=horizon+t*t*(H-horizon);const half=75+t*405;ctx.strokeStyle='rgba(255,239,194,'+(.08+t*.12)+')';ctx.lineWidth=1+t*2;ctx.beginPath();ctx.moveTo(W/2-half,y);ctx.lineTo(W/2+half,y);ctx.stroke()}
+ // lane markings
+ for(let lane=1;lane<=2;lane++){const xTop=480+(lane-1)*0;const xBottom=30+lane*300;ctx.strokeStyle='#f4dfb4';ctx.globalAlpha=.65;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(480+(lane-1)*0,horizon);ctx.lineTo(xBottom,H);ctx.stroke();ctx.globalAlpha=1}
+ // grass shoulders
+ poly([[0,245],[405,horizon],[30,H],[0,H]],'#526d4d');poly([[555,horizon],[960,245],[960,H],[930,H]],'#526d4d');
+ // track edges
+ ctx.strokeStyle='#f1d89f';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(405,horizon);ctx.lineTo(30,H);ctx.moveTo(555,horizon);ctx.lineTo(930,H);ctx.stroke();
+}
+function laneX(lane,t){const spread=75+t*330;return W/2+lane*spread}
+function drawObject(o){const t=o.z,scale=.24+t*1.45,x=laneX(o.lane,t),base=horizon+t*(H-horizon),w=(o.kind==='hurdle'?76:40)*scale,h=(o.kind==='hurdle'?48:62)*scale;
+ if(o.kind==='star'){ctx.save();ctx.translate(x,base-28*scale);ctx.scale(scale,scale);ctx.fillStyle='#ffdf71';ctx.strokeStyle='#80572b';ctx.lineWidth=3;ctx.beginPath();for(let i=0;i<10;i++){let r=i%2?9:20,a=-Math.PI/2+i*Math.PI/5;ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r)}ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();return}
+ if(o.kind==='hurdle'&&image('hurdle',x-w/2,base-h,w,h))return;
+ if(o.kind==='cone'&&image('cone',x-w/2,base-h,w,h))return;
+ if(o.kind==='hurdle'){ctx.fillStyle='#9b4f3d';ctx.fillRect(x-w/2,base-h*.65,w,h*.65);ctx.fillStyle='#e2bd75';ctx.fillRect(x-w/2,base-h*.72,w,h*.16);ctx.fillStyle='#5d4438';ctx.fillRect(x-w*.38,base-h*.12,w*.12,h*.12);ctx.fillRect(x+w*.26,base-h*.12,w*.12,h*.12)}
+ else{poly([[x,base-h],[x-w*.48,base],[x+w*.48,base]],'#d66c43');poly([[x,base-h*.45],[x-w*.29,base-h*.47],[x+w*.29,base-h*.47]],'#fff0ce');ctx.fillStyle='#754a39';ctx.fillRect(x-w*.58,base-3*scale,w*1.16,4*scale)}
+}
+function drawPlayer(){
+ const jumping=state.jump>0,key=jumping?'playerJump':'playerRun',x=480-39,y=jumping?H-170-state.jump*34:H-145,w=78,h=115;
+ if(image(key,x,y,w,h))return;
+ // fallback vintage sports adventurer sprite, drawn as layered character not geometric placeholder
+ ctx.save();ctx.translate(x,y);if(!jumping){const swing=Math.sin(state.elapsed*18)*7;ctx.strokeStyle='#273b49';ctx.lineWidth=10;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(34,82);ctx.lineTo(25+swing,109);ctx.moveTo(48,82);ctx.lineTo(58-swing,108);ctx.stroke()}
+ ctx.fillStyle='#4c3940';ctx.fillRect(22,23,36,20);ctx.fillStyle='#d7a66e';ctx.beginPath();ctx.arc(40,28,17,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3b302f';ctx.fillRect(22,11,37,8);ctx.fillStyle='#f1d6a0';ctx.fillRect(28,25,24,5);ctx.fillStyle='#315b68';ctx.fillRect(19,44,43,42);ctx.fillStyle='#e6c47b';ctx.fillRect(19,44,43,7);ctx.fillRect(37,50,7,32);ctx.fillStyle='#8d5541';ctx.fillRect(17,81,47,10);ctx.fillStyle='#26394b';ctx.fillRect(18,89,17,18);ctx.fillRect(47,89,17,18);ctx.fillStyle='#e5c37d';ctx.fillRect(13,104,25,8);ctx.fillRect(44,104,25,8);ctx.fillStyle='#d7a66e';ctx.fillRect(10,49,10,33);ctx.fillRect(61,49,10,33);ctx.restore();
+}
+function draw(){ctx.clearRect(0,0,W,H);drawBackground();const sorted=[...state.objects].sort((a,b)=>a.z-b.z);sorted.forEach(drawObject);drawPlayer();if(state.boost>0){ctx.fillStyle='#ffe38b';ctx.font='bold 20px monospace';ctx.textAlign='center';ctx.fillText('SPEED BOOST!',480,150);ctx.textAlign='left'}}
+function spawn(){const lane=lanes[Math.floor(Math.random()*3)],kind=Math.random()<.57?'hurdle':'cone';state.objects.push({lane,kind,z:0,hit:false})}
+function spawnStars(){const lane=lanes[Math.floor(Math.random()*3)];for(let i=0;i<3;i++)state.objects.push({lane,kind:'star',z:-i*.13,hit:false})}
+function crash(){state.lives--;state.speed=Math.max(.27,state.speed-.015);updateHud();if(state.lives<=0)endGame(false)}
+function openGate(){gateOpen=true;state.running=false;const q=questions[questionIndex++%questions.length];$('questionText').textContent=q.q;$('answers').innerHTML='';$('questionFeedback').textContent='Choose the correct answer to earn +50 XP and a speed boost.';q.a.forEach((answer,i)=>{const b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+answer;b.onclick=()=>{if(!gateOpen)return;gateOpen=false;[...$('answers').children].forEach(x=>x.disabled=true);if(i===q.correct){state.xp+=50;state.score+=100;state.boost=5;state.speed=Math.min(.62,state.speed+.055);$('questionFeedback').textContent='Correct! '+q.why+' +50 XP · SPEED BOOST!';}else{$('questionFeedback').textContent='Oh no! '+q.why+' You lost one heart.';crash()}updateHud();setTimeout(()=>{$('questionScreen').classList.add('hidden');if(!state.over){state.running=true;last=performance.now();raf=requestAnimationFrame(loop)}},1250)};$('answers').appendChild(b)});$('questionScreen').classList.remove('hidden')}
+function projectCollision(o){if(o.z<.86||o.z>1.03||o.hit)return;const same=o.lane===state.lane;if(!same)return;o.hit=true;if(o.kind==='star'){state.score+=25;state.xp+=5;updateHud();return}if(o.kind==='hurdle'&&state.jump>.28)return;crash()}
+function loop(now){if(!state.running||state.over||gateOpen)return;const dt=Math.min((now-last)/1000,.035);last=now;state.elapsed+=dt;state.dist+=dt*(state.speed*75);state.score+=Math.floor(dt*state.speed*10);state.trackOffset=(state.trackOffset+dt*state.speed*1.8)%1;state.jump=Math.max(0,state.jump-dt*1.7);if(state.boost>0)state.boost=Math.max(0,state.boost-dt);gateClock+=dt;spawnClock+=dt;
+ if(spawnClock>1.05/state.speed){spawnClock=0;spawn();if(Math.random()<.65)spawnStars()}
+ state.objects.forEach(o=>{o.z+=dt*state.speed*1.12;projectCollision(o)});state.objects=state.objects.filter(o=>o.z<1.13&&!o.hit);
+ if(gateClock>=15){gateClock=0;openGate();draw();return}
+ updateHud();draw();raf=requestAnimationFrame(loop)}
+function start(){cancelAnimationFrame(raf);reset();$('startScreen').classList.add('hidden');$('endScreen').classList.add('hidden');$('questionScreen').classList.add('hidden');state.running=true;last=performance.now();raf=requestAnimationFrame(loop)}
+function endGame(won){state.over=true;state.running=false;cancelAnimationFrame(raf);$('endTitle').textContent=won?'Champion Run!':'Game Over';$('endSummary').textContent='Distance: '+Math.floor(state.dist)+' m · Score: '+state.score+' · XP earned: '+state.xp+'. Your run has been recorded on this device.';$('endScreen').classList.remove('hidden')}
+function move(dir){if(!state?.running||gateOpen)return;state.lane=Math.max(-1,Math.min(1,state.lane+dir))}
+function jump(){if(!state?.running||gateOpen)return;if(state.jump===0)state.jump=1}
+window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['arrowleft','arrowright','arrowup',' '].includes(k))e.preventDefault();if(e.repeat)return;if(k==='arrowleft'||k==='a')move(-1);if(k==='arrowright'||k==='d')move(1);if(k==='arrowup'||k==='w'||k===' ')jump()});
+document.querySelectorAll('[data-control]').forEach(b=>{const action=()=>{const c=b.dataset.control;if(c==='left')move(-1);if(c==='right')move(1);if(c==='jump')jump()};b.addEventListener('pointerdown',e=>{e.preventDefault();action()})});
+$('startBtn').onclick=start;$('restartBtn').onclick=start;
+reset();draw();
+})();
+</script>
+</body>
+</html>
