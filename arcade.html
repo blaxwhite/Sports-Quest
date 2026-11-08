@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17243c">
+<title>Arcade Zone | SPORTS QUEST</title>
+<link rel="stylesheet" href="assets/css/site.css?v=3.3">
+<script defer src="assets/js/arcade.js?v=1.0"></script>
+</head>
+<body class="arcade-page">
+<div class="site-bg"></div>
+<nav class="topnav">
+<a class="brand" href="index.html"><span class="brand-icon">SQ✦</span><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a>
+<div class="navlinks"><a href="index.html#missions">Missions</a><a href="index.html">Kingdom</a><a class="nav-cta" href="#arcade-games">Play games ↗</a></div>
+</nav>
+<main>
+<section class="arcade-hero">
+<div class="eyebrow">✦ THE KINGDOM'S GAME ROOM ✦</div>
+<h1>WELCOME TO THE <span>ARCADE.</span></h1>
+<p>Take a break from your quests. Play quick challenges, sharpen your sports knowledge and earn Arcade Stars!</p>
+<div class="arcade-record"><span>⭐ YOUR ARCADE STARS</span><strong id="arcade-stars">0</strong><small>Best scores are saved on this device.</small></div>
+</section>
+<section class="section arcade-section" id="arcade-games">
+<div class="section-head"><div><div class="eyebrow">CHOOSE A GAME</div><h2>Pick your challenge.</h2></div><p>Play again to beat your personal best. Every game is designed for quick, friendly learning.</p></div>
+<div class="arcade-grid">
+<article class="arcade-card"><div class="arcade-card-art art-match">🎯<span>01</span></div><div class="arcade-card-body"><span class="tag">VOCABULARY · MATCHING</span><h3>Equipment Rush</h3><p>Match each sport with the equipment it needs before time runs out.</p><button class="btn btn-primary btn-small" data-launch="match">Play game ↗</button></div></article>
+<article class="arcade-card"><div class="arcade-card-art art-quiz">🧠<span>02</span></div><div class="arcade-card-body"><span class="tag">SPORTS KNOWLEDGE · QUIZ</span><h3>Champion Quiz</h3><p>Answer five quick questions about sports, teamwork and healthy habits.</p><button class="btn btn-primary btn-small" data-launch="quiz">Play game ↗</button></div></article>
+<article class="arcade-card"><div class="arcade-card-art art-reaction">⚡<span>03</span></div><div class="arcade-card-body"><span class="tag">FOCUS · REACTION</span><h3>Reflex Rally</h3><p>Wait for the signal, then tap the target as quickly as you can.</p><button class="btn btn-primary btn-small" data-launch="reaction">Play game ↗</button></div></article>
+</div>
+<div class="arcade-play-area" id="arcade-play-area" hidden><div class="arcade-play-head"><div><span class="tag">NOW PLAYING</span><h2 id="game-title">Game</h2></div><button class="btn btn-soft btn-small" id="close-game">✕ Close</button></div><div id="game-content"></div></div>
+</section>
+<section class="section arcade-back"><a class="btn btn-dark" href="index.html#missions">← Return to the Kingdom</a></section>
+</main>
+<footer class="footer"><span>© SPORTS QUEST · KINGDOM OF CHAMPIONS</span><span>PLAY FAIR · LEARN MORE · HAVE FUN</span></footer>
+</body></html>
