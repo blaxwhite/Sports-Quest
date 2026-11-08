@@ -93,3 +93,68 @@ body{image-rendering:auto}
 @keyframes pulse{to{transform:scale(1.04)}}
 @media(max-width:800px){.arcade-grid{grid-template-columns:1fr 1fr}.arcade-hero{padding-top:55px}}
 @media(max-width:560px){.arcade-grid{grid-template-columns:1fr}.arcade-card-body p{min-height:0}.arcade-match-grid{gap:7px}.arcade-tile{padding:12px 6px;font-size:12px}.arcade-quiz-top{font-size:8px}.arcade-play-head h2{font-size:22px}}
+
+
+/* ARCADE 2.0 — unified Kingdom of Champions pixel-RPG interface */
+.arcade-page{background:#0b1721;color:#f6edd7}
+.arcade-page .site-bg{background:radial-gradient(ellipse at 18% 12%,#355d4d55,transparent 32%),radial-gradient(ellipse at 85% 25%,#76553644,transparent 30%),linear-gradient(145deg,#0b1721,#142b39 58%,#10231f)}
+.arcade-page .arcade-hero{min-height:390px;padding-top:72px;background:
+ linear-gradient(180deg,#101f2c33,#101f2caa),
+ repeating-linear-gradient(90deg,#ffffff05 0 2px,transparent 2px 5px),
+ linear-gradient(125deg,#183443,#31594f 60%,#1b3440);
+ border-bottom:3px solid #806d48}
+.arcade-page .arcade-hero:before{content:"";position:absolute;left:0;right:0;bottom:0;height:75px;background:linear-gradient(180deg,transparent,#0b1721),repeating-linear-gradient(90deg,#263f39 0 26px,#1c342f 26px 52px);clip-path:polygon(0 48%,12% 22%,24% 52%,37% 16%,50% 48%,64% 19%,78% 52%,90% 15%,100% 42%,100% 100%,0 100%);opacity:.85}
+.arcade-page .arcade-hero h1{position:relative;z-index:1;font:clamp(22px,4vw,42px)/1.65 'Press Start 2P',monospace;letter-spacing:-.04em;text-shadow:4px 4px 0 #08131c;max-width:900px}
+.arcade-page .arcade-hero h1 span{color:#f6cc70}
+.arcade-page .arcade-hero>p,.arcade-page .arcade-record{position:relative;z-index:1}
+.arcade-page .arcade-hero>p{color:#d0ddcf;max-width:650px}
+.arcade-page .arcade-record{background:#102635;border:2px solid #8c7950;border-radius:7px;box-shadow:4px 4px 0 #08131c}
+.arcade-page .arcade-record span{font-size:8px;line-height:1.8}
+.arcade-page .arcade-section{padding-top:48px}
+.arcade-page .section-head h2{color:#fff0d2;font:clamp(15px,2.2vw,23px)/1.8 'Press Start 2P',monospace}
+.arcade-page .section-head p{color:#aebfc0}
+.arcade-page .arcade-card{background:linear-gradient(155deg,#203b49,#142a38);border:2px solid #61715d;border-radius:8px;box-shadow:0 7px 0 #07121a,0 15px 28px #0005}
+.arcade-page .arcade-card:hover{transform:translateY(-7px);border-color:#f4ce79;box-shadow:0 10px 0 #07121a,0 22px 35px #0007}
+.arcade-page .arcade-card-art{height:185px;border-bottom:2px solid #776b4d;font-size:76px;image-rendering:pixelated;position:relative;overflow:hidden}
+.arcade-page .arcade-card-art:before{content:"";position:absolute;inset:12px;border:2px dashed #fff6;border-radius:3px;pointer-events:none}
+.arcade-page .arcade-card-art span{border:1px solid #d8b76d;border-radius:3px;background:#102635;color:#f7d88d;font-size:8px}
+.arcade-page .art-match{background:radial-gradient(circle at 50% 45%,#6da987,#244d4c 70%)}
+.arcade-page .art-quiz{background:radial-gradient(circle at 50% 45%,#9586c6,#393e60 72%)}
+.arcade-page .art-reaction{background:radial-gradient(circle at 50% 45%,#d69a55,#69413d 72%)}
+.arcade-page .arcade-card-body{padding:21px}
+.arcade-page .arcade-card-body .tag{background:#31483f;border:1px solid #6c805f;color:#f4d184;border-radius:3px}
+.arcade-page .arcade-card-body h3{font:11px/1.9 'Press Start 2P',monospace;color:#fff0d2;margin:14px 0 10px}
+.arcade-page .arcade-card-body p{color:#b5c3c2;min-height:65px;line-height:1.75}
+.arcade-page .arcade-card .btn{width:100%;border-radius:5px;font:8px 'Press Start 2P';padding:15px 10px;min-height:45px}
+.arcade-page .arcade-play-area{background:linear-gradient(145deg,#1d3745,#122735);border:2px solid #89764e;border-radius:8px;color:#f7efd9;box-shadow:0 8px 0 #07121a,0 18px 38px #0006}
+.arcade-page .arcade-play-head{border-color:#405963}
+.arcade-page .arcade-play-head h2{font:13px/1.8 'Press Start 2P',monospace;color:#fff0d2}
+.arcade-page .arcade-play-head .tag{background:#31483f;border:1px solid #6b7d5e;color:#f3d187;border-radius:3px}
+.arcade-page .arcade-match-grid>div{background:#102431;border:1px solid #3b5660;border-radius:7px;padding:10px}
+.arcade-page .arcade-tile,.arcade-page .arcade-option{background:#294352;border:2px solid #536b70;border-radius:5px;color:#f4ecd8;box-shadow:0 3px 0 #091720;transition:.15s}
+.arcade-page .arcade-tile:hover,.arcade-page .arcade-option:hover{background:#3b5960;border-color:#f2cb76;transform:translateY(-2px)}
+.arcade-page .arcade-tile.picked{background:#5b4b2e;border-color:#f2cb76;color:#fff2cc}
+.arcade-page .arcade-tile.matched,.arcade-page .arcade-option.matched{background:#24533f;border-color:#8bd5a5;color:#d4ffe0}
+.arcade-page .arcade-tile.miss,.arcade-page .arcade-option.miss{background:#613a38;border-color:#e18b78;color:#ffe0d7}
+.arcade-page .arcade-feedback{background:#102431;border:1px solid #49636a;border-left:4px solid #eac36e;border-radius:4px;color:#d6e0d5}
+.arcade-page .arcade-quiz-top{color:#f3cf7d}
+.arcade-page .arcade-play-area h3{color:#fff0d2;line-height:1.5}
+.arcade-page .arcade-result{background:#102431;border:1px solid #53675e;border-radius:7px}
+.arcade-page .arcade-result h3{font:13px/1.8 'Press Start 2P',monospace}
+.arcade-page .reaction-stage{background:radial-gradient(ellipse,#385b55,#142b39);border:2px solid #65755d;border-radius:7px;min-height:250px}
+.arcade-page .reaction-target{border:3px solid #f3d18a;border-radius:6px;background:linear-gradient(#ffdc83,#d99b43);box-shadow:0 7px 0 #81592c,inset 0 1px 0 #fff9;font:9px 'Press Start 2P';line-height:1.8}
+.arcade-page .reaction-target.waiting{background:linear-gradient(#d9956c,#9d5948);border-color:#e6ad83;color:#fff0dc}
+.arcade-page .reaction-target.go{background:linear-gradient(#8ee0a5,#43a86e);border-color:#c1f3b9;color:#123b2b;box-shadow:0 7px 0 #276b48}
+.arcade-page .arcade-back .btn{font:8px 'Press Start 2P';line-height:1.8}
+.arcade-page .footer{border-color:#344b56;color:#91a49e}
+@media(max-width:560px){
+ .arcade-page .arcade-hero{padding:48px 20px 55px;min-height:0}
+ .arcade-page .arcade-hero h1{font-size:20px;line-height:1.8}
+ .arcade-page .arcade-card-art{height:150px}
+ .arcade-page .arcade-card-body h3{font-size:10px}
+ .arcade-page .arcade-card-body p{min-height:0}
+ .arcade-page .arcade-play-area{padding:15px}
+ .arcade-page .arcade-play-head h2{font-size:10px}
+ .arcade-page .arcade-match-grid>div{padding:6px}
+ .arcade-page .arcade-tile{font-size:11px;padding:11px 5px}
+}
