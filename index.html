@@ -112,10 +112,9 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 @media(max-width:390px){.hero-guide{flex-basis:78px;width:78px;height:96px;min-width:78px}}
 
 /* Animated main title */
-.hero-title-row h1.title-animated{animation:titleReveal .9s cubic-bezier(.2,.8,.2,1) both,titleGlow 3.6s ease-in-out 1s infinite;transform-origin:left center}
-@keyframes titleReveal{0%{opacity:0;transform:translateY(22px) scale(.97);letter-spacing:-.09em}70%{opacity:1;transform:translateY(-3px) scale(1.01)}100%{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes titleGlow{0%,100%{filter:drop-shadow(0 0 0 #f6c96800)}50%{filter:drop-shadow(0 0 10px #f6c96855)}}
-@media(prefers-reduced-motion:reduce){.hero-title-row h1.title-animated{animation:none;opacity:1;transform:none}}
+.hero-title-row h1.title-animated{animation:titleBreathe 2.8s ease-in-out infinite;transform-origin:left center;will-change:transform}
+@keyframes titleBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+@media(prefers-reduced-motion:reduce){.hero-title-row h1.title-animated{animation:none;transform:none}}
 </style></head>
 <body><div class="site-bg"></div>
 <nav class="topnav"><a class="brand" href="index.html" aria-label="Sports Quest home"><img class="brand-logo" src="assets/images/sports-quest-logo-transparent.png" alt="Sports Quest: Kingdom of Champions"><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="#lessons">Sports Guide</a><a href="arcade.html?v=5.2">Arcade Zone</a><a class="nav-cta" href="arcade.html?v=5.2">Start learning ↗</a></div></nav>
