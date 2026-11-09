@@ -4,33 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101b30">
-<title>Arcade Zone | Sports Kingdom Runner</title>
-<link rel="stylesheet" href="assets/css/site.css?v=3.7">
+<title>Arcade Zone | SPORTS QUEST</title>
+<link rel="stylesheet" href="assets/css/site.css?v=4.1">
 <style>
-.arcade-focus{min-height:72vh;display:grid;place-items:center;padding:64px 20px 76px;position:relative;overflow:hidden}
-.arcade-focus:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 28%,rgba(218,155,57,.19),transparent 52%),linear-gradient(180deg,rgba(8,18,32,.18),rgba(8,18,32,.88));pointer-events:none}
-.runner-card{position:relative;z-index:1;width:min(100%,940px);display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center;padding:clamp(22px,5vw,48px);border:2px solid rgba(231,180,89,.65);border-radius:18px;background:linear-gradient(145deg,rgba(29,48,68,.97),rgba(12,24,42,.98));box-shadow:0 24px 80px #0008}
-.runner-copy .eyebrow{color:#f4c56e;letter-spacing:2px;font-weight:800;font-size:12px}
-.runner-copy h1{font-size:clamp(32px,5vw,56px);line-height:1.02;margin:14px 0;color:#fff0c9;text-shadow:0 4px 0 #70451e}
-.runner-copy h1 span{color:#f6bd54}
-.runner-copy p{color:#d6dfeb;line-height:1.75;max-width:540px;margin:16px 0 22px}
-.runner-actions{display:flex;gap:12px;flex-wrap:wrap}
-.runner-launch{display:inline-flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:8px;background:linear-gradient(#ffdc85,#d28a2c);color:#1b2940;font-weight:900;text-decoration:none;box-shadow:0 5px 0 #774814;transition:transform .15s}
-.runner-launch:hover{transform:translateY(-2px)}
-.runner-secondary{display:inline-flex;align-items:center;padding:12px 16px;border:1px solid #a9b7c8;border-radius:8px;color:#edf2f7;text-decoration:none}
-.runner-art{min-height:290px;position:relative;display:grid;place-items:center;border:1px solid rgba(246,198,111,.32);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#6b9bb0 0%,#d9b47a 47%,#49634d 48%,#273c38 100%)}
+.arcade-main{max-width:1120px;margin:auto;padding:42px 20px 76px}
+.arcade-heading{text-align:center;margin:10px auto 34px;max-width:720px}
+.arcade-heading .eyebrow{color:#dba64d;letter-spacing:2px;font-weight:800;font-size:12px}
+.arcade-heading h1{font-size:clamp(34px,6vw,58px);line-height:1.05;margin:12px 0;color:#fff0c9;text-shadow:0 4px 0 #70451e}
+.arcade-heading h1 span{color:#f6bd54}
+.arcade-heading p{color:#d6dfeb;line-height:1.7}
+.arcade-section-title{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:34px 0 16px}
+.arcade-section-title h2{font-size:clamp(21px,3vw,28px);color:#fff0c9;margin:0}
+.arcade-section-title p{font-size:12px;color:#bac8d8;margin:0}
+.quiz-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.quiz-card{display:flex;align-items:center;gap:17px;min-height:142px;padding:19px;border:1px solid rgba(231,180,89,.35);border-radius:13px;background:linear-gradient(145deg,rgba(31,51,73,.97),rgba(13,26,45,.98));box-shadow:0 12px 30px #0003;text-decoration:none;transition:transform .18s,border-color .18s}
+.quiz-card:hover{transform:translateY(-3px);border-color:#f4c56e}
+.quiz-icon{width:68px;height:68px;flex:0 0 68px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(145deg,#536c78,#263b51);font-size:34px;box-shadow:inset 0 0 0 1px #ffffff20}
+.quiz-copy{min-width:0;flex:1}
+.quiz-copy .tagline{font-size:10px;letter-spacing:1.5px;color:#f4c56e;font-weight:800}
+.quiz-copy h3{font-size:18px;color:#fff0c9;margin:6px 0}
+.quiz-copy p{font-size:12px;line-height:1.5;color:#c7d2df;margin:0}
+.quiz-enter{color:#f6bd54;font-size:20px;font-weight:900}
+.runner-card{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center;padding:clamp(22px,4vw,38px);border:2px solid rgba(231,180,89,.65);border-radius:16px;background:linear-gradient(145deg,rgba(29,48,68,.97),rgba(12,24,42,.98));box-shadow:0 20px 55px #0005}
+.runner-copy .eyebrow{color:#f4c56e;letter-spacing:2px;font-weight:800;font-size:11px}
+.runner-copy h2{font-size:clamp(27px,4vw,43px);line-height:1.04;margin:12px 0;color:#fff0c9;text-shadow:0 3px 0 #70451e}
+.runner-copy h2 span{color:#f6bd54}
+.runner-copy p{color:#d6dfeb;line-height:1.7;margin:12px 0 20px;font-size:13px}
+.runner-launch{display:inline-flex;align-items:center;justify-content:center;padding:13px 21px;border-radius:8px;background:linear-gradient(#ffdc85,#d28a2c);color:#1b2940;font-weight:900;text-decoration:none;box-shadow:0 5px 0 #774814}
+.runner-art{min-height:220px;position:relative;display:grid;place-items:center;border:1px solid rgba(246,198,111,.32);border-radius:13px;overflow:hidden;background:linear-gradient(180deg,#6b9bb0 0%,#d9b47a 47%,#49634d 48%,#273c38 100%)}
 .runner-art:before,.runner-art:after{content:"";position:absolute;bottom:-4%;width:70%;height:90%;background:#a34e39;clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);opacity:.95}
 .runner-art:after{width:42%;background:repeating-linear-gradient(180deg,transparent 0 24px,rgba(255,235,194,.6) 25px 28px);opacity:.7}
-.runner-art .castle{position:absolute;top:14%;font-size:clamp(54px,8vw,92px);filter:drop-shadow(0 8px 5px #17202b88)}
-.runner-art .runner{position:absolute;z-index:2;bottom:12%;font-size:clamp(72px,10vw,112px);filter:drop-shadow(0 8px 4px #17202b99);animation:runnerBob .55s ease-in-out infinite alternate}
-.runner-art .star{position:absolute;z-index:3;color:#ffe18a;font-size:30px;animation:twinkle 1.4s ease-in-out infinite alternate}
+.runner-art .castle{position:absolute;top:12%;font-size:clamp(55px,8vw,82px);filter:drop-shadow(0 8px 5px #17202b88)}
+.runner-art .runner{position:absolute;z-index:2;bottom:12%;font-size:clamp(70px,10vw,100px);filter:drop-shadow(0 8px 4px #17202b99);animation:runnerBob .55s ease-in-out infinite alternate}
+.runner-art .star{position:absolute;z-index:3;color:#ffe18a;font-size:28px;animation:twinkle 1.4s ease-in-out infinite alternate}
 .runner-art .s1{top:25%;left:18%}.runner-art .s2{top:42%;right:16%;animation-delay:.5s}
+.runner-features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:13px}
+.runner-feature{padding:13px;border:1px solid rgba(227,187,117,.25);border-radius:9px;background:rgba(14,27,45,.85);text-align:center}
+.runner-feature strong{display:block;color:#ffe0a0;font-size:11px;margin:5px 0}
+.runner-feature span{font-size:10px;color:#c3cfdd;line-height:1.45}
 @keyframes runnerBob{to{transform:translateY(-9px)}}@keyframes twinkle{to{transform:scale(1.25);opacity:.65}}
-.runner-features{position:relative;z-index:1;width:min(100%,940px);display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
-.runner-feature{padding:17px;border:1px solid rgba(227,187,117,.28);border-radius:10px;background:rgba(14,27,45,.88);text-align:center}
-.runner-feature strong{display:block;color:#ffe0a0;font-size:13px;margin:6px 0}
-.runner-feature span{font-size:11px;color:#c3cfdd;line-height:1.5}
-@media(max-width:720px){.arcade-focus{padding:28px 14px 46px}.runner-card{grid-template-columns:1fr;gap:20px}.runner-art{min-height:210px;order:-1}.runner-features{grid-template-columns:1fr;gap:9px}.runner-feature{text-align:left;display:flex;align-items:center;gap:12px}.runner-feature strong{min-width:112px}}
+@media(max-width:700px){.arcade-main{padding:26px 14px 52px}.quiz-grid{grid-template-columns:1fr}.quiz-card{min-height:120px}.runner-card{grid-template-columns:1fr;gap:18px}.runner-art{min-height:190px;order:-1}.runner-features{grid-template-columns:1fr}.runner-feature{text-align:left;display:flex;align-items:center;gap:10px}.runner-feature strong{min-width:112px}}
 </style>
 </head>
 <body class="arcade-page">
@@ -39,31 +52,39 @@
 <a class="brand" href="index.html"><span class="brand-icon">SQ✦</span><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a>
 <div class="navlinks"><a href="index.html#missions">Missions</a><a href="index.html">Kingdom</a><a class="nav-cta" href="arcade/sports-kingdom-runner.html">Play Runner ↗</a></div>
 </nav>
-<main>
-<section class="arcade-focus">
-<div>
+<main class="arcade-main">
+<header class="arcade-heading">
+<div class="eyebrow">✦ YOUR TRAINING GROUNDS ✦</div>
+<h1>THE <span>ARCADE</span> ZONE</h1>
+<p>Choose a quiz to sharpen your English skills, or enter the track for one action-packed running challenge. These are the only activities in the Arcade Zone.</p>
+</header>
+<section aria-labelledby="quiz-heading">
+<div class="arcade-section-title"><h2 id="quiz-heading">📚 Quiz Challenges</h2><p>Four ways to test your skills</p></div>
+<div class="quiz-grid">
+<a class="quiz-card" href="missions/training.html"><div class="quiz-icon">🏟️</div><div class="quiz-copy"><div class="tagline">QUIZ 01 · VOCABULARY</div><h3>Training Grounds</h3><p>Match each sport with the equipment used to play it.</p></div><span class="quiz-enter">↗</span></a>
+<a class="quiz-card" href="missions/announcement.html"><div class="quiz-icon">📯</div><div class="quiz-copy"><div class="tagline">QUIZ 02 · LISTENING</div><h3>Announcement Hall</h3><p>Listen to a Sports Day announcement and answer the questions.</p></div><span class="quiz-enter">↗</span></a>
+<a class="quiz-card" href="missions/library.html"><div class="quiz-icon">📚</div><div class="quiz-copy"><div class="tagline">QUIZ 03 · READING</div><h3>Knowledge Library</h3><p>Read a short passage and answer the comprehension questions.</p></div><span class="quiz-enter">↗</span></a>
+<a class="quiz-card" href="missions/strategy.html"><div class="quiz-icon">🛡️</div><div class="quiz-copy"><div class="tagline">QUIZ 04 · TEAMWORK</div><h3>Strategy Camp</h3><p>Choose the best responses in different team situations.</p></div><span class="quiz-enter">↗</span></a>
+</div>
+</section>
+<section aria-labelledby="runner-heading">
+<div class="arcade-section-title"><h2 id="runner-heading">🏃 The Main Game</h2><p>One game. One champion.</p></div>
 <div class="runner-card">
 <div class="runner-copy">
-<div class="eyebrow">✦ THE ARCADE HAS A NEW CHAMPION ✦</div>
-<h1>SPORTS KINGDOM <span>RUNNER</span></h1>
-<p>Dash through the Kingdom of Champions in a fast-paced stadium adventure. Switch lanes, leap over hurdles, collect golden stars and prove your sports knowledge at the Wisdom Gates.</p>
-<div class="runner-actions">
+<div class="eyebrow">✦ ARCADE GAME · SPORTS ACTION ✦</div>
+<h2>SPORTS KINGDOM <span>RUNNER</span></h2>
+<p>Dash through the Kingdom of Champions. Switch lanes, leap over hurdles, collect golden stars and prove your sports knowledge at the Wisdom Gates.</p>
 <a class="runner-launch" href="arcade/sports-kingdom-runner.html">▶ START YOUR RUN</a>
-<a class="runner-secondary" href="index.html#missions">← Back to Missions</a>
 </div>
-</div>
-<div class="runner-art" aria-label="Illustration of a runner racing towards a castle">
-<div class="castle">🏰</div><div class="star s1">✦</div><div class="star s2">✧</div><div class="runner">🏃🏻</div>
-</div>
+<div class="runner-art" aria-label="Illustration of a runner racing towards a castle"><div class="castle">🏰</div><div class="star s1">✦</div><div class="star s2">✧</div><div class="runner">🏃🏻</div></div>
 </div>
 <div class="runner-features">
 <div class="runner-feature"><div>🏃</div><div><strong>Three-Lane Action</strong><span>Move left and right, then jump to dodge obstacles.</span></div></div>
 <div class="runner-feature"><div>⭐</div><div><strong>Collect & Progress</strong><span>Earn points and XP while chasing your high score.</span></div></div>
-<div class="runner-feature"><div>📚</div><div><strong>Wisdom Gates</strong><span>Answer Year 5 sports vocabulary questions during your run.</span></div></div>
-</div>
+<div class="runner-feature"><div>📖</div><div><strong>Wisdom Gates</strong><span>Answer sports vocabulary questions during your run.</span></div></div>
 </div>
 </section>
 </main>
-<footer class="footer"><span>© SPORTS QUEST · KINGDOM OF CHAMPIONS</span><span>PLAY FAIR · LEARN MORE · HAVE FUN</span></footer>
+<footer class="footer"><span>© SPORTS QUEST · KINGDOM OF CHAMPIONS</span><span>QUIZ ✦ RUN ✦ LEARN</span></footer>
 </body>
 </html>
