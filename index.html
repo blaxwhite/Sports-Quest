@@ -1,166 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101d2b">
-<meta name="description" content="A Year 5 English Unit 6: Sport knowledge guide by SPORTS QUEST.">
-<title>SPORTS QUEST | Sports Knowledge Guide</title>
-<link rel="stylesheet" href="assets/css/site.css?v=5.1">
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101d2b"><meta name="description" content="Explore sports knowledge for Year 5 English Unit 6: Sport."><title>SPORTS QUEST | Kingdom of Champions</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/site.css?v=5.2">
 <style>
-/* Homepage design system: consistent spacing, alignment, contrast and repeated card patterns */
-:root{--sq-bg:#0d1824;--sq-panel:#172a3a;--sq-panel2:#1c3542;--sq-line:#405765;--sq-gold:#f6c968;--sq-cream:#fff1d2;--sq-muted:#bdcbd0}
-body{background:var(--sq-bg);color:var(--sq-cream)}
-.site-bg{background:radial-gradient(ellipse at 12% 5%,#315c4b44,transparent 32%),radial-gradient(ellipse at 92% 30%,#70523b33,transparent 30%),linear-gradient(145deg,#0c1723,#142638 55%,#10251f)}
-.topnav{background:#101e2bef;border-bottom:1px solid var(--sq-line)}
-.brand{color:var(--sq-cream)}.brand-icon{background:#203c43;border:1px solid #8b7956;box-shadow:3px 3px 0 #09131d}.brand small{color:#91b3a2}.navlinks{color:#bdc9c6}
-.nav-cta,.btn-primary{background:linear-gradient(180deg,#ffdc86,#e9ae4b);color:#302417;box-shadow:0 4px 0 #98652d}
-.page-shell{width:min(1080px,calc(100% - 40px));margin:0 auto}
-.intro{padding:58px 0 44px;display:grid;grid-template-columns:1.12fr .88fr;gap:38px;align-items:center}
-.kicker{font:700 10px 'Press Start 2P';letter-spacing:.06em;line-height:1.9;color:var(--sq-gold)}
-.intro h1{font:700 clamp(38px,5.5vw,66px)/1.04 'Space Grotesk';letter-spacing:-.055em;color:var(--sq-cream);margin:13px 0 15px}
-.intro h1 span{color:var(--sq-gold)}
-.intro-copy{max-width:590px;color:var(--sq-muted);font-size:15px;line-height:1.8;margin:0}
-.intro-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:23px}
-.intro-note{margin-top:20px;color:#9cb7a8;font-size:11px;font-weight:800;letter-spacing:.1em}
-.sport-illustration{height:270px;border:1px solid #92784b;border-radius:16px;background:linear-gradient(180deg,#7397a0 0%,#d4b47b 52%,#536e50 53%,#243c39 100%);display:grid;place-items:center;position:relative;overflow:hidden;box-shadow:0 16px 35px #0005}
-.sport-illustration:before{content:"";position:absolute;bottom:-30%;width:70%;height:90%;background:#a34e39;clip-path:polygon(42% 0,58% 0,100% 100%,0 100%)}
-.sport-illustration:after{content:"";position:absolute;bottom:0;width:100%;height:42%;background:repeating-linear-gradient(90deg,transparent 0 24%,#fff2 24.2% 24.6%,transparent 24.8% 49%)}
-.sport-icons{position:relative;z-index:1;font-size:clamp(48px,7vw,76px);line-height:1.55;text-align:center;filter:drop-shadow(0 8px 5px #15202b88)}
-.illustration-label{position:absolute;z-index:2;bottom:13px;left:0;right:0;text-align:center;color:#fff0d0;font:700 9px 'Press Start 2P';text-shadow:0 2px 4px #000;letter-spacing:.08em}
-.section{padding:35px 0 25px}
-.section-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:20px}
-.section-heading h2{font:700 clamp(23px,3.5vw,32px) 'Space Grotesk';color:var(--sq-cream);margin:7px 0 0;letter-spacing:-.03em}
-.section-heading p{max-width:390px;margin:0;color:var(--sq-muted);font-size:12px;line-height:1.65}
-.topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.topic-card{min-width:0;padding:21px;border:1px solid var(--sq-line);border-radius:13px;background:linear-gradient(145deg,var(--sq-panel2),var(--sq-panel));box-shadow:0 8px 22px #0003}
-.card-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.card-icon{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:10px;background:#344b48;border:1px solid #71806b;font-size:22px}
-.card-number{color:var(--sq-gold);font:700 9px 'Press Start 2P';letter-spacing:.04em}
-.topic-card h3{font:700 18px 'Space Grotesk';color:var(--sq-cream);margin:3px 0 0}
-.topic-card>p{font-size:12px;line-height:1.7;color:var(--sq-muted);margin:0 0 13px}
-.topic-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
-.topic-list li{padding:9px 11px;border-radius:8px;background:#0e1e2b80;border:1px solid #ffffff0d;color:#d5dfdc;font-size:11px;line-height:1.55}
-.topic-list strong{color:#ffdc91}
-.action-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.action-word{padding:10px 9px;text-align:center;background:#0e1e2b80;border:1px solid #ffffff12;border-radius:8px;color:#ffdc91;font-weight:800;font-size:12px}
-.event-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.event-item{padding:10px;background:#0e1e2b80;border:1px solid #ffffff12;border-radius:8px}
-.event-item strong{display:block;color:#ffdc91;font-size:11px;margin-bottom:3px}.event-item span{color:#d5dfdc;font-size:11px;line-height:1.45}
-.sportsmanship{margin-top:17px;display:grid;grid-template-columns:auto 1fr;gap:17px;align-items:center;padding:20px 22px;border:1px solid #9c8150;border-radius:13px;background:linear-gradient(110deg,#243e43,#172b3b)}
-.sportsmanship-icon{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;background:#3a5148;font-size:28px}
-.sportsmanship h3{font:700 18px 'Space Grotesk';color:var(--sq-gold);margin:0 0 5px}
-.sportsmanship p{font-size:12px;line-height:1.7;color:var(--sq-muted);margin:0}
-.vocab-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.vocab-item{padding:14px;background:var(--sq-panel);border:1px solid var(--sq-line);border-radius:10px;min-width:0}
-.vocab-item strong{display:block;color:var(--sq-gold);font:700 14px 'Space Grotesk';margin-bottom:5px}
-.vocab-item span{display:block;color:#d5dfdc;font-size:11px;line-height:1.55}
-.vocab-item em{display:block;color:#9eb5b4;font-size:10px;line-height:1.5;margin-top:7px}
-.learning-path{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
-.path-step{display:flex;align-items:center;gap:11px;padding:14px;border:1px solid var(--sq-line);border-radius:10px;background:#142737}
-.path-no{width:30px;height:30px;flex:0 0 30px;border-radius:8px;background:#3b4c40;color:#ffdc91;display:grid;place-items:center;font:700 12px 'Space Grotesk'}
-.path-step strong{display:block;color:var(--sq-cream);font-size:11px}.path-step span{display:block;color:#aebfc2;font-size:10px;margin-top:3px}
-.cta-panel{margin:30px 0 50px;padding:27px 24px;text-align:center;border:1px solid #9c8150;border-radius:14px;background:linear-gradient(120deg,#203d42,#172b3c);box-shadow:0 12px 30px #0003}
-.cta-panel h2{font:700 clamp(22px,3vw,30px) 'Space Grotesk';color:var(--sq-cream);margin:0 0 8px}
-.cta-panel p{max-width:610px;margin:0 auto 17px;color:var(--sq-muted);font-size:12px;line-height:1.7}
-.footer{border-top:1px solid var(--sq-line);color:#8fa3a7}
-@media(max-width:720px){.page-shell{width:min(100% - 28px,560px)}.intro{grid-template-columns:1fr;padding:35px 0 24px;gap:22px}.sport-illustration{height:190px;order:-1}.intro h1{font-size:clamp(37px,10vw,52px)}.section{padding-top:25px}.section-heading{display:block}.section-heading p{margin-top:8px}.topic-grid{grid-template-columns:1fr}.vocab-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.learning-path{grid-template-columns:1fr}.intro-actions .btn{flex:1 1 180px}}
-@media(max-width:390px){.vocab-grid{grid-template-columns:1fr}.topic-card{padding:17px}.event-list{grid-template-columns:1fr}}
+:root{--bg:#0b1722;--panel:#172c3b;--panel2:#1e3945;--line:#405d65;--gold:#ffd477;--cream:#fff2d5;--muted:#bdcbd0;--green:#9bd3a8}
+body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans-serif}.site-bg{background:radial-gradient(ellipse at 10% 5%,#477b5b55,transparent 34%),radial-gradient(ellipse at 88% 25%,#ad794033,transparent 30%),linear-gradient(145deg,#0b1722,#142b3b 58%,#10251f)}
+.topnav{background:#0d1e2bed;border-color:#38505b}.brand{font-family:'Space Grotesk';color:var(--cream)}.brand-icon{background:#23454a;border:1px solid #927b51;box-shadow:3px 3px 0 #07121a}.brand small{color:#9db9a8}.navlinks{font-family:'Outfit';color:#c7d2d0}.navlinks a:hover{color:var(--gold)}
+.page-shell{width:min(1120px,calc(100% - 44px));margin:auto}
+.hero{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding:70px 0 60px;min-height:570px}
+.hero-copy{position:relative;z-index:2}.kicker{font:700 9px 'Press Start 2P';letter-spacing:.05em;line-height:2;color:var(--gold)}
+.hero h1{font:800 clamp(43px,6.5vw,78px)/.98 'Outfit';letter-spacing:-.065em;color:var(--cream);margin:17px 0}.hero h1 span{color:var(--gold);text-shadow:0 5px 0 #74522d}
+.hero-copy>p{max-width:560px;color:var(--muted);font-size:16px;line-height:1.8;margin:0}.hero-actions{display:flex;gap:13px;flex-wrap:wrap;margin-top:25px}.hero-note{font-size:11px;font-weight:800;letter-spacing:.12em;color:#9db9a8;margin-top:22px}
+.btn{font-family:'Outfit';font-weight:800;border-radius:10px;padding:13px 19px}.btn-primary{background:linear-gradient(180deg,#ffe39b,#edb64f);color:#2d2519;box-shadow:0 4px 0 #98652d}.btn-dark{background:#213b49;color:#fff0d2;border:1px solid #526a70;box-shadow:0 4px 0 #09141d}
+.hero-scene{height:370px;position:relative;border:1px solid #9a8052;border-radius:22px;overflow:hidden;background:linear-gradient(#6b98a1 0 43%,#d5b77c 44% 58%,#496b50 59%);box-shadow:0 24px 50px #0006;isolation:isolate}
+.hero-scene:before{content:"";position:absolute;left:-5%;right:-5%;bottom:-25%;height:75%;background:repeating-linear-gradient(90deg,#a34e39 0 2px,transparent 2px 25%),linear-gradient(110deg,#a34e39,#743e37);clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);z-index:-1}
+.scene-sun{position:absolute;top:24px;right:32px;width:62px;height:62px;border-radius:50%;background:#ffe5a3;box-shadow:0 0 55px #ffe6a3aa}
+.scene-castle{position:absolute;top:38px;left:50%;transform:translateX(-50%);font-size:100px;filter:drop-shadow(0 9px 3px #17202b66)}
+.scene-sports{position:absolute;left:0;right:0;bottom:45px;display:flex;justify-content:space-evenly;align-items:end;font-size:clamp(36px,5vw,60px);filter:drop-shadow(0 8px 3px #17202b88)}
+.scene-sports span:nth-child(2){animation:bob 2.5s ease-in-out infinite}.scene-sports span:nth-child(3){animation:bob 2.8s .4s ease-in-out infinite}.scene-label{position:absolute;bottom:12px;left:0;right:0;text-align:center;color:#fff0d0;font:8px 'Press Start 2P';text-shadow:0 2px 5px #000;letter-spacing:1px}
+.content-section{padding:40px 0 20px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:22px}.section-head h2{font:700 clamp(27px,4vw,39px) 'Outfit';letter-spacing:-.04em;color:var(--cream);margin:6px 0 0}.section-head p{max-width:420px;color:var(--muted);font-size:13px;line-height:1.7;margin:0}
+.lesson-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:19px}
+.lesson-card{overflow:hidden;border:1px solid var(--line);border-radius:17px;background:linear-gradient(145deg,#1c3544,#132735);box-shadow:0 12px 28px #0003;transition:transform .25s,border-color .25s,box-shadow .25s}
+.lesson-card:hover{transform:translateY(-5px);border-color:#d5ad66;box-shadow:0 19px 35px #0005}
+.lesson-visual{height:165px;position:relative;display:flex;align-items:center;justify-content:center;gap:24px;overflow:hidden;background:linear-gradient(135deg,#466c67,#263f4e)}
+.lesson-visual:before{content:"";position:absolute;width:240px;height:240px;border:1px dashed #fff7;border-radius:50%;box-shadow:0 0 0 20px #ffffff0a,0 0 0 42px #ffffff08;animation:slowspin 32s linear infinite}
+.lesson-visual:after{content:"";position:absolute;inset:auto 0 0;height:28px;background:linear-gradient(90deg,#344d40,#526d4b);border-top:1px solid #ffffff33}
+.lesson-visual .big{position:relative;z-index:1;font-size:65px;filter:drop-shadow(0 9px 4px #09131d77);transition:transform .3s}.lesson-card:hover .lesson-visual .big{transform:translateY(-8px) rotate(-7deg)}
+.lesson-visual .visual-tag{position:absolute;top:13px;left:15px;z-index:2;font:8px 'Press Start 2P';color:#fff1d1;letter-spacing:1px}
+.lesson-content{padding:21px 22px 22px}.lesson-index{font:8px 'Press Start 2P';color:var(--gold);letter-spacing:.5px}.lesson-content h3{font:700 23px 'Outfit';margin:8px 0;color:var(--cream)}.lesson-content p{color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 15px}
+.chip-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}.chip{font-size:10px;font-weight:700;padding:6px 9px;border-radius:7px;background:#304a4b;color:#ffdfa0;border:1px solid #59716a}
+.learn-btn{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--gold);border:1px solid #8c774e;border-radius:8px;padding:9px 13px;font:700 12px 'Outfit';cursor:pointer;transition:.2s}.learn-btn:hover{background:#3b4b40;transform:translateY(-2px)}
+.sportsmanship{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding:24px;border-radius:16px;border:1px solid #927a4d;background:linear-gradient(110deg,#27474a,#172d3d);margin-top:20px}.sportsmanship .icon{font-size:42px}.sportsmanship h3{font:700 21px 'Outfit';color:var(--gold);margin:0 0 5px}.sportsmanship p{color:var(--muted);font-size:13px;line-height:1.7;margin:0}
+.vocab-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.vocab-card{padding:16px;border:1px solid var(--line);border-radius:12px;background:#172c3a;transition:.2s}.vocab-card:hover{border-color:#d7b56e;transform:translateY(-3px)}.vocab-card strong{display:block;color:var(--gold);font:700 17px 'Outfit';margin-bottom:5px}.vocab-card p{margin:0;color:#d5dfdc;font-size:11px;line-height:1.6}.vocab-card button{border:0;background:none;color:#a8d4b2;padding:9px 0 0;font:700 11px 'Outfit';cursor:pointer}
+.path{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.path-step{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--line);border-radius:12px;background:#172c3a}.path-num{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;background:#465b48;color:#ffe2a0;font-weight:900}.path-step strong{display:block;font-size:12px}.path-step span{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.cta{margin:35px 0 55px;padding:34px 20px;text-align:center;border:1px solid #a28a57;border-radius:17px;background:radial-gradient(circle at 50% 0,#49634c,#1b3543 70%);box-shadow:0 18px 38px #0004}.cta h2{font:700 31px 'Outfit';margin:0 0 8px}.cta p{max-width:570px;margin:0 auto 18px;color:var(--muted);font-size:13px;line-height:1.7}
+.modal-backdrop{position:fixed;inset:0;z-index:100;background:#050d15c9;display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(7px)}.modal-backdrop.open{display:flex;animation:fade .2s}.info-modal{width:min(520px,100%);position:relative;border:1px solid #b99a5d;border-radius:18px;background:linear-gradient(145deg,#244351,#122536);padding:28px;box-shadow:0 25px 80px #0009;animation:pop .25s}.modal-close{position:absolute;right:14px;top:12px;border:1px solid #60747a;border-radius:8px;background:#172d3b;color:#fff1d2;width:34px;height:34px;font-size:19px;cursor:pointer}.modal-visual{font-size:66px;text-align:center;padding:8px 0 15px;filter:drop-shadow(0 7px 4px #0005)}.info-modal h3{text-align:center;font:700 26px 'Outfit';color:var(--gold);margin:0 0 9px}.info-modal p{text-align:center;color:#d4e0df;font-size:14px;line-height:1.75;margin:0}.modal-tip{margin-top:17px;padding:12px;border-radius:9px;background:#0c1d2a;color:#a9d6b4;text-align:center;font-size:12px}
+.footer{border-color:#334b57;color:#8fa3a7}
+@keyframes bob{50%{transform:translateY(-10px)}}@keyframes slowspin{to{transform:rotate(360deg)}}@keyframes fade{from{opacity:0}to{opacity:1}}@keyframes pop{from{opacity:0;transform:translateY(15px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:760px){.page-shell{width:calc(100% - 30px)}.hero{grid-template-columns:1fr;padding:38px 0 35px;gap:24px}.hero-scene{height:220px;order:-1}.scene-castle{font-size:75px}.scene-sports{bottom:30px}.hero h1{font-size:clamp(42px,11vw,60px)}.section-head{display:block}.section-head p{margin-top:8px}.lesson-grid{grid-template-columns:1fr}.lesson-visual{height:145px}.vocab-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.path{grid-template-columns:1fr}.hero-actions .btn{flex:1 1 180px}}
+@media(max-width:390px){.vocab-grid{grid-template-columns:1fr}.lesson-content{padding:18px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
-</style>
-</head>
-<body>
-<div class="site-bg"></div>
-<nav class="topnav">
-<a class="brand" href="index.html"><span class="brand-icon">SQ✦</span><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a>
-<div class="navlinks"><a href="#guide">Sports Guide</a><a href="arcade.html?v=5.0">Arcade Zone</a><a class="nav-cta" href="arcade.html?v=5.0">Start learning ↗</a></div>
-</nav>
+</style></head>
+<body><div class="site-bg"></div>
+<nav class="topnav"><a class="brand" href="index.html"><span class="brand-icon">SQ✦</span><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="#lessons">Sports Guide</a><a href="arcade.html?v=5.2">Arcade Zone</a><a class="nav-cta" href="arcade.html?v=5.2">Start learning ↗</a></div></nav>
 <main>
-<header class="page-shell intro">
-<div>
-<div class="kicker">✦ YEAR 5 ENGLISH · UNIT 6: SPORT ✦</div>
-<h1>KNOW YOUR <span>SPORTS.</span><br>PLAY LIKE A CHAMPION.</h1>
-<p class="intro-copy">Welcome to the Kingdom of Champions! Start with this simple guide to sports, equipment, actions and teamwork. Build your knowledge first, then use it to answer the quizzes and take on the Sports Kingdom Runner.</p>
-<div class="intro-actions"><a class="btn btn-primary" href="#guide">Explore the guide ↓</a><a class="btn btn-dark" href="arcade.html?v=5.0">🕹️ Enter Arcade Zone</a></div>
-<div class="intro-note">LEARN THE BASICS · BUILD YOUR CONFIDENCE · TAKE THE CHALLENGE</div>
+<header class="page-shell hero"><div class="hero-copy"><div class="kicker">✦ YEAR 5 ENGLISH · UNIT 6: SPORT ✦</div><h1>ENTER THE<br><span>SPORTS KINGDOM.</span></h1><p>Every champion starts with knowledge. Explore different sports, discover the equipment, learn the action words and build your teamwork skills. Tap the interactive cards to reveal examples and fun facts.</p><div class="hero-actions"><a class="btn btn-primary" href="#lessons">Explore the lessons ↓</a><a class="btn btn-dark" href="arcade.html?v=5.2">🕹️ Enter Arcade Zone</a></div><div class="hero-note">DISCOVER · PRACTISE · PLAY LIKE A CHAMPION</div></div>
+<div class="hero-scene"><div class="scene-sun"></div><div class="scene-castle">🏰</div><div class="scene-sports"><span>⚽</span><span>🏀</span><span>🏸</span><span>🏆</span></div><div class="scene-label">WELCOME TO THE KINGDOM OF CHAMPIONS</div></div></header>
+<div class="page-shell" id="lessons">
+<section class="content-section"><div class="section-head"><div><div class="kicker">01 · KNOW YOUR SPORTS</div><h2>Explore the training grounds</h2></div><p>Choose a lesson to discover its key ideas. Each lesson includes examples to help you prepare for the Arcade quizzes.</p></div>
+<div class="lesson-grid">
+<article class="lesson-card"><div class="lesson-visual"><span class="visual-tag">LESSON 01</span><span class="big">⚽</span><span class="big">🏀</span><span class="big">🏸</span></div><div class="lesson-content"><div class="lesson-index">SPORTS CATEGORIES</div><h3>Different Types of Sports</h3><p>Some sports are played in teams, while others are played individually. Sports can also use different skills and equipment.</p><div class="chip-row"><span class="chip">Team sports</span><span class="chip">Individual sports</span><span class="chip">Racket sports</span></div><button class="learn-btn" data-title="Types of Sports" data-visual="⚽ 🏀 🏸" data-info="Team sports include football, basketball, volleyball and netball. Individual sports include swimming, gymnastics and cycling. Racket sports include badminton and tennis. Athletics includes running, jumping and throwing events." data-tip="Think about it: Is football a team sport or an individual sport?">Explore examples <span>↗</span></button></div></article>
+<article class="lesson-card"><div class="lesson-visual" style="background:linear-gradient(135deg,#79694b,#385b56)"><span class="visual-tag">LESSON 02</span><span class="big">🎾</span><span class="big">🏸</span><span class="big">🪖</span></div><div class="lesson-content"><div class="lesson-index">GEAR UP</div><h3>Sports Equipment</h3><p>Equipment means the items or gear used in a sport. Some help us play, while others protect us from injury.</p><div class="chip-row"><span class="chip">Racket</span><span class="chip">Shuttlecock</span><span class="chip">Helmet</span></div><button class="learn-btn" data-title="Sports Equipment" data-visual="🏸 🎾 🥅" data-info="Badminton uses a racket and shuttlecock. Football uses a ball and goalposts. Basketball uses a ball and hoop. Cyclists wear helmets for protection, while swimmers may use goggles." data-tip="Quick challenge: Which item protects a cyclist's head?">See equipment guide <span>↗</span></button></div></article>
+<article class="lesson-card"><div class="lesson-visual" style="background:linear-gradient(135deg,#4b6878,#34475b)"><span class="visual-tag">LESSON 03</span><span class="big">🏃</span><span class="big">🥇</span><span class="big">🏊</span></div><div class="lesson-content"><div class="lesson-index">ACTION WORDS</div><h3>What Do Players Do?</h3><p>Action verbs describe movements in sports. Use them to explain what players do during a game.</p><div class="chip-row"><span class="chip">Kick</span><span class="chip">Throw</span><span class="chip">Catch</span><span class="chip">Pass</span></div><button class="learn-btn" data-title="Actions in Sports" data-visual="⚽ 🏀 🏃" data-info="KICK a football. THROW a ball to a teammate. CATCH a ball with your hands. PASS the ball to another player. SHOOT towards the goal or basket. DRIBBLE while moving with the ball. HIT a shuttlecock with a racket." data-tip="Try saying a full sentence: The player kicks the ball.">Discover action verbs <span>↗</span></button></div></article>
+<article class="lesson-card"><div class="lesson-visual" style="background:linear-gradient(135deg,#7c604a,#385b55)"><span class="visual-tag">LESSON 04</span><span class="big">📣</span><span class="big">📅</span><span class="big">🏟️</span></div><div class="lesson-content"><div class="lesson-index">EVENT PLANNING</div><h3>Understanding Sports Events</h3><p>Sports events need planning. Announcements tell us when and where an event happens and what participants need.</p><div class="chip-row"><span class="chip">Date & time</span><span class="chip">Venue</span><span class="chip">Participants</span></div><button class="learn-btn" data-title="Sports Event Details" data-visual="📣 🗓️ 🏟️" data-info="When you read or listen to an event announcement, look for: the event name, date, starting time, venue, who can participate, what to bring and any important rules." data-tip="Example: Sports Day · Friday · 8.00 a.m. · School field.">Open event checklist <span>↗</span></button></div></article>
 </div>
-<div class="sport-illustration" role="img" aria-label="Sports balls and trophy on a stadium field"><div class="sport-icons">⚽ 🏀<br>🏸 🏆</div><div class="illustration-label">THE WORLD OF SPORT</div></div>
-</header>
-<div class="page-shell" id="guide">
-<section class="section">
-<div class="section-heading"><div><div class="kicker">01 · GET TO KNOW SPORT</div><h2>Start with the basics</h2></div><p>Explore these four topics. Each one introduces useful knowledge and vocabulary for the activities in the Arcade Zone.</p></div>
-<div class="topic-grid">
-<article class="topic-card">
-<div class="card-top"><div class="card-icon">🏅</div><div><div class="card-number">TOPIC 01</div><h3>Types of Sports</h3></div></div>
-<p>Sports are physical activities that help people stay active and healthy. They can be played alone or with a team.</p>
-<ul class="topic-list">
-<li><strong>Team sports</strong> · Football, basketball, volleyball and netball.</li>
-<li><strong>Individual sports</strong> · Swimming, gymnastics and cycling.</li>
-<li><strong>Racket sports</strong> · Badminton, tennis and squash.</li>
-<li><strong>Athletics</strong> · Running, jumping and throwing events.</li>
-</ul>
-</article>
-<article class="topic-card">
-<div class="card-top"><div class="card-icon">🎒</div><div><div class="card-number">TOPIC 02</div><h3>Sports Equipment</h3></div></div>
-<p>Equipment refers to the items or gear needed to play a sport. Some items are used to play, while others keep athletes safe.</p>
-<ul class="topic-list">
-<li><strong>Football</strong> · Ball, goalpost and football boots.</li>
-<li><strong>Badminton</strong> · Racket, shuttlecock and net.</li>
-<li><strong>Basketball</strong> · Ball, hoop and basketball shoes.</li>
-<li><strong>Cycling</strong> · Bicycle and helmet.</li>
-<li><strong>Swimming</strong> · Swimsuit and goggles.</li>
-</ul>
-</article>
-<article class="topic-card">
-<div class="card-top"><div class="card-icon">🏃</div><div><div class="card-number">TOPIC 03</div><h3>Actions in Sports</h3></div></div>
-<p>Action verbs tell us what players do during a sport. Learn these words to describe a game or activity.</p>
-<div class="action-list">
-<div class="action-word">KICK</div><div class="action-word">THROW</div><div class="action-word">CATCH</div><div class="action-word">PASS</div><div class="action-word">SHOOT</div><div class="action-word">DRIBBLE</div><div class="action-word">HIT</div><div class="action-word">JUMP</div>
-</div>
-</article>
-<article class="topic-card">
-<div class="card-top"><div class="card-icon">📣</div><div><div class="card-number">TOPIC 04</div><h3>Sports Events</h3></div></div>
-<p>Sports events need planning. When you read or listen to an announcement, look for these important details.</p>
-<div class="event-list">
-<div class="event-item"><strong>EVENT</strong><span>What activity is happening?</span></div>
-<div class="event-item"><strong>DATE & TIME</strong><span>When will it happen?</span></div>
-<div class="event-item"><strong>VENUE</strong><span>Where will it take place?</span></div>
-<div class="event-item"><strong>PARTICIPANTS</strong><span>Who can take part?</span></div>
-<div class="event-item"><strong>WHAT TO BRING</strong><span>What equipment is needed?</span></div>
-<div class="event-item"><strong>RULES</strong><span>What should participants follow?</span></div>
-</div>
-</article>
-</div>
-<aside class="sportsmanship">
-<div class="sportsmanship-icon">🤝</div><div><h3>Champion Mindset: Teamwork & Fair Play</h3><p>A good sport follows the rules, respects teammates and opponents, takes turns and communicates politely. Encourage others, accept winning and losing, and always play fairly. Being a champion is about how you play, not only whether you win.</p></div>
-</aside>
-</section>
-<section class="section">
-<div class="section-heading"><div><div class="kicker">02 · BUILD YOUR VOCABULARY</div><h2>Words every champion should know</h2></div><p>Remember the meaning and example of each word. You may meet them in the reading, listening and teamwork quizzes.</p></div>
+<aside class="sportsmanship"><div class="icon">🤝</div><div><h3>Champion Mindset: Teamwork & Fair Play</h3><p>Respect teammates and opponents, follow the rules, take turns and encourage others. A true champion plays fairly and accepts both winning and losing with a positive attitude.</p></div></aside></section>
+<section class="content-section"><div class="section-head"><div><div class="kicker">02 · VOCABULARY POWER-UP</div><h2>Words worth knowing</h2></div><p>Tap “Show example” to reveal each word in a sentence. These words may appear in the reading, listening and teamwork quizzes.</p></div>
 <div class="vocab-grid">
-<div class="vocab-item"><strong>Opponent</strong><span>A person or team you compete against.</span><em>We respect our opponents.</em></div>
-<div class="vocab-item"><strong>Teammate</strong><span>A person who plays on your team.</span><em>I pass the ball to my teammate.</em></div>
-<div class="vocab-item"><strong>Referee</strong><span>A person who makes sure players follow the rules.</span><em>The referee blows the whistle.</em></div>
-<div class="vocab-item"><strong>Equipment</strong><span>The items needed to play a sport.</span><em>A racket is badminton equipment.</em></div>
-<div class="vocab-item"><strong>Venue</strong><span>The place where an event happens.</span><em>The event is at the school field.</em></div>
-<div class="vocab-item"><strong>Training</strong><span>Practice to improve a skill or performance.</span><em>Our team has football training.</em></div>
-</div>
-</section>
-<section class="section">
-<div class="section-heading"><div><div class="kicker">03 · YOUR LEARNING JOURNEY</div><h2>From knowledge to action</h2></div><p>Follow the same simple sequence each time you visit SPORTS QUEST.</p></div>
-<div class="learning-path">
-<div class="path-step"><div class="path-no">1</div><div><strong>LEARN</strong><span>Read the sports guide.</span></div></div>
-<div class="path-step"><div class="path-no">2</div><div><strong>PRACTISE</strong><span>Choose a quiz in the Arcade Zone.</span></div></div>
-<div class="path-step"><div class="path-no">3</div><div><strong>PLAY</strong><span>Challenge yourself in Sports Kingdom Runner.</span></div></div>
-</div>
-</section>
-<section class="cta-panel">
-<h2>Ready to enter the Arcade Zone?</h2>
-<p>Choose a quiz to test what you have learned, or head to the Sports Kingdom Runner for an action-packed challenge.</p>
-<a class="btn btn-primary" href="arcade.html?v=5.0">🕹️ ENTER THE ARCADE ZONE →</a>
-</section>
-</div>
-</main>
+<div class="vocab-card"><strong>Opponent</strong><p>A person or team you compete against.</p><button data-title="Opponent" data-visual="🥊" data-info="An opponent is the person or team you compete against." data-tip="Example: We respect our opponents after the match.">Show example +</button></div>
+<div class="vocab-card"><strong>Teammate</strong><p>A person who plays on your team.</p><button data-title="Teammate" data-visual="🤝" data-info="A teammate is someone who belongs to the same team as you." data-tip="Example: I pass the ball to my teammate.">Show example +</button></div>
+<div class="vocab-card"><strong>Referee</strong><p>A person who makes sure players follow the rules.</p><button data-title="Referee" data-visual="🧑‍⚖️" data-info="A referee watches a game and makes sure players follow the rules." data-tip="Example: The referee blows the whistle.">Show example +</button></div>
+<div class="vocab-card"><strong>Equipment</strong><p>The items needed to play a sport.</p><button data-title="Equipment" data-visual="🎒" data-info="Equipment is the gear or items used for a sport." data-tip="Example: A racket is badminton equipment.">Show example +</button></div>
+<div class="vocab-card"><strong>Venue</strong><p>The place where an event happens.</p><button data-title="Venue" data-visual="🏟️" data-info="A venue is the place where an event or activity takes place." data-tip="Example: The Sports Day venue is the school field.">Show example +</button></div>
+<div class="vocab-card"><strong>Training</strong><p>Practice to improve a skill or performance.</p><button data-title="Training" data-visual="🏋️" data-info="Training is practice that helps a player become better or stronger." data-tip="Example: Our team has football training every Tuesday.">Show example +</button></div>
+</div></section>
+<section class="content-section"><div class="section-head"><div><div class="kicker">03 · YOUR QUEST ROUTE</div><h2>Learn it. Try it. Play it.</h2></div><p>Use the knowledge guide first, then challenge yourself with the activities.</p></div><div class="path"><div class="path-step"><div class="path-num">1</div><div><strong>LEARN</strong><span>Explore the sports guide.</span></div></div><div class="path-step"><div class="path-num">2</div><div><strong>TEST YOUR SKILLS</strong><span>Choose a quiz in the Arcade Zone.</span></div></div><div class="path-step"><div class="path-num">3</div><div><strong>TAKE THE RUN</strong><span>Play Sports Kingdom Runner.</span></div></div></div></section>
+<section class="cta"><h2>Your next challenge awaits!</h2><p>Ready to put your sports knowledge into action? Choose a quiz or take on the Sports Kingdom Runner.</p><a class="btn btn-primary" href="arcade.html?v=5.2">🕹️ ENTER THE ARCADE ZONE →</a></section></div></main>
 <footer class="footer"><span>© SPORTS QUEST · KINGDOM OF CHAMPIONS</span><span>LEARN ✦ PLAY FAIR ✦ BE A CHAMPION</span></footer>
-</body>
-</html>
+<div class="modal-backdrop" id="info-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="info-modal"><button class="modal-close" aria-label="Close dialog" id="modal-close">×</button><div class="modal-visual" id="modal-visual">⚽</div><h3 id="modal-title">Explore</h3><p id="modal-info"></p><div class="modal-tip" id="modal-tip"></div></div></div>
+<script>
+(()=>{const modal=document.getElementById('info-modal');const title=document.getElementById('modal-title');const visual=document.getElementById('modal-visual');const info=document.getElementById('modal-info');const tip=document.getElementById('modal-tip');function open(button){title.textContent=button.dataset.title||'Did you know?';visual.textContent=button.dataset.visual||'⭐';info.textContent=button.dataset.info||'';tip.textContent=button.dataset.tip||'';modal.classList.add('open');document.body.style.overflow='hidden';document.getElementById('modal-close').focus()}function close(){modal.classList.remove('open');document.body.style.overflow=''}document.querySelectorAll('[data-title]').forEach(button=>button.addEventListener('click',()=>open(button)));document.getElementById('modal-close').addEventListener('click',close);modal.addEventListener('click',event=>{if(event.target===modal)close()});document.addEventListener('keydown',event=>{if(event.key==='Escape')close()})})();
+</script></body></html>
