@@ -1,43 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#17243c">
-<title>Arcade Zone | SPORTS QUEST</title>
-<link rel="stylesheet" href="assets/css/site.css?v=3.6">
-<script defer src="assets/js/arcade.js?v=2.0"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101b30">
+<title>Arcade Zone | Sports Kingdom Runner</title>
+<link rel="stylesheet" href="assets/css/site.css?v=3.7">
+<style>
+.arcade-focus{min-height:72vh;display:grid;place-items:center;padding:64px 20px 76px;position:relative;overflow:hidden}
+.arcade-focus:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 28%,rgba(218,155,57,.19),transparent 52%),linear-gradient(180deg,rgba(8,18,32,.18),rgba(8,18,32,.88));pointer-events:none}
+.runner-card{position:relative;z-index:1;width:min(100%,940px);display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center;padding:clamp(22px,5vw,48px);border:2px solid rgba(231,180,89,.65);border-radius:18px;background:linear-gradient(145deg,rgba(29,48,68,.97),rgba(12,24,42,.98));box-shadow:0 24px 80px #0008}
+.runner-copy .eyebrow{color:#f4c56e;letter-spacing:2px;font-weight:800;font-size:12px}
+.runner-copy h1{font-size:clamp(32px,5vw,56px);line-height:1.02;margin:14px 0;color:#fff0c9;text-shadow:0 4px 0 #70451e}
+.runner-copy h1 span{color:#f6bd54}
+.runner-copy p{color:#d6dfeb;line-height:1.75;max-width:540px;margin:16px 0 22px}
+.runner-actions{display:flex;gap:12px;flex-wrap:wrap}
+.runner-launch{display:inline-flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:8px;background:linear-gradient(#ffdc85,#d28a2c);color:#1b2940;font-weight:900;text-decoration:none;box-shadow:0 5px 0 #774814;transition:transform .15s}
+.runner-launch:hover{transform:translateY(-2px)}
+.runner-secondary{display:inline-flex;align-items:center;padding:12px 16px;border:1px solid #a9b7c8;border-radius:8px;color:#edf2f7;text-decoration:none}
+.runner-art{min-height:290px;position:relative;display:grid;place-items:center;border:1px solid rgba(246,198,111,.32);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#6b9bb0 0%,#d9b47a 47%,#49634d 48%,#273c38 100%)}
+.runner-art:before,.runner-art:after{content:"";position:absolute;bottom:-4%;width:70%;height:90%;background:#a34e39;clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);opacity:.95}
+.runner-art:after{width:42%;background:repeating-linear-gradient(180deg,transparent 0 24px,rgba(255,235,194,.6) 25px 28px);opacity:.7}
+.runner-art .castle{position:absolute;top:14%;font-size:clamp(54px,8vw,92px);filter:drop-shadow(0 8px 5px #17202b88)}
+.runner-art .runner{position:absolute;z-index:2;bottom:12%;font-size:clamp(72px,10vw,112px);filter:drop-shadow(0 8px 4px #17202b99);animation:runnerBob .55s ease-in-out infinite alternate}
+.runner-art .star{position:absolute;z-index:3;color:#ffe18a;font-size:30px;animation:twinkle 1.4s ease-in-out infinite alternate}
+.runner-art .s1{top:25%;left:18%}.runner-art .s2{top:42%;right:16%;animation-delay:.5s}
+@keyframes runnerBob{to{transform:translateY(-9px)}}@keyframes twinkle{to{transform:scale(1.25);opacity:.65}}
+.runner-features{position:relative;z-index:1;width:min(100%,940px);display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.runner-feature{padding:17px;border:1px solid rgba(227,187,117,.28);border-radius:10px;background:rgba(14,27,45,.88);text-align:center}
+.runner-feature strong{display:block;color:#ffe0a0;font-size:13px;margin:6px 0}
+.runner-feature span{font-size:11px;color:#c3cfdd;line-height:1.5}
+@media(max-width:720px){.arcade-focus{padding:28px 14px 46px}.runner-card{grid-template-columns:1fr;gap:20px}.runner-art{min-height:210px;order:-1}.runner-features{grid-template-columns:1fr;gap:9px}.runner-feature{text-align:left;display:flex;align-items:center;gap:12px}.runner-feature strong{min-width:112px}}
+</style>
 </head>
 <body class="arcade-page">
 <div class="site-bg"></div>
 <nav class="topnav">
 <a class="brand" href="index.html"><span class="brand-icon">SQ✦</span><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a>
-<div class="navlinks"><a href="index.html#missions">Missions</a><a href="index.html">Kingdom</a><a class="nav-cta" href="#arcade-games">Play games ↗</a></div>
+<div class="navlinks"><a href="index.html#missions">Missions</a><a href="index.html">Kingdom</a><a class="nav-cta" href="arcade/sports-kingdom-runner.html">Play Runner ↗</a></div>
 </nav>
 <main>
-<section class="arcade-hero">
-<div class="eyebrow">✦ THE KINGDOM'S GAME ROOM ✦</div>
-<h1>WELCOME TO THE <span>ARCADE.</span></h1>
-<p>Take a break from your quests. Play quick challenges, sharpen your sports knowledge and earn Arcade Stars!</p>
-<div class="arcade-record"><span>⭐ YOUR ARCADE STARS</span><strong id="arcade-stars">0</strong><small>Best scores are saved on this device.</small></div>
-</section>
-<section class="section arcade-section" id="arcade-games">
-<div class="section-head"><div><div class="eyebrow">CHOOSE A GAME</div><h2>Pick your challenge.</h2></div><p>Play again to beat your personal best. Every game is designed for quick, friendly learning.</p></div>
-<div class="arcade-grid">
-<article class="arcade-card"><div class="arcade-card-art art-match">🎯<span>01</span></div><div class="arcade-card-body"><span class="tag">VOCABULARY · MATCHING</span><h3>Equipment Rush</h3><p>Match each sport with the equipment it needs before time runs out.</p><button class="btn btn-primary btn-small" data-launch="match">Play game ↗</button></div></article>
-<article class="arcade-card"><div class="arcade-card-art art-quiz">🧠<span>02</span></div><div class="arcade-card-body"><span class="tag">SPORTS KNOWLEDGE · QUIZ</span><h3>Champion Quiz</h3><p>Answer five quick questions about sports, teamwork and healthy habits.</p><button class="btn btn-primary btn-small" data-launch="quiz">Play game ↗</button></div></article>
-<article class="arcade-card"><div class="arcade-card-art art-reaction">⚡<span>03</span></div><div class="arcade-card-body"><span class="tag">FOCUS · REACTION</span><h3>Reflex Rally</h3><p>Wait for the signal, then tap the target as quickly as you can.</p><button class="btn btn-primary btn-small" data-launch="reaction">Play game ↗</button></div></article>
+<section class="arcade-focus">
+<div>
+<div class="runner-card">
+<div class="runner-copy">
+<div class="eyebrow">✦ THE ARCADE HAS A NEW CHAMPION ✦</div>
+<h1>SPORTS KINGDOM <span>RUNNER</span></h1>
+<p>Dash through the Kingdom of Champions in a fast-paced stadium adventure. Switch lanes, leap over hurdles, collect golden stars and prove your sports knowledge at the Wisdom Gates.</p>
+<div class="runner-actions">
+<a class="runner-launch" href="arcade/sports-kingdom-runner.html">▶ START YOUR RUN</a>
+<a class="runner-secondary" href="index.html#missions">← Back to Missions</a>
 </div>
-
-<div class="sidequest-heading"><span class="tag">MAIN ARCADE · SIDE-SCROLLER COLLECTION</span><h2>Enter the Pixel Realms</h2><p>Four different adventures. Four ways to become a champion.</p></div>
-<div class="arcade-grid sidequest-grid">
-<article class="arcade-card"><div class="arcade-card-art side-art-kingdom"><span>04</span><div class="side-art-scene">🏃‍♂️　🌲　🏰</div></div><div class="arcade-card-body"><span class="tag">PLATFORMER · JUMP & COLLECT</span><h3>Kingdom Runner</h3><p>Leap across the kingdom, avoid hazards and collect golden champion coins.</p><a class="btn btn-primary btn-small" href="arcade/sports-kingdom-runner.html">Start adventure ↗</a></div></article>
-<article class="arcade-card"><div class="arcade-card-art side-art-dash"><span>05</span><div class="side-art-scene">🏟️　⚡　🏃</div></div><div class="arcade-card-body"><span class="tag">ENDLESS RUNNER · DODGE</span><h3>Champion Dash</h3><p>Race through the stadium, jump hurdles and duck beneath barriers.</p><button class="btn btn-primary btn-small" data-launch="dash">Start race ↗</button></div></article>
-<article class="arcade-card"><div class="arcade-card-art side-art-treasure"><span>06</span><div class="side-art-scene">🗝️　🌳　💎</div></div><div class="arcade-card-body"><span class="tag">EXPLORATION · DISCOVER</span><h3>Treasure of Champions</h3><p>Explore a hidden valley, find the keys and collect the lost treasures.</p><button class="btn btn-primary btn-small" data-launch="treasure">Explore realm ↗</button></div></article>
-<article class="arcade-card"><div class="arcade-card-art side-art-sports"><span>07</span><div class="side-art-scene">⚽　🥅　🏆</div></div><div class="arcade-card-body"><span class="tag">SPORTS CHALLENGE · AIM</span><h3>Sports Showdown</h3><p>Adjust your aim and power, then kick the ball past the moving goalkeeper.</p><button class="btn btn-primary btn-small" data-launch="showdown">Play match ↗</button></div></article>
 </div>
-<div class="arcade-play-area" id="arcade-play-area" hidden><div class="arcade-play-head"><div><span class="tag">NOW PLAYING</span><h2 id="game-title">Game</h2></div><button class="btn btn-soft btn-small" id="close-game">✕ Close</button></div><div id="game-content"></div></div>
+<div class="runner-art" aria-label="Illustration of a runner racing towards a castle">
+<div class="castle">🏰</div><div class="star s1">✦</div><div class="star s2">✧</div><div class="runner">🏃🏻</div>
+</div>
+</div>
+<div class="runner-features">
+<div class="runner-feature"><div>🏃</div><div><strong>Three-Lane Action</strong><span>Move left and right, then jump to dodge obstacles.</span></div></div>
+<div class="runner-feature"><div>⭐</div><div><strong>Collect & Progress</strong><span>Earn points and XP while chasing your high score.</span></div></div>
+<div class="runner-feature"><div>📚</div><div><strong>Wisdom Gates</strong><span>Answer Year 5 sports vocabulary questions during your run.</span></div></div>
+</div>
+</div>
 </section>
-<section class="section arcade-back"><a class="btn btn-dark" href="index.html#missions">← Return to the Kingdom</a></section>
 </main>
 <footer class="footer"><span>© SPORTS QUEST · KINGDOM OF CHAMPIONS</span><span>PLAY FAIR · LEARN MORE · HAVE FUN</span></footer>
-</body></html>
+</body>
+</html>
