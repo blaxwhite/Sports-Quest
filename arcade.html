@@ -34,6 +34,13 @@ body{background:#0b1722;color:var(--cream);font-family:'Outfit',sans-serif}.site
 @media(max-width:720px){.arcade-main{width:calc(100% - 28px);padding-top:25px}.quiz-grid{grid-template-columns:1fr}.quiz-card{min-height:150px}.runner-card{grid-template-columns:1fr}.runner-visual{order:-1;height:190px}.runner-features{grid-template-columns:1fr}.runner-feature{text-align:left;display:flex;align-items:center;gap:12px}.section-title{display:block}.section-title p{margin-top:6px}}
 @media(max-width:390px){.quiz-card{grid-template-columns:66px 1fr;padding:13px;gap:12px}.quiz-visual{width:66px;height:80px;font-size:36px}.quiz-copy h3{font-size:17px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+
+/* Animated Arcade Zone and runner feature titles */
+.arcade-hero h1.title-animated,.runner-copy h2.title-animated{animation:titleReveal .9s cubic-bezier(.2,.8,.2,1) both,titleGlow 3.6s ease-in-out 1s infinite;transform-origin:center}
+.runner-copy h2.title-animated{animation-delay:.18s,1.18s}
+@keyframes titleReveal{0%{opacity:0;transform:translateY(22px) scale(.97);letter-spacing:-.09em}70%{opacity:1;transform:translateY(-3px) scale(1.01)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes titleGlow{0%,100%{filter:drop-shadow(0 0 0 #f6c96800)}50%{filter:drop-shadow(0 0 10px #f6c96855)}}
+@media(prefers-reduced-motion:reduce){.arcade-hero h1.title-animated,.runner-copy h2.title-animated{animation:none;opacity:1;transform:none}}
 </style></head>
 <body><div class="site-bg"></div><nav class="topnav"><a class="brand" href="index.html" aria-label="Sports Quest home"><img class="brand-logo" src="assets/images/sports-quest-logo-transparent.png" alt="Sports Quest: Kingdom of Champions"><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="index.html">Knowledge Guide</a><a href="index.html#lessons">Lessons</a></div></nav>
 <main class="arcade-main">
