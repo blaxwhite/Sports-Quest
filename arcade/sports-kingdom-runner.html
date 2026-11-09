@@ -42,6 +42,12 @@ canvas{display:block;width:100%;height:auto;aspect-ratio:480/560;touch-action:no
 #quiz-feedback{font-size:11px;color:#ffe4a3;min-height:30px;margin-top:10px}
 .foot{text-align:center;color:#9caec3;font-size:9px;margin:10px 0 0}
 @media(max-width:380px){body{padding:6px}.arcade-btn{width:47px;height:46px}.jump-btn{width:78px}.controls-note{font-size:8px}#game-hud{font-size:9px}.stat-val{font-size:12px}.panel{padding:15px 12px}}
+
+/* Animated game title */
+#start-screen .panel h1.title-animated{animation:gameTitleReveal .9s cubic-bezier(.2,.8,.2,1) both,gameTitleGlow 3.6s ease-in-out 1s infinite}
+@keyframes gameTitleReveal{0%{opacity:0;transform:translateY(18px) scale(.96);letter-spacing:-.04em}70%{opacity:1;transform:translateY(-2px) scale(1.01)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes gameTitleGlow{0%,100%{text-shadow:0 2px #7c4211,0 0 0 #fbbf2400}50%{text-shadow:0 2px #7c4211,0 0 13px #fbbf2480}}
+@media(prefers-reduced-motion:reduce){#start-screen .panel h1.title-animated{animation:none;opacity:1;transform:none}}
 </style>
 </head>
 <body>
