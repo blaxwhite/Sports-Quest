@@ -1,90 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101b30">
-<title>Arcade Zone | SPORTS QUEST</title>
-<link rel="stylesheet" href="assets/css/site.css?v=5.0">
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101b30"><title>Arcade Zone | SPORTS QUEST</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/site.css?v=5.2">
 <style>
-.arcade-main{max-width:1120px;margin:auto;padding:42px 20px 76px}
-.arcade-heading{text-align:center;margin:10px auto 34px;max-width:720px}
-.arcade-heading .eyebrow{color:#dba64d;letter-spacing:2px;font-weight:800;font-size:12px}
-.arcade-heading h1{font-size:clamp(34px,6vw,58px);line-height:1.05;margin:12px 0;color:#fff0c9;text-shadow:0 4px 0 #70451e}
-.arcade-heading h1 span{color:#f6bd54}
-.arcade-heading p{color:#d6dfeb;line-height:1.7}
-.arcade-section-title{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:34px 0 16px}
-.arcade-section-title h2{font-size:clamp(21px,3vw,28px);color:#fff0c9;margin:0}
-.arcade-section-title p{font-size:12px;color:#bac8d8;margin:0}
-.quiz-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.quiz-card{display:flex;align-items:center;gap:17px;min-height:142px;padding:19px;border:1px solid rgba(231,180,89,.35);border-radius:13px;background:linear-gradient(145deg,rgba(31,51,73,.97),rgba(13,26,45,.98));box-shadow:0 12px 30px #0003;text-decoration:none;transition:transform .18s,border-color .18s}
-.quiz-card:hover{transform:translateY(-3px);border-color:#f4c56e}
-.quiz-icon{width:68px;height:68px;flex:0 0 68px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(145deg,#536c78,#263b51);font-size:34px;box-shadow:inset 0 0 0 1px #ffffff20}
-.quiz-copy{min-width:0;flex:1}
-.quiz-copy .tagline{font-size:10px;letter-spacing:1.5px;color:#f4c56e;font-weight:800}
-.quiz-copy h3{font-size:18px;color:#fff0c9;margin:6px 0}
-.quiz-copy p{font-size:12px;line-height:1.5;color:#c7d2df;margin:0}
-.quiz-enter{color:#f6bd54;font-size:20px;font-weight:900}
-.runner-card{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center;padding:clamp(22px,4vw,38px);border:2px solid rgba(231,180,89,.65);border-radius:16px;background:linear-gradient(145deg,rgba(29,48,68,.97),rgba(12,24,42,.98));box-shadow:0 20px 55px #0005}
-.runner-copy .eyebrow{color:#f4c56e;letter-spacing:2px;font-weight:800;font-size:11px}
-.runner-copy h2{font-size:clamp(27px,4vw,43px);line-height:1.04;margin:12px 0;color:#fff0c9;text-shadow:0 3px 0 #70451e}
-.runner-copy h2 span{color:#f6bd54}
-.runner-copy p{color:#d6dfeb;line-height:1.7;margin:12px 0 20px;font-size:13px}
-.runner-launch{display:inline-flex;align-items:center;justify-content:center;padding:13px 21px;border-radius:8px;background:linear-gradient(#ffdc85,#d28a2c);color:#1b2940;font-weight:900;text-decoration:none;box-shadow:0 5px 0 #774814}
-.runner-art{min-height:220px;position:relative;display:grid;place-items:center;border:1px solid rgba(246,198,111,.32);border-radius:13px;overflow:hidden;background:linear-gradient(180deg,#6b9bb0 0%,#d9b47a 47%,#49634d 48%,#273c38 100%)}
-.runner-art:before,.runner-art:after{content:"";position:absolute;bottom:-4%;width:70%;height:90%;background:#a34e39;clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);opacity:.95}
-.runner-art:after{width:42%;background:repeating-linear-gradient(180deg,transparent 0 24px,rgba(255,235,194,.6) 25px 28px);opacity:.7}
-.runner-art .castle{position:absolute;top:12%;font-size:clamp(55px,8vw,82px);filter:drop-shadow(0 8px 5px #17202b88)}
-.runner-art .runner{position:absolute;z-index:2;bottom:12%;font-size:clamp(70px,10vw,100px);filter:drop-shadow(0 8px 4px #17202b99);animation:runnerBob .55s ease-in-out infinite alternate}
-.runner-art .star{position:absolute;z-index:3;color:#ffe18a;font-size:28px;animation:twinkle 1.4s ease-in-out infinite alternate}
-.runner-art .s1{top:25%;left:18%}.runner-art .s2{top:42%;right:16%;animation-delay:.5s}
-.runner-features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:13px}
-.runner-feature{padding:13px;border:1px solid rgba(227,187,117,.25);border-radius:9px;background:rgba(14,27,45,.85);text-align:center}
-.runner-feature strong{display:block;color:#ffe0a0;font-size:11px;margin:5px 0}
-.runner-feature span{font-size:10px;color:#c3cfdd;line-height:1.45}
-@keyframes runnerBob{to{transform:translateY(-9px)}}@keyframes twinkle{to{transform:scale(1.25);opacity:.65}}
-@media(max-width:700px){.arcade-main{padding:26px 14px 52px}.quiz-grid{grid-template-columns:1fr}.quiz-card{min-height:120px}.runner-card{grid-template-columns:1fr;gap:18px}.runner-art{min-height:190px;order:-1}.runner-features{grid-template-columns:1fr}.runner-feature{text-align:left;display:flex;align-items:center;gap:10px}.runner-feature strong{min-width:112px}}
-</style>
-</head>
-<body class="arcade-page">
-<div class="site-bg"></div>
-<nav class="topnav">
-<a class="brand" href="index.html"><span class="brand-icon">SQ✦</span><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a>
-<div class="navlinks"><a href="index.html#missions">Missions</a><a href="index.html">Kingdom</a></div>
-</nav>
+:root{--gold:#ffd477;--cream:#fff1d2;--muted:#bdcbd0;--line:#435b65}
+body{background:#0b1722;color:var(--cream);font-family:'Outfit',sans-serif}.site-bg{background:radial-gradient(ellipse at 15% 4%,#477b5b44,transparent 34%),radial-gradient(ellipse at 90% 28%,#ad794033,transparent 30%),linear-gradient(145deg,#0b1722,#142b3b 58%,#10251f)}
+.topnav{background:#0d1e2bed;border-color:#38505b}.brand{color:var(--cream)}.brand-icon{background:#23454a;border:1px solid #927b51}.brand small{color:#9db9a8}.navlinks{font-family:'Outfit';color:#c7d2d0}
+.arcade-main{width:min(1100px,calc(100% - 40px));margin:auto;padding:48px 0 76px}
+.arcade-hero{position:relative;overflow:hidden;text-align:center;padding:42px 24px 38px;border:1px solid #8e7950;border-radius:19px;background:linear-gradient(125deg,#27494a,#1b3546 65%,#293b3e);box-shadow:0 20px 45px #0004}
+.arcade-hero:before{content:"";position:absolute;width:250px;height:250px;border:1px dashed #fff5;border-radius:50%;left:-70px;top:-130px;box-shadow:0 0 0 25px #fff1,0 0 0 50px #fff1}
+.arcade-hero:after{content:"";position:absolute;width:210px;height:210px;border:1px dashed #fff4;border-radius:50%;right:-65px;bottom:-145px;box-shadow:0 0 0 24px #fff1}
+.eyebrow{font:8px 'Press Start 2P';letter-spacing:1px;line-height:2;color:var(--gold);position:relative;z-index:1}
+.arcade-hero h1{position:relative;z-index:1;font:900 clamp(39px,7vw,68px)/1 'Outfit';letter-spacing:-.06em;margin:13px 0;color:var(--cream);text-shadow:0 5px 0 #704c2c}.arcade-hero h1 span{color:var(--gold)}
+.arcade-hero p{position:relative;z-index:1;max-width:640px;margin:0 auto;color:#d3dfdc;line-height:1.75;font-size:14px}
+.arcade-stats{position:relative;z-index:1;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:22px}.stat-pill{padding:8px 13px;border:1px solid #ffffff30;border-radius:30px;background:#10253588;color:#ffe4a6;font-size:11px;font-weight:700}
+.arcade-section{padding-top:38px}.section-title{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:17px}.section-title h2{font:700 clamp(24px,4vw,34px) 'Outfit';margin:0;color:var(--cream)}.section-title p{font-size:12px;color:var(--muted);margin:0}
+.quiz-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.quiz-card{position:relative;display:grid;grid-template-columns:86px 1fr;gap:16px;align-items:center;min-height:170px;padding:18px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,#203b49,#142938);box-shadow:0 8px 0 #07131c,0 15px 28px #0003;transition:transform .22s,border-color .22s,box-shadow .22s;overflow:hidden}
+.quiz-card:hover{transform:translateY(-5px);border-color:#e5c071;box-shadow:0 12px 0 #07131c,0 22px 35px #0005}
+.quiz-visual{height:100px;width:86px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,#597c71,#294c52);font-size:45px;position:relative;overflow:hidden;box-shadow:inset 0 0 0 1px #ffffff2b}
+.quiz-visual:after{content:"";position:absolute;width:110px;height:110px;border:1px dashed #fff8;border-radius:50%;animation:spin 22s linear infinite}
+.quiz-card:nth-child(2) .quiz-visual{background:linear-gradient(145deg,#806d4d,#455c5b)}.quiz-card:nth-child(3) .quiz-visual{background:linear-gradient(145deg,#536b87,#30475a)}.quiz-card:nth-child(4) .quiz-visual{background:linear-gradient(145deg,#73618a,#3a4e60)}
+.quiz-copy{min-width:0}.quiz-no{font:8px 'Press Start 2P';color:var(--gold);letter-spacing:.4px}.quiz-copy h3{font:700 20px 'Outfit';color:var(--cream);margin:7px 0}.quiz-copy p{font-size:12px;color:var(--muted);line-height:1.55;margin:0 0 12px}
+.card-actions{display:flex;gap:8px;flex-wrap:wrap}.play-link,.preview-btn{display:inline-flex;align-items:center;justify-content:center;border-radius:7px;padding:8px 11px;font:700 11px 'Outfit';cursor:pointer}.play-link{background:linear-gradient(#ffe39b,#eeb653);color:#302417;box-shadow:0 3px 0 #98652d}.preview-btn{border:1px solid #64777a;background:#1b3542;color:#dce8dc}.preview-btn:hover{border-color:var(--gold);color:var(--gold)}
+.runner-card{display:grid;grid-template-columns:1fr .9fr;gap:25px;align-items:center;padding:clamp(22px,4vw,36px);border:1px solid #b18e4f;border-radius:18px;background:linear-gradient(120deg,#243f43,#142a3a 65%,#293b3c);box-shadow:0 15px 35px #0004}
+.runner-copy h2{font:900 clamp(30px,4.5vw,48px)/.98 'Outfit';letter-spacing:-.05em;color:var(--cream);margin:12px 0}.runner-copy h2 span{color:var(--gold)}.runner-copy p{font-size:13px;line-height:1.75;color:#d1ddda;max-width:490px}
+.runner-visual{height:235px;position:relative;display:grid;place-items:center;overflow:hidden;border-radius:13px;border:1px solid #ffffff35;background:linear-gradient(#79a3aa 0 43%,#d7b879 44% 57%,#4c6d4d 58%);font-size:90px}
+.runner-visual:before{content:"";position:absolute;bottom:-25%;width:76%;height:85%;background:repeating-linear-gradient(90deg,#fff2 0 2px,transparent 2px 30px),#9a4e39;clip-path:polygon(38% 0,62% 0,100% 100%,0 100%)}
+.runner-visual .runner{z-index:1;filter:drop-shadow(0 8px 5px #0008);animation:runbounce .5s infinite alternate}.runner-visual .castle{position:absolute;top:3px;font-size:70px;z-index:1}
+.runner-button{display:inline-flex;margin-top:10px;padding:13px 19px;border-radius:8px;background:linear-gradient(#ffe39b,#eeb653);color:#302417;font-weight:900;box-shadow:0 4px 0 #98652d}
+.runner-features{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:13px}.runner-feature{padding:13px;border:1px solid #435b65;border-radius:10px;background:#172c3a;text-align:center}.runner-feature b{display:block;color:var(--gold);font-size:11px;margin:5px 0}.runner-feature span{font-size:10px;line-height:1.5;color:var(--muted)}
+.modal-backdrop{position:fixed;inset:0;z-index:100;background:#050d15c9;display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(7px)}.modal-backdrop.open{display:flex;animation:fade .2s}.info-modal{width:min(500px,100%);position:relative;border:1px solid #b99a5d;border-radius:18px;background:linear-gradient(145deg,#244351,#122536);padding:27px;box-shadow:0 25px 80px #0009;animation:pop .25s}.modal-close{position:absolute;right:13px;top:12px;border:1px solid #60747a;border-radius:8px;background:#172d3b;color:#fff1d2;width:34px;height:34px;font-size:19px;cursor:pointer}.modal-visual{font-size:60px;text-align:center;padding:8px 0 13px}.info-modal h3{text-align:center;font:700 25px 'Outfit';color:var(--gold);margin:0 0 9px}.info-modal p{text-align:center;color:#d4e0df;font-size:13px;line-height:1.75;margin:0}.modal-tip{margin-top:16px;padding:12px;border-radius:9px;background:#0c1d2a;color:#a9d6b4;text-align:center;font-size:12px}
+.footer{border-color:#334b57;color:#8fa3a7}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes runbounce{to{transform:translateY(-9px)}}@keyframes fade{from{opacity:0}to{opacity:1}}@keyframes pop{from{opacity:0;transform:translateY(15px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:720px){.arcade-main{width:calc(100% - 28px);padding-top:25px}.quiz-grid{grid-template-columns:1fr}.quiz-card{min-height:150px}.runner-card{grid-template-columns:1fr}.runner-visual{order:-1;height:190px}.runner-features{grid-template-columns:1fr}.runner-feature{text-align:left;display:flex;align-items:center;gap:12px}.section-title{display:block}.section-title p{margin-top:6px}}
+@media(max-width:390px){.quiz-card{grid-template-columns:66px 1fr;padding:13px;gap:12px}.quiz-visual{width:66px;height:80px;font-size:36px}.quiz-copy h3{font-size:17px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+</style></head>
+<body><div class="site-bg"></div><nav class="topnav"><a class="brand" href="index.html"><span class="brand-icon">SQ✦</span><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="index.html">Knowledge Guide</a><a href="index.html#lessons">Lessons</a></div></nav>
 <main class="arcade-main">
-<header class="arcade-heading">
-<div class="eyebrow">✦ YOUR TRAINING GROUNDS ✦</div>
-<h1>THE <span>ARCADE</span> ZONE</h1>
-<p>Choose a quiz to sharpen your English skills, or enter the track for one action-packed running challenge. These are the only activities in the Arcade Zone.</p>
-</header>
-<section aria-labelledby="quiz-heading">
-<div class="arcade-section-title"><h2 id="quiz-heading">📚 Quiz Challenges</h2><p>Four ways to test your skills</p></div>
-<div class="quiz-grid">
-<a class="quiz-card" href="missions/training.html"><div class="quiz-icon">🏟️</div><div class="quiz-copy"><div class="tagline">QUIZ 01 · VOCABULARY</div><h3>Training Grounds</h3><p>Match each sport with the equipment used to play it.</p></div><span class="quiz-enter">↗</span></a>
-<a class="quiz-card" href="missions/announcement.html"><div class="quiz-icon">📯</div><div class="quiz-copy"><div class="tagline">QUIZ 02 · LISTENING</div><h3>Announcement Hall</h3><p>Listen to a Sports Day announcement and answer the questions.</p></div><span class="quiz-enter">↗</span></a>
-<a class="quiz-card" href="missions/library.html"><div class="quiz-icon">📚</div><div class="quiz-copy"><div class="tagline">QUIZ 03 · READING</div><h3>Knowledge Library</h3><p>Read a short passage and answer the comprehension questions.</p></div><span class="quiz-enter">↗</span></a>
-<a class="quiz-card" href="missions/strategy.html"><div class="quiz-icon">🛡️</div><div class="quiz-copy"><div class="tagline">QUIZ 04 · TEAMWORK</div><h3>Strategy Camp</h3><p>Choose the best responses in different team situations.</p></div><span class="quiz-enter">↗</span></a>
-</div>
-</section>
-<section aria-labelledby="runner-heading">
-<div class="arcade-section-title"><h2 id="runner-heading">🏃 The Main Game</h2><p>One game. One champion.</p></div>
-<div class="runner-card">
-<div class="runner-copy">
-<div class="eyebrow">✦ ARCADE GAME · SPORTS ACTION ✦</div>
-<h2>SPORTS KINGDOM <span>RUNNER</span></h2>
-<p>Dash through the Kingdom of Champions. Switch lanes, leap over hurdles, collect golden stars and prove your sports knowledge at the Wisdom Gates.</p>
-<a class="runner-launch" href="arcade/sports-kingdom-runner.html">▶ START YOUR RUN</a>
-</div>
-<div class="runner-art" aria-label="Illustration of a runner racing towards a castle"><div class="castle">🏰</div><div class="star s1">✦</div><div class="star s2">✧</div><div class="runner">🏃🏻</div></div>
-</div>
-<div class="runner-features">
-<div class="runner-feature"><div>🏃</div><div><strong>Three-Lane Action</strong><span>Move left and right, then jump to dodge obstacles.</span></div></div>
-<div class="runner-feature"><div>⭐</div><div><strong>Collect & Progress</strong><span>Earn points and XP while chasing your high score.</span></div></div>
-<div class="runner-feature"><div>📖</div><div><strong>Wisdom Gates</strong><span>Answer sports vocabulary questions during your run.</span></div></div>
-</div>
-</section>
-</main>
-<footer class="footer"><span>© SPORTS QUEST · KINGDOM OF CHAMPIONS</span><span>QUIZ ✦ RUN ✦ LEARN</span></footer>
-</body>
-</html>
+<header class="arcade-hero"><div class="eyebrow">✦ THE TRAINING GROUNDS AWAIT ✦</div><h1>THE <span>ARCADE</span> ZONE</h1><p>Put your sports knowledge into action! Choose a quiz to practise your English skills, preview what each challenge is about, or enter the track for the ultimate running challenge.</p><div class="arcade-stats"><span class="stat-pill">📚 4 QUIZ CHALLENGES</span><span class="stat-pill">🏃 1 ACTION GAME</span><span class="stat-pill">⭐ EARN XP</span></div></header>
+<section class="arcade-section"><div class="section-title"><h2>📚 Quiz Challenges</h2><p>Choose a challenge · Preview before you play</p></div><div class="quiz-grid">
+<article class="quiz-card"><div class="quiz-visual">🏟️</div><div class="quiz-copy"><div class="quiz-no">QUIZ 01 · VOCABULARY</div><h3>Training Grounds</h3><p>Match sports with the equipment used to play them.</p><div class="card-actions"><a class="play-link" href="missions/training.html">Play quiz ↗</a><button class="preview-btn" data-title="Training Grounds" data-visual="⚽ 🏸 🎾" data-info="Explore sports vocabulary by matching each sport with the correct equipment. Think about what players need for football, badminton, basketball and other activities." data-tip="Skill focus: sports vocabulary and equipment.">Preview quiz</button></div></div></article>
+<article class="quiz-card"><div class="quiz-visual">📯</div><div class="quiz-copy"><div class="quiz-no">QUIZ 02 · LISTENING</div><h3>Announcement Hall</h3><p>Listen to a Sports Day announcement and find key details.</p><div class="card-actions"><a class="play-link" href="missions/announcement.html">Play quiz ↗</a><button class="preview-btn" data-title="Announcement Hall" data-visual="📣 🗓️ 🏟️" data-info="Listen carefully to a Sports Day announcement. Identify the event, date, time, venue and what participants should bring." data-tip="Skill focus: listening for specific information.">Preview quiz</button></div></div></article>
+<article class="quiz-card"><div class="quiz-visual">📚</div><div class="quiz-copy"><div class="quiz-no">QUIZ 03 · READING</div><h3>Knowledge Library</h3><p>Read a short sports passage and answer comprehension questions.</p><div class="card-actions"><a class="play-link" href="missions/library.html">Play quiz ↗</a><button class="preview-btn" data-title="Knowledge Library" data-visual="📖 🔎 🏅" data-info="Read a passage about sports and look for important information. Use clues in the text to understand details and answer questions." data-tip="Skill focus: reading comprehension.">Preview quiz</button></div></div></article>
+<article class="quiz-card"><div class="quiz-visual">🛡️</div><div class="quiz-copy"><div class="quiz-no">QUIZ 04 · TEAMWORK</div><h3>Strategy Camp</h3><p>Choose helpful and respectful responses in team situations.</p><div class="card-actions"><a class="play-link" href="missions/strategy.html">Play quiz ↗</a><button class="preview-btn" data-title="Strategy Camp" data-visual="🤝 🏆 💬" data-info="Think about how teammates communicate, encourage one another, take turns and show good sportsmanship. Choose the most helpful response in each situation." data-tip="Skill focus: teamwork and supportive language.">Preview quiz</button></div></div></article>
+</div></section>
+<section class="arcade-section"><div class="section-title"><h2>🏃 The Main Game</h2><p>One track. One champion.</p></div><div class="runner-card"><div class="runner-copy"><div class="eyebrow">✦ ARCADE GAME · SPORTS ACTION ✦</div><h2>SPORTS KINGDOM <span>RUNNER</span></h2><p>Dash through the Kingdom of Champions! Switch lanes, leap over hurdles, collect golden stars and test your sports knowledge at the Wisdom Gates.</p><a class="runner-button" href="arcade/sports-kingdom-runner.html">▶ START YOUR RUN</a></div><div class="runner-visual" aria-label="Runner heading towards a castle"><div class="castle">🏰</div><div class="runner">🏃🏻</div></div></div><div class="runner-features"><div class="runner-feature">🏃<div><b>Three-Lane Action</b><span>Switch lanes and jump over obstacles.</span></div></div><div class="runner-feature">⭐<div><b>Collect & Progress</b><span>Earn points and chase your high score.</span></div></div><div class="runner-feature">📖<div><b>Wisdom Gates</b><span>Answer sports vocabulary questions.</span></div></div></div></section>
+</main><footer class="footer"><span>© SPORTS QUEST · KINGDOM OF CHAMPIONS</span><span>QUIZ ✦ RUN ✦ LEARN</span></footer>
+<div class="modal-backdrop" id="info-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="info-modal"><button class="modal-close" aria-label="Close dialog" id="modal-close">×</button><div class="modal-visual" id="modal-visual">⭐</div><h3 id="modal-title">Quiz preview</h3><p id="modal-info"></p><div class="modal-tip" id="modal-tip"></div></div></div>
+<script>
+(()=>{const modal=document.getElementById('info-modal');const title=document.getElementById('modal-title');const visual=document.getElementById('modal-visual');const info=document.getElementById('modal-info');const tip=document.getElementById('modal-tip');function open(button){title.textContent=button.dataset.title;visual.textContent=button.dataset.visual;info.textContent=button.dataset.info;tip.textContent=button.dataset.tip;modal.classList.add('open');document.body.style.overflow='hidden';document.getElementById('modal-close').focus()}function close(){modal.classList.remove('open');document.body.style.overflow=''}document.querySelectorAll('.preview-btn').forEach(button=>button.addEventListener('click',()=>open(button)));document.getElementById('modal-close').addEventListener('click',close);modal.addEventListener('click',event=>{if(event.target===modal)close()});document.addEventListener('keydown',event=>{if(event.key==='Escape')close()})})();
+</script></body></html>
