@@ -44,9 +44,9 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 .hero-mascot{
   position:absolute;
   z-index:4;
-  left:25%;
-  bottom:28px;
-  width:clamp(88px,10vw,112px);
+  left:12px;
+  bottom:18px;
+  width:clamp(132px,15vw,174px);
   aspect-ratio:1 / 1;
   transform:translateX(-50%);
   background-image:url("assets/images/characters/hero-idle.png");
@@ -80,29 +80,41 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
   95%,100%{background-position:100% 100%}
 }
 @media(max-width:760px){
-  .hero-mascot{width:82px;left:22%;bottom:22px}
+  .hero-mascot{width:92px;left:8px;bottom:12px}
 }
 
 
-/* Small character cameos guide learners through each kingdom section */
-.section-head::after{
-  content:"";
-  display:block;
-  flex:0 0 72px;
-  width:72px;
-  height:88px;
-  background:url("assets/images/characters/hero-base.png") center bottom / contain no-repeat;
-  image-rendering:pixelated;
-  filter:drop-shadow(0 5px 3px #07131c88);
-  align-self:flex-end;
-  margin-left:4px;
+/* Large, clickable hero guides in each learning section */
+.section-head{position:relative;align-items:center;padding-right:12px}
+.hero-guide{
+  flex:0 0 112px;width:112px;height:132px;margin-left:8px;padding:0;
+  display:flex;align-items:flex-end;justify-content:center;
+  border:0;background:transparent;cursor:pointer;position:relative;
+  -webkit-tap-highlight-color:transparent;
 }
-.content-section:nth-of-type(1) .section-head::after{transform:scaleX(-1) rotate(-4deg)}
-.content-section:nth-of-type(2) .section-head::after{transform:rotate(5deg)}
-.content-section:nth-of-type(3) .section-head::after{transform:scaleX(-1) rotate(3deg)}
+.hero-guide img{
+  display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;
+  image-rendering:pixelated;filter:drop-shadow(0 7px 4px #07131c99);
+  transform-origin:50% 90%;transition:filter .2s;
+}
+.hero-guide:hover img{filter:drop-shadow(0 9px 5px #ffd47788)}
+.content-section:nth-of-type(1) .hero-guide img{transform:scaleX(-1) rotate(-5deg)}
+.content-section:nth-of-type(2) .hero-guide img{transform:rotate(4deg)}
+.content-section:nth-of-type(3) .hero-guide img{transform:scaleX(-1) rotate(7deg)}
+.hero-guide.is-moving img{animation:guide-hop .72s cubic-bezier(.2,.8,.3,1)}
+@keyframes guide-hop{
+  0%{translate:0 0;rotate:0deg}
+  28%{translate:0 -28px;rotate:-9deg}
+  52%{translate:16px -12px;rotate:8deg}
+  76%{translate:7px -4px;rotate:-3deg}
+  100%{translate:0 0;rotate:0deg}
+}
+.hero-guide:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:12px}
 @media(max-width:760px){
-  .section-head::after{flex-basis:54px;width:54px;height:70px;margin-left:auto}
+  .section-head{padding-right:0}
+  .hero-guide{flex-basis:86px;width:86px;height:104px;margin-left:4px}
 }
+@media(max-width:390px){.hero-guide{flex-basis:70px;width:70px;height:88px}}
 
 </style></head>
 <body><div class="site-bg"></div>
@@ -111,7 +123,7 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 <header class="page-shell hero"><div class="hero-copy"><div class="kicker">✦ YEAR 5 ENGLISH · UNIT 6: SPORT ✦</div><h1>ENTER THE<br><span>SPORTS KINGDOM.</span></h1><p>Every champion starts with knowledge. Explore different sports, discover the equipment, learn the action words and build your teamwork skills. Tap the interactive cards to reveal examples and fun facts.</p><div class="hero-actions"><a class="btn btn-primary" href="#lessons">Explore the lessons ↓</a><a class="btn btn-dark" href="arcade.html?v=5.2">🕹️ Enter Arcade Zone</a></div><div class="hero-note">DISCOVER · PRACTISE · PLAY LIKE A CHAMPION</div></div>
 <div class="hero-scene"><div class="scene-sun"></div><div class="scene-castle">🏰</div><div class="hero-mascot" role="img" aria-label="Sports Quest hero character"></div><div class="scene-sports"><span>⚽</span><span>🏀</span><span>🏸</span><span>🏆</span></div><div class="scene-label">WELCOME TO THE KINGDOM OF CHAMPIONS</div></div></header>
 <div class="page-shell" id="lessons">
-<section class="content-section"><div class="section-head"><div><div class="kicker">01 · KNOW YOUR SPORTS</div><h2>Explore the training grounds</h2></div><p>Choose a lesson to discover its key ideas. Each lesson includes examples to help you prepare for the Arcade quizzes.</p></div>
+<section class="content-section"><div class="section-head"><div><div class="kicker">01 · KNOW YOUR SPORTS</div><h2>Explore the training grounds</h2></div><p>Choose a lesson to discover its key ideas. Each lesson includes examples to help you prepare for the Arcade quizzes.</p></div><button class="hero-guide" type="button" aria-label="Make the Sports Quest hero move" title="Tap me!"><img src="assets/images/characters/hero-base.png" alt=""></button>
 <div class="lesson-grid">
 <article class="lesson-card"><div class="lesson-visual"><span class="visual-tag">LESSON 01</span><span class="big">⚽</span><span class="big">🏀</span><span class="big">🏸</span></div><div class="lesson-content"><div class="lesson-index">SPORTS CATEGORIES</div><h3>Different Types of Sports</h3><p>Some sports are played in teams, while others are played individually. Sports can also use different skills and equipment.</p><div class="chip-row"><span class="chip">Team sports</span><span class="chip">Individual sports</span><span class="chip">Racket sports</span></div><button class="learn-btn" data-title="Types of Sports" data-visual="⚽ 🏀 🏸" data-info="Team sports include football, basketball, volleyball and netball. Individual sports include swimming, gymnastics and cycling. Racket sports include badminton and tennis. Athletics includes running, jumping and throwing events." data-tip="Think about it: Is football a team sport or an individual sport?">Explore examples <span>↗</span></button></div></article>
 <article class="lesson-card"><div class="lesson-visual" style="background:linear-gradient(135deg,#79694b,#385b56)"><span class="visual-tag">LESSON 02</span><span class="big">🎾</span><span class="big">🏸</span><span class="big">🪖</span></div><div class="lesson-content"><div class="lesson-index">GEAR UP</div><h3>Sports Equipment</h3><p>Equipment means the items or gear used in a sport. Some help us play, while others protect us from injury.</p><div class="chip-row"><span class="chip">Racket</span><span class="chip">Shuttlecock</span><span class="chip">Helmet</span></div><button class="learn-btn" data-title="Sports Equipment" data-visual="🏸 🎾 🥅" data-info="Badminton uses a racket and shuttlecock. Football uses a ball and goalposts. Basketball uses a ball and hoop. Cyclists wear helmets for protection, while swimmers may use goggles." data-tip="Quick challenge: Which item protects a cyclist's head?">See equipment guide <span>↗</span></button></div></article>
@@ -119,7 +131,7 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 <article class="lesson-card"><div class="lesson-visual" style="background:linear-gradient(135deg,#7c604a,#385b55)"><span class="visual-tag">LESSON 04</span><span class="big">📣</span><span class="big">📅</span><span class="big">🏟️</span></div><div class="lesson-content"><div class="lesson-index">EVENT PLANNING</div><h3>Understanding Sports Events</h3><p>Sports events need planning. Announcements tell us when and where an event happens and what participants need.</p><div class="chip-row"><span class="chip">Date & time</span><span class="chip">Venue</span><span class="chip">Participants</span></div><button class="learn-btn" data-title="Sports Event Details" data-visual="📣 🗓️ 🏟️" data-info="When you read or listen to an event announcement, look for: the event name, date, starting time, venue, who can participate, what to bring and any important rules." data-tip="Example: Sports Day · Friday · 8.00 a.m. · School field.">Open event checklist <span>↗</span></button></div></article>
 </div>
 <aside class="sportsmanship"><div class="icon">🤝</div><div><h3>Champion Mindset: Teamwork & Fair Play</h3><p>Respect teammates and opponents, follow the rules, take turns and encourage others. A true champion plays fairly and accepts both winning and losing with a positive attitude.</p></div></aside></section>
-<section class="content-section"><div class="section-head"><div><div class="kicker">02 · VOCABULARY POWER-UP</div><h2>Words worth knowing</h2></div><p>Tap “Show example” to reveal each word in a sentence. These words may appear in the reading, listening and teamwork quizzes.</p></div>
+<section class="content-section"><div class="section-head"><div><div class="kicker">02 · VOCABULARY POWER-UP</div><h2>Words worth knowing</h2></div><p>Tap “Show example” to reveal each word in a sentence. These words may appear in the reading, listening and teamwork quizzes.</p></div><button class="hero-guide" type="button" aria-label="Make the Sports Quest hero move" title="Tap me!"><img src="assets/images/characters/hero-base.png" alt=""></button>
 <div class="vocab-grid">
 <div class="vocab-card"><strong>Opponent</strong><p>A person or team you compete against.</p><button data-title="Opponent" data-visual="🥊" data-info="An opponent is the person or team you compete against." data-tip="Example: We respect our opponents after the match.">Show example +</button></div>
 <div class="vocab-card"><strong>Teammate</strong><p>A person who plays on your team.</p><button data-title="Teammate" data-visual="🤝" data-info="A teammate is someone who belongs to the same team as you." data-tip="Example: I pass the ball to my teammate.">Show example +</button></div>
@@ -128,10 +140,19 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 <div class="vocab-card"><strong>Venue</strong><p>The place where an event happens.</p><button data-title="Venue" data-visual="🏟️" data-info="A venue is the place where an event or activity takes place." data-tip="Example: The Sports Day venue is the school field.">Show example +</button></div>
 <div class="vocab-card"><strong>Training</strong><p>Practice to improve a skill or performance.</p><button data-title="Training" data-visual="🏋️" data-info="Training is practice that helps a player become better or stronger." data-tip="Example: Our team has football training every Tuesday.">Show example +</button></div>
 </div></section>
-<section class="content-section"><div class="section-head"><div><div class="kicker">03 · YOUR QUEST ROUTE</div><h2>Learn it. Try it. Play it.</h2></div><p>Use the knowledge guide first, then challenge yourself with the activities.</p></div><div class="path"><div class="path-step"><div class="path-num">1</div><div><strong>LEARN</strong><span>Explore the sports guide.</span></div></div><div class="path-step"><div class="path-num">2</div><div><strong>TEST YOUR SKILLS</strong><span>Choose a quiz in the Arcade Zone.</span></div></div><div class="path-step"><div class="path-num">3</div><div><strong>TAKE THE RUN</strong><span>Play Sports Kingdom Runner.</span></div></div></div></section>
+<section class="content-section"><div class="section-head"><div><div class="kicker">03 · YOUR QUEST ROUTE</div><h2>Learn it. Try it. Play it.</h2></div><p>Use the knowledge guide first, then challenge yourself with the activities.</p></div><button class="hero-guide" type="button" aria-label="Make the Sports Quest hero move" title="Tap me!"><img src="assets/images/characters/hero-base.png" alt=""></button><div class="path"><div class="path-step"><div class="path-num">1</div><div><strong>LEARN</strong><span>Explore the sports guide.</span></div></div><div class="path-step"><div class="path-num">2</div><div><strong>TEST YOUR SKILLS</strong><span>Choose a quiz in the Arcade Zone.</span></div></div><div class="path-step"><div class="path-num">3</div><div><strong>TAKE THE RUN</strong><span>Play Sports Kingdom Runner.</span></div></div></div></section>
 <section class="cta"><h2>Your next challenge awaits!</h2><p>Ready to put your sports knowledge into action? Choose a quiz or take on the Sports Kingdom Runner.</p><a class="btn btn-primary" href="arcade.html?v=5.2">🕹️ ENTER THE ARCADE ZONE →</a></section></div></main>
 <footer class="footer"><span>© SPORTS QUEST · KINGDOM OF CHAMPIONS</span><span>LEARN ✦ PLAY FAIR ✦ BE A CHAMPION</span></footer>
 <div class="modal-backdrop" id="info-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="info-modal"><button class="modal-close" aria-label="Close dialog" id="modal-close">×</button><div class="modal-visual" id="modal-visual">⚽</div><h3 id="modal-title">Explore</h3><p id="modal-info"></p><div class="modal-tip" id="modal-tip"></div></div></div>
 <script>
 (()=>{const modal=document.getElementById('info-modal');const title=document.getElementById('modal-title');const visual=document.getElementById('modal-visual');const info=document.getElementById('modal-info');const tip=document.getElementById('modal-tip');function open(button){title.textContent=button.dataset.title||'Did you know?';visual.textContent=button.dataset.visual||'⭐';info.textContent=button.dataset.info||'';tip.textContent=button.dataset.tip||'';modal.classList.add('open');document.body.style.overflow='hidden';document.getElementById('modal-close').focus()}function close(){modal.classList.remove('open');document.body.style.overflow=''}document.querySelectorAll('[data-title]').forEach(button=>button.addEventListener('click',()=>open(button)));document.getElementById('modal-close').addEventListener('click',close);modal.addEventListener('click',event=>{if(event.target===modal)close()});document.addEventListener('keydown',event=>{if(event.key==='Escape')close()})})();
+</script><script>
+document.querySelectorAll('.hero-guide').forEach((hero)=>{
+  hero.addEventListener('click',()=>{
+    hero.classList.remove('is-moving');
+    void hero.offsetWidth;
+    hero.classList.add('is-moving');
+  });
+  hero.addEventListener('animationend',()=>hero.classList.remove('is-moving'));
+});
 </script></body></html>
