@@ -39,12 +39,56 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 @media(max-width:390px){.vocab-grid{grid-template-columns:1fr}.lesson-content{padding:18px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
 .brand-logo{width:62px;height:62px;object-fit:contain;flex:0 0 auto;filter:drop-shadow(0 3px 2px #0005)}.brand{gap:9px}.brand span{line-height:1.1}@media(max-width:560px){.brand-logo{width:49px;height:49px}.brand{gap:7px}.brand small{font-size:6px}}
+
+/* SPORTS QUEST hero character: 20-frame idle sprite sheet (5 columns x 4 rows) */
+.hero-mascot{
+  position:absolute;
+  z-index:4;
+  left:50%;
+  bottom:22px;
+  width:clamp(92px,12vw,132px);
+  aspect-ratio:1 / 1;
+  transform:translateX(-50%);
+  background-image:url("assets/images/characters/hero-idle.png");
+  background-repeat:no-repeat;
+  background-size:500% 400%;
+  image-rendering:pixelated;
+  pointer-events:none;
+  filter:drop-shadow(0 7px 3px #101b25aa);
+  animation:hero-idle-frames 2s steps(1,end) infinite;
+}
+@keyframes hero-idle-frames{
+  0%{background-position:0% 0%}
+  5%{background-position:25% 0%}
+  10%{background-position:50% 0%}
+  15%{background-position:75% 0%}
+  20%{background-position:100% 0%}
+  25%{background-position:0% 33.3333%}
+  30%{background-position:25% 33.3333%}
+  35%{background-position:50% 33.3333%}
+  40%{background-position:75% 33.3333%}
+  45%{background-position:100% 33.3333%}
+  50%{background-position:0% 66.6667%}
+  55%{background-position:25% 66.6667%}
+  60%{background-position:50% 66.6667%}
+  65%{background-position:75% 66.6667%}
+  70%{background-position:100% 66.6667%}
+  75%{background-position:0% 100%}
+  80%{background-position:25% 100%}
+  85%{background-position:50% 100%}
+  90%{background-position:75% 100%}
+  95%,100%{background-position:100% 100%}
+}
+@media(max-width:760px){
+  .hero-mascot{width:96px;bottom:15px}
+}
+
 </style></head>
 <body><div class="site-bg"></div>
 <nav class="topnav"><a class="brand" href="index.html" aria-label="Sports Quest home"><img class="brand-logo" src="assets/images/sports-quest-logo-transparent.png" alt="Sports Quest: Kingdom of Champions"><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="#lessons">Sports Guide</a><a href="arcade.html?v=5.2">Arcade Zone</a><a class="nav-cta" href="arcade.html?v=5.2">Start learning ↗</a></div></nav>
 <main>
 <header class="page-shell hero"><div class="hero-copy"><div class="kicker">✦ YEAR 5 ENGLISH · UNIT 6: SPORT ✦</div><h1>ENTER THE<br><span>SPORTS KINGDOM.</span></h1><p>Every champion starts with knowledge. Explore different sports, discover the equipment, learn the action words and build your teamwork skills. Tap the interactive cards to reveal examples and fun facts.</p><div class="hero-actions"><a class="btn btn-primary" href="#lessons">Explore the lessons ↓</a><a class="btn btn-dark" href="arcade.html?v=5.2">🕹️ Enter Arcade Zone</a></div><div class="hero-note">DISCOVER · PRACTISE · PLAY LIKE A CHAMPION</div></div>
-<div class="hero-scene"><div class="scene-sun"></div><div class="scene-castle">🏰</div><div class="scene-sports"><span>⚽</span><span>🏀</span><span>🏸</span><span>🏆</span></div><div class="scene-label">WELCOME TO THE KINGDOM OF CHAMPIONS</div></div></header>
+<div class="hero-scene"><div class="scene-sun"></div><div class="scene-castle">🏰</div><div class="hero-mascot" role="img" aria-label="Sports Quest hero character"></div><div class="scene-sports"><span>⚽</span><span>🏀</span><span>🏸</span><span>🏆</span></div><div class="scene-label">WELCOME TO THE KINGDOM OF CHAMPIONS</div></div></header>
 <div class="page-shell" id="lessons">
 <section class="content-section"><div class="section-head"><div><div class="kicker">01 · KNOW YOUR SPORTS</div><h2>Explore the training grounds</h2></div><p>Choose a lesson to discover its key ideas. Each lesson includes examples to help you prepare for the Arcade quizzes.</p></div>
 <div class="lesson-grid">
