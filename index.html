@@ -45,7 +45,8 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
   position:absolute;
   z-index:4;
   left:12px;
-  bottom:18px;
+  top:12px;
+  bottom:auto;
   width:clamp(132px,15vw,174px);
   aspect-ratio:1 / 1;
   transform:translateX(-50%);
@@ -80,42 +81,53 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
   95%,100%{background-position:100% 100%}
 }
 @media(max-width:760px){
-  .hero-mascot{width:92px;left:8px;bottom:12px}
+  .hero-mascot{width:92px;left:8px;top:8px;bottom:auto}
 }
 
 
-/* Large, clickable hero guides in each learning section */
+/* Clickable section heroes use the full 20-frame idle sprite sheet */
 .section-head{position:relative;align-items:center;padding-right:12px}
 .hero-guide{
-  flex:0 0 112px;width:112px;height:132px;margin-left:8px;padding:0;
+  flex:0 0 116px;width:116px;height:138px;margin-left:8px;padding:0;
   display:flex;align-items:flex-end;justify-content:center;
-  border:0;background:transparent;cursor:pointer;position:relative;
-  -webkit-tap-highlight-color:transparent;
+  border:0;background:transparent;cursor:pointer;position:relative;z-index:3;
+  -webkit-tap-highlight-color:transparent;transform-origin:50% 90%;
 }
-.hero-guide img{
-  display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;
-  image-rendering:pixelated;filter:drop-shadow(0 7px 4px #07131c99);
-  transform-origin:50% 90%;transition:filter .2s;
+.hero-guide .hero-guide-sprite{
+  display:block;width:100%;height:100%;
+  background-image:url("assets/images/characters/hero-idle.png");
+  background-repeat:no-repeat;background-size:500% 400%;
+  image-rendering:pixelated;
+  filter:drop-shadow(0 7px 4px #07131c99);
+  animation:hero-idle-frames 6s steps(1,end) infinite;
 }
-.hero-guide:hover img{filter:drop-shadow(0 9px 5px #ffd47788)}
-.content-section:nth-of-type(1) .hero-guide img{transform:scaleX(-1) rotate(-5deg)}
-.content-section:nth-of-type(2) .hero-guide img{transform:rotate(4deg)}
-.content-section:nth-of-type(3) .hero-guide img{transform:scaleX(-1) rotate(7deg)}
-.hero-guide.is-moving img{animation:guide-hop .72s cubic-bezier(.2,.8,.3,1)}
-@keyframes guide-hop{
-  0%{translate:0 0;rotate:0deg}
-  28%{translate:0 -28px;rotate:-9deg}
-  52%{translate:16px -12px;rotate:8deg}
-  76%{translate:7px -4px;rotate:-3deg}
-  100%{translate:0 0;rotate:0deg}
+.content-section:nth-of-type(1) .hero-guide-sprite{transform:scaleX(-1)}
+.content-section:nth-of-type(2) .hero-guide-sprite{transform:rotate(3deg)}
+.content-section:nth-of-type(3) .hero-guide-sprite{transform:scaleX(-1) rotate(-3deg)}
+.hero-guide:hover .hero-guide-sprite{filter:drop-shadow(0 9px 5px #ffd47799)}
+.hero-guide.is-moving{animation:hero-run-across 1.9s cubic-bezier(.4,0,.2,1)}
+@keyframes hero-run-across{
+  0%{transform:translateX(0) translateY(0)}
+  17%{transform:translateX(-12vw) translateY(-27px)}
+  36%{transform:translateX(-34vw) translateY(0)}
+  55%{transform:translateX(calc(-1 * (100vw - 145px))) translateY(-12px)}
+  73%{transform:translateX(-34vw) translateY(-28px)}
+  88%{transform:translateX(-12vw) translateY(0)}
+  100%{transform:translateX(0) translateY(0)}
 }
 .hero-guide:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:12px}
 @media(max-width:760px){
   .section-head{padding-right:0}
-  .hero-guide{flex-basis:86px;width:86px;height:104px;margin-left:4px}
+  .hero-guide{flex-basis:88px;width:88px;height:108px;margin-left:4px}
+  @keyframes hero-run-across{
+    0%{transform:translateX(0) translateY(0)}
+    20%{transform:translateX(-10vw) translateY(-22px)}
+    48%{transform:translateX(calc(-1 * (100vw - 112px))) translateY(0)}
+    72%{transform:translateX(-10vw) translateY(-24px)}
+    100%{transform:translateX(0) translateY(0)}
+  }
 }
-@media(max-width:390px){.hero-guide{flex-basis:70px;width:70px;height:88px}}
-
+@media(max-width:390px){.hero-guide{flex-basis:72px;width:72px;height:90px}}
 </style></head>
 <body><div class="site-bg"></div>
 <nav class="topnav"><a class="brand" href="index.html" aria-label="Sports Quest home"><img class="brand-logo" src="assets/images/sports-quest-logo-transparent.png" alt="Sports Quest: Kingdom of Champions"><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="#lessons">Sports Guide</a><a href="arcade.html?v=5.2">Arcade Zone</a><a class="nav-cta" href="arcade.html?v=5.2">Start learning ↗</a></div></nav>
@@ -123,7 +135,7 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 <header class="page-shell hero"><div class="hero-copy"><div class="kicker">✦ YEAR 5 ENGLISH · UNIT 6: SPORT ✦</div><h1>ENTER THE<br><span>SPORTS KINGDOM.</span></h1><p>Every champion starts with knowledge. Explore different sports, discover the equipment, learn the action words and build your teamwork skills. Tap the interactive cards to reveal examples and fun facts.</p><div class="hero-actions"><a class="btn btn-primary" href="#lessons">Explore the lessons ↓</a><a class="btn btn-dark" href="arcade.html?v=5.2">🕹️ Enter Arcade Zone</a></div><div class="hero-note">DISCOVER · PRACTISE · PLAY LIKE A CHAMPION</div></div>
 <div class="hero-scene"><div class="scene-sun"></div><div class="scene-castle">🏰</div><div class="hero-mascot" role="img" aria-label="Sports Quest hero character"></div><div class="scene-sports"><span>⚽</span><span>🏀</span><span>🏸</span><span>🏆</span></div><div class="scene-label">WELCOME TO THE KINGDOM OF CHAMPIONS</div></div></header>
 <div class="page-shell" id="lessons">
-<section class="content-section"><div class="section-head"><div><div class="kicker">01 · KNOW YOUR SPORTS</div><h2>Explore the training grounds</h2></div><p>Choose a lesson to discover its key ideas. Each lesson includes examples to help you prepare for the Arcade quizzes.</p></div><button class="hero-guide" type="button" aria-label="Make the Sports Quest hero move" title="Tap me!"><img src="assets/images/characters/hero-base.png" alt=""></button>
+<section class="content-section"><div class="section-head"><div><div class="kicker">01 · KNOW YOUR SPORTS</div><h2>Explore the training grounds</h2></div><p>Choose a lesson to discover its key ideas. Each lesson includes examples to help you prepare for the Arcade quizzes.</p></div><button class="hero-guide" type="button" aria-label="Make the Sports Quest hero run across the section and return" title="Tap me!"><span class="hero-guide-sprite" aria-hidden="true"></span></button>
 <div class="lesson-grid">
 <article class="lesson-card"><div class="lesson-visual"><span class="visual-tag">LESSON 01</span><span class="big">⚽</span><span class="big">🏀</span><span class="big">🏸</span></div><div class="lesson-content"><div class="lesson-index">SPORTS CATEGORIES</div><h3>Different Types of Sports</h3><p>Some sports are played in teams, while others are played individually. Sports can also use different skills and equipment.</p><div class="chip-row"><span class="chip">Team sports</span><span class="chip">Individual sports</span><span class="chip">Racket sports</span></div><button class="learn-btn" data-title="Types of Sports" data-visual="⚽ 🏀 🏸" data-info="Team sports include football, basketball, volleyball and netball. Individual sports include swimming, gymnastics and cycling. Racket sports include badminton and tennis. Athletics includes running, jumping and throwing events." data-tip="Think about it: Is football a team sport or an individual sport?">Explore examples <span>↗</span></button></div></article>
 <article class="lesson-card"><div class="lesson-visual" style="background:linear-gradient(135deg,#79694b,#385b56)"><span class="visual-tag">LESSON 02</span><span class="big">🎾</span><span class="big">🏸</span><span class="big">🪖</span></div><div class="lesson-content"><div class="lesson-index">GEAR UP</div><h3>Sports Equipment</h3><p>Equipment means the items or gear used in a sport. Some help us play, while others protect us from injury.</p><div class="chip-row"><span class="chip">Racket</span><span class="chip">Shuttlecock</span><span class="chip">Helmet</span></div><button class="learn-btn" data-title="Sports Equipment" data-visual="🏸 🎾 🥅" data-info="Badminton uses a racket and shuttlecock. Football uses a ball and goalposts. Basketball uses a ball and hoop. Cyclists wear helmets for protection, while swimmers may use goggles." data-tip="Quick challenge: Which item protects a cyclist's head?">See equipment guide <span>↗</span></button></div></article>
