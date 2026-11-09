@@ -115,6 +115,14 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 .hero-title-row h1.title-animated{animation:titleBreathe 2.8s ease-in-out infinite;transform-origin:left center;will-change:transform}
 @keyframes titleBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
 @media(prefers-reduced-motion:reduce){.hero-title-row h1.title-animated{animation:none;transform:none}}
+.info-modal{width:min(560px,100%);max-height:min(86vh,760px);overflow:auto;padding:clamp(20px,4vw,32px);background:radial-gradient(ellipse at 50% 0,#31596a 0%,#1a3547 48%,#102536 100%);border:1px solid #d2ad62;box-shadow:0 24px 80px #000b,0 0 0 4px #d7b56e12}
+.modal-topline{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-right:38px;color:#9fc9c4;font:800 9px "Space Grotesk";letter-spacing:.13em}.modal-level{padding:6px 9px;border:1px solid #9b874e;border-radius:20px;color:#ffdc8b;background:#473d2b;white-space:nowrap}
+.modal-visual{font-size:58px;text-align:center;padding:10px 0 5px;animation:modalIconIn .55s cubic-bezier(.2,.8,.2,1) both}.info-modal h3{font-size:clamp(24px,5vw,30px);margin:0 0 12px;line-height:1.15}.modal-divider{height:1px;background:linear-gradient(90deg,transparent,#a88d57,transparent);margin:0 0 16px}
+.modal-info{display:grid;gap:9px;text-align:left}.modal-info p{margin:0;padding:10px 13px;border-left:3px solid #58c6bd;border-radius:0 9px 9px 0;background:#0c2130;color:#edf4f0;text-align:left;font-size:clamp(13px,2.5vw,15px);line-height:1.65;opacity:0;animation:modalTextIn .45s ease forwards}.key-word{display:inline-block;color:#ffdc83;font-weight:800;background:#6e552333;border-bottom:1px solid #e6bd68;padding:0 2px;border-radius:3px}
+.modal-tip{display:grid;gap:7px;margin-top:16px;padding:13px 15px;border:1px solid #4e9c83;border-radius:11px;background:linear-gradient(100deg,#153f3d,#173b49);color:#f2f8ee;text-align:left;font-size:13px;line-height:1.55}.tip-label{color:#8fe0b7;font:800 9px "Space Grotesk";letter-spacing:.13em}.tip-copy{font-weight:600}
+@keyframes modalTextIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes modalIconIn{from{opacity:0;transform:translateY(10px) scale(.8)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:560px){.modal-backdrop{padding:12px}.info-modal{padding:21px 17px;border-radius:15px}.modal-visual{font-size:50px}.modal-info p{padding:9px 11px}}
+@media(prefers-reduced-motion:reduce){.modal-visual,.modal-info p{animation:none;opacity:1;transform:none}}
 </style></head>
 <body><div class="site-bg"></div>
 <nav class="topnav"><a class="brand" href="index.html" aria-label="Sports Quest home"><img class="brand-logo" src="assets/images/sports-quest-logo-transparent.png" alt="Sports Quest: Kingdom of Champions"><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="#lessons">Sports Guide</a><a href="arcade.html?v=5.2">Arcade Zone</a><a class="nav-cta" href="arcade.html?v=5.2">Start learning ↗</a></div></nav>
@@ -142,9 +150,42 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 <section class="content-section"><div class="section-head"><div><div class="kicker">03 · YOUR QUEST ROUTE</div><h2>Learn it. Try it. Play it.</h2></div><p>Use the knowledge guide first, then challenge yourself with the activities.</p></div><button class="hero-guide" type="button" aria-label="Make the Sports Quest hero run across the section and return" title="Tap me!"><span class="hero-guide-sprite" aria-hidden="true"></span></button><div class="path"><div class="path-step"><div class="path-num">1</div><div><strong>LEARN</strong><span>Explore the sports guide.</span></div></div><div class="path-step"><div class="path-num">2</div><div><strong>TEST YOUR SKILLS</strong><span>Choose a quiz in the Arcade Zone.</span></div></div><div class="path-step"><div class="path-num">3</div><div><strong>TAKE THE RUN</strong><span>Play Sports Kingdom Runner.</span></div></div></div></section>
 <section class="cta"><h2>Your next challenge awaits!</h2><p>Ready to put your sports knowledge into action? Choose a quiz or take on the Sports Kingdom Runner.</p><a class="btn btn-primary" href="arcade.html?v=5.2">🕹️ ENTER THE ARCADE ZONE →</a></section></div></main>
 <footer class="footer"><span>© SPORTS QUEST · KINGDOM OF CHAMPIONS</span><span>LEARN ✦ PLAY FAIR ✦ BE A CHAMPION</span></footer>
-<div class="modal-backdrop" id="info-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="info-modal"><button class="modal-close" aria-label="Close dialog" id="modal-close">×</button><div class="modal-visual" id="modal-visual">⚽</div><h3 id="modal-title">Explore</h3><p id="modal-info"></p><div class="modal-tip" id="modal-tip"></div></div></div>
+<div class="modal-backdrop" id="info-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="info-modal"><button class="modal-close" aria-label="Close dialog" id="modal-close">×</button><div class="modal-topline"><span>✦ SPORTS QUEST FIELD GUIDE</span><span class="modal-level">KNOWLEDGE +1</span></div><div class="modal-visual" id="modal-visual">⚽</div><h3 id="modal-title">Explore</h3><div class="modal-divider"></div><div class="modal-info" id="modal-info"></div><div class="modal-tip" id="modal-tip"><span class="tip-label">⚡ QUICK CHALLENGE</span><span class="tip-copy"></span></div></div></div>
 <script>
-(()=>{const modal=document.getElementById('info-modal');const title=document.getElementById('modal-title');const visual=document.getElementById('modal-visual');const info=document.getElementById('modal-info');const tip=document.getElementById('modal-tip');function open(button){title.textContent=button.dataset.title||'Did you know?';visual.textContent=button.dataset.visual||'⭐';info.textContent=button.dataset.info||'';tip.textContent=button.dataset.tip||'';modal.classList.add('open');document.body.style.overflow='hidden';document.getElementById('modal-close').focus()}function close(){modal.classList.remove('open');document.body.style.overflow=''}document.querySelectorAll('[data-title]').forEach(button=>button.addEventListener('click',()=>open(button)));document.getElementById('modal-close').addEventListener('click',close);modal.addEventListener('click',event=>{if(event.target===modal)close()});document.addEventListener('keydown',event=>{if(event.key==='Escape')close()})})();
+(()=>{
+ const modal=document.getElementById('info-modal');
+ const title=document.getElementById('modal-title');
+ const visual=document.getElementById('modal-visual');
+ const info=document.getElementById('modal-info');
+ const tip=document.getElementById('modal-tip');
+ const tipCopy=tip.querySelector('.tip-copy');
+ const terms=['team sports','individual sports','racket sports','football','basketball','volleyball','netball','swimming','gymnastics','cycling','badminton','tennis','athletics','running','jumping','throwing','racket','shuttlecock','goalposts','hoop','helmet','goggles','kick','throw','catch','pass','shoot','dribble','hit','opponent','teammate','referee','equipment','venue','training','rules','whistle','field'];
+ const escapeHTML=s=>s.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const escapeRegExp=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+ function formatInfo(text){
+   return text.split(/(?<=[.!?])\s+/).filter(Boolean).map(sentence=>{
+     let safe=escapeHTML(sentence);
+     terms.forEach(word=>{safe=safe.replace(new RegExp('\\b('+escapeRegExp(word)+')\\b','gi'),'<span class="key-word">$1</span>')});
+     return '<p>'+safe+'</p>';
+   }).join('');
+ }
+ function open(button){
+   title.textContent=button.dataset.title||'Did you know?';
+   visual.textContent=button.dataset.visual||'⭐';
+   info.innerHTML=formatInfo(button.dataset.info||'');
+   tipCopy.textContent=button.dataset.tip||'';
+   tip.style.display=tipCopy.textContent?'grid':'none';
+   info.querySelectorAll('p').forEach((p,i)=>p.style.animationDelay=(i*.09)+'s');
+   modal.classList.add('open');
+   document.body.style.overflow='hidden';
+   document.getElementById('modal-close').focus();
+ }
+ function close(){modal.classList.remove('open');document.body.style.overflow=''}
+ document.querySelectorAll('[data-title]').forEach(button=>button.addEventListener('click',()=>open(button)));
+ document.getElementById('modal-close').addEventListener('click',close);
+ modal.addEventListener('click',event=>{if(event.target===modal)close()});
+ document.addEventListener('keydown',event=>{if(event.key==='Escape')close()});
+})();
 </script><script>
 document.querySelectorAll('.hero-guide').forEach((hero)=>{
   hero.addEventListener('click',()=>{
