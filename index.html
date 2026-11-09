@@ -1,1 +1,68 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#17243c"><meta name="description" content="SPORTS QUEST: Kingdom of Champions — an interactive Year 5 English learning adventure."><title>SPORTS QUEST | Kingdom of Champions</title><link rel="stylesheet" href="assets/css/site.css?v=3.8"><script defer src="assets/js/site.js?v=3.8"></script></head><body><div class="site-bg"></div><nav class="topnav"><a class="brand" href="#"><span class="brand-icon">SQ✦</span><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="#missions">Missions</a><a href="arcade.html?v=5.0">Arcade Zone</a><a href="#how">How to play</a><a class="nav-cta" href="#missions">Start quest ↗</a></div></nav><main><section class="hero"><div class="hero-copy"><div class="eyebrow">✦ A YEAR 5 ENGLISH ADVENTURE ✦</div><h1>THE GAME<br>IS <span>ON.</span></h1><div class="hero-sub">WELCOME TO THE KINGDOM OF CHAMPIONS</div><p class="lead">A great Sports Festival is just around the corner. Explore six learning missions, sharpen your English skills and collect Champion XP along the way.</p><div class="hero-actions"><a class="btn btn-primary" href="#missions">Explore the missions <span>→</span></a><a class="btn btn-dark" href="arcade.html?v=5.0">🕹️ Enter Arcade Zone</a><a class="btn btn-dark" href="#how">How it works</a></div><div class="hero-note">⚡ LEARN BY PLAYING · EVERY CHAMPION STARTS SOMEWHERE</div></div><div class="hero-art"><div class="portal"><div class="castle"></div><div class="flag">🚩</div><span class="orb one">⚽</span><span class="orb two">🏀</span><span class="orb three">🎾</span><span class="orb four">🏆</span><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span></div><div class="hero-stamp"><strong>QUEST LOG 01</strong>Six missions await you</div></div></section><section class="section" id="how"><div class="feature-strip"><div class="feature"><div class="feature-icon">🧭</div><div><strong>Explore at your pace</strong><span>Choose a mission and begin.</span></div></div><div class="feature"><div class="feature-icon">🎮</div><div><strong>Learn through activities</strong><span>Listen, read, match and plan.</span></div></div><div class="feature"><div class="feature-icon">🏅</div><div><strong>Earn champion XP</strong><span>Your progress is saved here.</span></div></div><a class="feature arcade-feature" href="arcade.html?v=5.0"><div class="feature-icon">🕹️</div><div><strong>Visit the Arcade Zone</strong><span>Play Sports Kingdom Runner and test your skills.</span></div></a></div></section><section class="section" id="missions"><div class="section-head"><div><div class="eyebrow">YOUR QUEST JOURNAL</div><h2>Choose your next <span style="color:#c78231">challenge.</span></h2></div><p>Six missions. Six ways to practise English. Complete each challenge and build your Champion record.</p></div><div class="mission-grid" id="mission-grid"></div></section><section class="section"><div class="progress-panel"><div><h3>Your champion journey</h3><p>Every completed mission brings you closer to the Sports Festival.</p><div class="progress-track" style="width:min(380px,70vw)"><div class="progress-fill" data-progress></div></div></div><div class="progress-stats"><div class="progress-stat"><strong data-xp>0 XP</strong><span>EXPERIENCE</span></div><div class="progress-stat"><strong data-done>0 / 6</strong><span>MISSIONS DONE</span></div></div></div></section></main><footer class="footer"><span>© SPORTS QUEST · KINGDOM OF CHAMPIONS</span><span>EXPLORE ✦ LEARN ✦ PLAY FAIR</span></footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17243c">
+<meta name="description" content="SPORTS QUEST: a Year 5 English sports knowledge guide to prepare learners for quizzes and the Sports Kingdom Runner game.">
+<title>SPORTS QUEST | Sports Knowledge Guide</title>
+<link rel="stylesheet" href="assets/css/site.css?v=5.0">
+<style>
+.knowledge-hero{max-width:1180px;margin:0 auto;padding:58px 22px 42px;display:grid;grid-template-columns:1.08fr .92fr;gap:34px;align-items:center;min-height:390px}
+.knowledge-hero h1{font-size:clamp(38px,6vw,66px);line-height:1.02;margin:12px 0;color:#fff0c9;text-shadow:0 4px 0 #70451e}
+.knowledge-hero h1 span{color:#f6bd54}.knowledge-hero p{max-width:620px;color:#d6dfeb;line-height:1.8;font-size:15px}
+.knowledge-hero-art{min-height:260px;border:1px solid #e7b45966;border-radius:18px;display:grid;place-items:center;position:relative;overflow:hidden;background:linear-gradient(180deg,#6795a8,#d6b47c 54%,#49664c 55%,#263e38);box-shadow:0 18px 45px #0005}
+.knowledge-hero-art:before{content:"";position:absolute;bottom:-20%;width:75%;height:90%;background:#a34e39;clip-path:polygon(40% 0,60% 0,100% 100%,0 100%)}
+.knowledge-hero-art .sports-icons{position:relative;z-index:1;font-size:clamp(45px,7vw,76px);filter:drop-shadow(0 8px 5px #17202b88);letter-spacing:8px;text-align:center;line-height:1.7}
+.knowledge-hero-art .art-label{position:absolute;bottom:15px;z-index:2;color:#fff0c9;font-size:11px;letter-spacing:2px;font-weight:900;text-shadow:0 2px 4px #17202b}
+.knowledge-wrap{max-width:1180px;margin:0 auto;padding:12px 22px 72px}
+.knowledge-intro{text-align:center;max-width:760px;margin:0 auto 26px}.knowledge-intro h2{color:#fff0c9;font-size:clamp(26px,4vw,38px);margin:8px 0}.knowledge-intro p{color:#c7d2df;line-height:1.7}
+.topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.topic-card{padding:23px;border:1px solid rgba(231,180,89,.32);border-radius:14px;background:linear-gradient(145deg,rgba(31,51,73,.97),rgba(13,26,45,.98));box-shadow:0 12px 30px #0003}
+.topic-card .topic-icon{font-size:30px}.topic-card h3{color:#ffe2a3;font-size:20px;margin:8px 0}.topic-card p,.topic-card li{color:#d2dce7;font-size:13px;line-height:1.7}.topic-card ul{padding-left:19px;margin:10px 0 0}.topic-card strong{color:#fff0c9}
+.vocab-table{width:100%;border-collapse:collapse;margin-top:13px;font-size:12px;color:#d9e2ed}.vocab-table th,.vocab-table td{padding:10px 9px;text-align:left;border-bottom:1px solid #ffffff1c;vertical-align:top}.vocab-table th{color:#f6c96e;font-size:11px;letter-spacing:.6px}
+.sportsmanship{margin-top:18px;padding:24px;border:1px solid #e7b45955;border-radius:14px;background:linear-gradient(110deg,#263f53,#15253b);display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}.sportsmanship h3{color:#ffe2a3;margin:0 0 7px;font-size:21px}.sportsmanship p{color:#d2dce7;font-size:13px;line-height:1.7;margin:0}.sportsmanship .medal{font-size:48px}
+.knowledge-cta{margin-top:24px;text-align:center;padding:30px 20px;border-radius:15px;background:linear-gradient(135deg,#3c5260,#17263d);border:1px solid #f0c16a66}.knowledge-cta h2{color:#fff0c9;margin:0 0 8px}.knowledge-cta p{color:#d2dce7;font-size:13px;line-height:1.6;margin:0 auto 17px;max-width:600px}
+@media(max-width:760px){.knowledge-hero{grid-template-columns:1fr;padding-top:36px;gap:20px}.knowledge-hero-art{min-height:180px;order:-1}.topic-grid{grid-template-columns:1fr}.sportsmanship{grid-template-columns:1fr}.sportsmanship .medal{display:none}.knowledge-wrap{padding-left:15px;padding-right:15px}}
+</style>
+</head>
+<body>
+<div class="site-bg"></div>
+<nav class="topnav">
+<a class="brand" href="index.html"><span class="brand-icon">SQ✦</span><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a>
+<div class="navlinks"><a href="#sports-guide">Sports Guide</a><a href="arcade.html?v=5.0">Arcade Zone</a><a class="nav-cta" href="arcade.html?v=5.0">Start learning ↗</a></div>
+</nav>
+<main>
+<section class="knowledge-hero">
+<div>
+<div class="eyebrow">✦ YEAR 5 ENGLISH · UNIT 6: SPORT ✦</div>
+<h1>WELCOME TO THE <span>SPORTS</span> KINGDOM.</h1>
+<p>Before you enter the Arcade Zone, explore this quick sports guide. Learn about different sports, the equipment players use, common actions and how to be a good teammate. Then put your knowledge into practice through the quizzes and Sports Kingdom Runner.</p>
+<div class="hero-actions"><a class="btn btn-primary" href="#sports-guide">Explore Sports Knowledge <span>→</span></a><a class="btn btn-dark" href="arcade.html?v=5.0">🕹️ Enter Arcade Zone</a></div>
+<div class="hero-note">⚡ READ · UNDERSTAND · PRACTISE · PLAY</div>
+</div>
+<div class="knowledge-hero-art" aria-label="Sports equipment and a championship trophy"><div class="sports-icons">⚽ 🏀<br>🏸 🏆</div><div class="art-label">THE WORLD OF SPORT</div></div>
+</section>
+<section class="knowledge-wrap" id="sports-guide">
+<header class="knowledge-intro"><div class="eyebrow">YOUR SPORTS KNOWLEDGE GUIDE</div><h2>What should every champion know?</h2><p>Read each topic and remember the key words. They will help you understand the questions and activities in the Arcade Zone.</p></header>
+<div class="topic-grid">
+<article class="topic-card"><div class="topic-icon">🏅</div><h3>1. Types of Sports</h3><p>Sports are physical activities that help people stay active, healthy and strong. Some sports are played individually, while others are played in teams.</p><ul><li><strong>Team sports:</strong> football, basketball, volleyball and netball.</li><li><strong>Individual sports:</strong> swimming, gymnastics, cycling and badminton singles.</li><li><strong>Racket sports:</strong> badminton, tennis and squash.</li><li><strong>Athletics:</strong> running, jumping and throwing events.</li></ul></article>
+<article class="topic-card"><div class="topic-icon">🎒</div><h3>2. Sports Equipment</h3><p>Equipment is the item or gear used to play a sport. Some equipment is used to play, while other items help protect athletes.</p><ul><li><strong>Football:</strong> ball, goalpost and football boots.</li><li><strong>Badminton:</strong> racket, shuttlecock and net.</li><li><strong>Basketball:</strong> ball, hoop and basketball shoes.</li><li><strong>Cycling:</strong> bicycle and helmet.</li><li><strong>Swimming:</strong> swimsuit and goggles.</li></ul></article>
+<article class="topic-card"><div class="topic-icon">🏃</div><h3>3. Actions in Sports</h3><p>Sports use action words to describe how players move and compete. Learn these verbs so you can explain what happens during a game.</p><ul><li><strong>kick</strong> a ball · <strong>throw</strong> a ball · <strong>catch</strong> a ball</li><li><strong>pass</strong> the ball to a teammate · <strong>shoot</strong> towards a goal</li><li><strong>dribble</strong> while moving · <strong>hit</strong> a shuttlecock</li><li><strong>run</strong>, <strong>jump</strong>, <strong>swim</strong> and <strong>cycle</strong></li></ul></article>
+<article class="topic-card"><div class="topic-icon">📣</div><h3>4. Sports Events</h3><p>A sports event needs good planning. When reading or listening to an announcement, look for important details.</p><ul><li><strong>Event:</strong> What activity is taking place?</li><li><strong>Date and time:</strong> When will it happen?</li><li><strong>Venue:</strong> Where will it take place?</li><li><strong>Participants:</strong> Who can join?</li><li><strong>Items to bring:</strong> What equipment or clothing is needed?</li></ul></article>
+</div>
+<div class="sportsmanship"><div><h3>5. Be a Champion: Teamwork and Sportsmanship</h3><p>A good sport follows the rules, respects teammates and opponents, takes turns, communicates politely and accepts both winning and losing. Encourage others and play fairly. Remember: teamwork is more important than winning alone.</p></div><div class="medal">🤝🏆</div></div>
+<div class="topic-card" style="margin-top:18px"><div class="topic-icon">📖</div><h3>Quick Vocabulary Check</h3><p>Review these useful words before trying the quizzes.</p><table class="vocab-table"><thead><tr><th>WORD</th><th>MEANING</th><th>EXAMPLE</th></tr></thead><tbody>
+<tr><td><strong>opponent</strong></td><td>A person or team you compete against.</td><td>We respect our opponents.</td></tr>
+<tr><td><strong>teammate</strong></td><td>A person who plays on your team.</td><td>I pass the ball to my teammate.</td></tr>
+<tr><td><strong>referee</strong></td><td>A person who makes sure players follow the rules.</td><td>The referee blows the whistle.</td></tr>
+<tr><td><strong>equipment</strong></td><td>The things needed to play a sport.</td><td>A racket is badminton equipment.</td></tr>
+<tr><td><strong>venue</strong></td><td>The place where an event happens.</td><td>The sports event is at the school field.</td></tr>
+<tr><td><strong>training</strong></td><td>Practice to improve a skill or performance.</td><td>The team has football training.</td></tr>
+</tbody></table></div>
+<div class="knowledge-cta"><h2>Ready to test your knowledge?</h2><p>You have explored the basics of sports. Now visit the Arcade Zone, choose a quiz to practise what you have learned, or take on the Sports Kingdom Runner challenge.</p><a class="btn btn-primary" href="arcade.html?v=5.0">🕹️ ENTER THE ARCADE ZONE →</a></div>
+</section>
+</main>
+<footer class="footer"><span>© SPORTS QUEST · KINGDOM OF CHAMPIONS</span><span>LEARN ✦ PLAY FAIR ✦ BE A CHAMPION</span></footer>
+</body>
+</html>
