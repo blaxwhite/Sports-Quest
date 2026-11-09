@@ -44,9 +44,9 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 .hero-mascot{
   position:absolute;
   z-index:4;
-  left:50%;
-  bottom:22px;
-  width:clamp(92px,12vw,132px);
+  left:25%;
+  bottom:28px;
+  width:clamp(88px,10vw,112px);
   aspect-ratio:1 / 1;
   transform:translateX(-50%);
   background-image:url("assets/images/characters/hero-idle.png");
@@ -55,7 +55,7 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
   image-rendering:pixelated;
   pointer-events:none;
   filter:drop-shadow(0 7px 3px #101b25aa);
-  animation:hero-idle-frames 2s steps(1,end) infinite;
+  animation:hero-idle-frames 6s steps(1,end) infinite;
 }
 @keyframes hero-idle-frames{
   0%{background-position:0% 0%}
@@ -80,7 +80,28 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
   95%,100%{background-position:100% 100%}
 }
 @media(max-width:760px){
-  .hero-mascot{width:96px;bottom:15px}
+  .hero-mascot{width:82px;left:22%;bottom:22px}
+}
+
+
+/* Small character cameos guide learners through each kingdom section */
+.section-head::after{
+  content:"";
+  display:block;
+  flex:0 0 72px;
+  width:72px;
+  height:88px;
+  background:url("assets/images/characters/hero-base.png") center bottom / contain no-repeat;
+  image-rendering:pixelated;
+  filter:drop-shadow(0 5px 3px #07131c88);
+  align-self:flex-end;
+  margin-left:4px;
+}
+.content-section:nth-of-type(1) .section-head::after{transform:scaleX(-1) rotate(-4deg)}
+.content-section:nth-of-type(2) .section-head::after{transform:rotate(5deg)}
+.content-section:nth-of-type(3) .section-head::after{transform:scaleX(-1) rotate(3deg)}
+@media(max-width:760px){
+  .section-head::after{flex-basis:54px;width:54px;height:70px;margin-left:auto}
 }
 
 </style></head>
