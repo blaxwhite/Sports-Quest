@@ -77,6 +77,11 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 .content-section:nth-of-type(1) .hero-guide-sprite{transform:scaleX(-1)}
 .content-section:nth-of-type(2) .hero-guide-sprite{transform:rotate(3deg)}
 .content-section:nth-of-type(3) .hero-guide-sprite{transform:scaleX(-1) rotate(-3deg)}
+/* Vary character placement: section 01 stays as-is, 02 centred, 03 right-aligned */
+.content-section:nth-of-type(2) .hero-guide{margin-left:auto;margin-right:auto}
+.content-section:nth-of-type(2) .hero-guide-sprite{transform:rotate(8deg)}
+.content-section:nth-of-type(3) .hero-guide{margin-left:auto;margin-right:0}
+.content-section:nth-of-type(3) .hero-guide-sprite{transform:scaleX(-1) rotate(-8deg)}
 .hero-guide:hover .hero-guide-sprite{filter:drop-shadow(0 9px 5px #ffd47799)}
 .hero-guide.is-moving{animation:hero-run-across 2.4s ease-in-out}
 @keyframes hero-run-across{
