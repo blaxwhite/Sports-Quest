@@ -2,171 +2,282 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#17243c">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0c1426">
 <title>Sports Kingdom Runner | SPORTS QUEST</title>
 <style>
-:root{--navy:#14243a;--navy2:#203650;--gold:#f3c96b;--cream:#fff3d6;--green:#4d7955;--red:#c95850}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#101d30;color:var(--cream);font-family:Georgia,serif}body{padding:18px;background:radial-gradient(ellipse at 50% 0,#304b5c,#101d30 70%)}button{font:inherit;cursor:pointer}
-.top{max-width:1100px;margin:0 auto 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{color:var(--gold);text-decoration:none;font:700 13px monospace;letter-spacing:1px}.back{color:var(--cream);text-decoration:none;border:1px solid #8d7952;padding:9px 13px;border-radius:8px;font:12px monospace}
-.shell{max-width:1100px;margin:auto}.heading{text-align:center;margin:8px 0 14px}.eyebrow{color:var(--gold);font:11px monospace;letter-spacing:3px}.heading h1{font-size:clamp(25px,5vw,43px);margin:7px 0;color:#ffe3a0;text-shadow:0 3px #78552d}.heading p{margin:0;color:#c5d0d0;font:13px monospace}
-.gameframe{position:relative;border:4px solid #9b7844;border-radius:14px;overflow:hidden;background:#182b3d;box-shadow:0 12px 0 #091421,0 22px 55px #0008}
-canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;touch-action:none}
-.hud{position:absolute;z-index:2;left:12px;right:12px;top:10px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}.hudbox{background:#102139dc;border:2px solid #c5a45e;border-radius:8px;padding:7px 11px;min-width:100px;box-shadow:0 3px #091421}.hudlabel{font:9px monospace;color:#d6bd81;letter-spacing:1px}.hudvalue{font:bold 18px monospace;color:#fff0c4;margin-top:3px}.hearts{color:#ef7669;letter-spacing:3px}
-.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#091525c9;z-index:5;padding:16px}.panel{width:min(480px,100%);background:linear-gradient(145deg,#2c4557,#17283e);border:3px solid #d3ae64;border-radius:14px;padding:22px;text-align:center;box-shadow:0 8px 0 #091421,0 20px 50px #0009}.panel h2{color:#ffe2a0;margin:5px 0 10px;font-size:clamp(22px,4vw,32px)}.panel p{color:#e3e1d4;line-height:1.5;font:13px/1.6 monospace}.mainbtn,.answer{border:2px solid #f4d78e;background:linear-gradient(#f6d88e,#c28b43);color:#263349;border-radius:8px;padding:12px 18px;font:bold 13px monospace;box-shadow:0 4px #76512d}.mainbtn:active,.answer:active{transform:translateY(2px);box-shadow:0 2px #76512d}.answerlist{display:grid;gap:9px;margin-top:15px}.answer{background:#f3e4c2;text-align:left;width:100%;box-shadow:0 3px #8c744c}.answer:hover{background:#ffe7a9}.answer:disabled{opacity:.55}
-.controls{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 3px 0}.controlgroup{display:flex;gap:9px}.touch{width:62px;height:53px;border-radius:10px;border:2px solid #b9985c;background:linear-gradient(#304b61,#172a40);color:#ffe4a4;font:bold 17px monospace;box-shadow:0 4px #091421;touch-action:none}.touch.jump{width:86px;background:linear-gradient(#66865d,#344d3c)}.touch:active{transform:translateY(3px);box-shadow:0 1px #091421}.hint{font:10px/1.5 monospace;color:#b9c4c4;text-align:center}.hidden{display:none!important}.foot{text-align:center;color:#9daeb0;font:10px monospace;margin:13px 0 0}
-@media(max-width:600px){body{padding:9px}.top{margin-bottom:10px}.hud{left:6px;right:6px;top:6px}.hudbox{padding:5px 7px;min-width:0}.hudlabel{font-size:7px}.hudvalue{font-size:14px}.controls{padding-top:10px}.touch{width:54px;height:50px}.touch.jump{width:76px}.hint{font-size:8px}.panel{padding:16px}}
+:root{--navy:#0c1426;--panel:#17243c;--gold:#fbbf24;--cream:#fff1ce;--line:#9a641e}
+*{box-sizing:border-box;margin:0;padding:0;user-select:none;-webkit-user-select:none}
+html,body{min-height:100%;background:#0c0f1d;color:#f1f5f9;font-family:"Courier New",monospace}
+body{min-height:100svh;display:flex;justify-content:center;align-items:center;padding:12px;background:radial-gradient(ellipse at 50% 0,#263d55,#0c0f1d 70%)}
+a{color:inherit;text-decoration:none}
+.page{width:100%;max-width:520px}
+.top{display:flex;justify-content:space-between;align-items:center;margin:0 0 9px;font-size:11px;font-weight:bold;letter-spacing:1px}
+.top a:first-child{color:#fbbf24}.top a:last-child{border:1px solid #8a744f;padding:7px 10px;border-radius:6px}
+#arcade-wrapper{position:relative;width:100%;background:#151a30;border:4px solid #b45309;border-radius:12px;box-shadow:0 25px 50px -12px #000c;overflow:hidden}
+#game-hud{background:#1e293b;border-bottom:3px solid #b45309;display:grid;grid-template-columns:repeat(4,1fr);padding:9px 5px;text-align:center;font-size:10px;font-weight:bold;gap:2px}
+.hud-block{display:flex;flex-direction:column;gap:4px;border-right:1px dashed #475569;min-width:0}.hud-block:last-child{border:0}
+.stat-val{color:#fbbf24;font-size:14px;white-space:nowrap}
+#canvas-container{position:relative;width:100%;background:#172c42;line-height:0}
+canvas{display:block;width:100%;height:auto;aspect-ratio:480/560;touch-action:none}
+#touch-controller{background:#0f172a;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;border-top:3px solid #b45309;gap:10px}
+.steer-box{display:flex;gap:10px}
+.arcade-btn{width:54px;height:50px;background:#1e293b;color:#fff;border:2px solid #64748b;border-radius:8px;font-size:18px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:manipulation;box-shadow:0 3px #080d18}
+.arcade-btn:active{background:#fbbf24;color:#0f172a;border-color:#d97706;transform:translateY(2px);box-shadow:0 1px #080d18}
+.jump-btn{width:92px;background:#b45309;border-color:#d97706;font-size:12px}
+.controls-note{font-size:9px;line-height:1.5;color:#9caec3;text-align:center}
+.overlay{position:absolute;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:18px;background:#091525df;line-height:1.4}
+.hidden{display:none!important}
+.panel{width:100%;max-width:390px;background:linear-gradient(145deg,#263d58,#111d33);border:3px solid #fbbf24;border-radius:10px;padding:20px 17px;text-align:center;box-shadow:0 8px 0 #080d18,0 20px 40px #0009}
+.eyebrow{font-size:10px;letter-spacing:2px;color:#fbbf24;font-weight:bold;margin-bottom:8px}
+.panel h1,.panel h2{font-size:clamp(20px,5vw,27px);color:#ffe3a0;margin:0 0 10px;text-shadow:0 2px #7c4211}
+.panel p{font-size:11px;line-height:1.65;color:#e1e8f0;margin:8px 0}
+.main-btn{margin-top:10px;border:2px solid #ffdf83;background:linear-gradient(#ffdc79,#c47c1b);color:#17243c;border-radius:6px;padding:12px 20px;font:bold 13px "Courier New",monospace;cursor:pointer;box-shadow:0 4px #71420f}
+.main-btn:active{transform:translateY(2px);box-shadow:0 2px #71420f}
+#quiz-question-box{background:#0f172a;padding:12px;border-radius:5px;border-left:4px solid #fbbf24;text-align:left;margin:12px 0;font-size:12px}
+.options-list{display:flex;flex-direction:column;gap:8px}
+.option-node{background:#334155;color:white;border:1px solid #64748b;padding:11px;border-radius:5px;font: bold 12px "Courier New",monospace;cursor:pointer;text-align:left}
+.option-node:hover,.option-node:focus{background:#fbbf24;color:#17243c}
+.option-node:disabled{opacity:.6;cursor:default}
+#quiz-feedback{font-size:11px;color:#ffe4a3;min-height:30px;margin-top:10px}
+.foot{text-align:center;color:#9caec3;font-size:9px;margin:10px 0 0}
+@media(max-width:380px){body{padding:6px}.arcade-btn{width:47px;height:46px}.jump-btn{width:78px}.controls-note{font-size:8px}#game-hud{font-size:9px}.stat-val{font-size:12px}.panel{padding:15px 12px}}
 </style>
 </head>
 <body>
-<header class="top"><a class="brand" href="../index.html">✦ SPORTS QUEST</a><a class="back" href="../arcade.html">← ARCADE ZONE</a></header>
-<main class="shell">
-<section class="heading"><div class="eyebrow">KINGDOM OF CHAMPIONS · ARCADE QUEST 01</div><h1>SPORTS KINGDOM RUNNER</h1><p>RUN THE TRACK · DODGE THE HURDLES · PROVE YOUR WORD POWER</p></section>
-<section class="gameframe">
-<canvas id="game" width="960" height="540" aria-label="Sports Kingdom Runner game"></canvas>
-<div class="hud">
- <div class="hudbox"><div class="hudlabel">DISTANCE</div><div class="hudvalue" id="distance">0000 m</div></div>
- <div class="hudbox"><div class="hudlabel">CHAMPION SCORE</div><div class="hudvalue" id="score">000000</div></div>
- <div class="hudbox"><div class="hudlabel">HEALTH</div><div class="hudvalue hearts" id="health">♥ ♥ ♥</div></div>
- <div class="hudbox"><div class="hudlabel">XP</div><div class="hudvalue" id="xp">0</div></div>
+<main class="page">
+<header class="top"><a href="../index.html">✦ SPORTS QUEST</a><a href="../arcade.html">← ARCADE ZONE</a></header>
+<section id="arcade-wrapper" aria-label="Sports Kingdom Runner game">
+<header id="game-hud">
+<div class="hud-block"><span>DISTANCE</span><span id="stat-dist" class="stat-val">0000m</span></div>
+<div class="hud-block"><span>HIGH SCORE</span><span id="stat-score" class="stat-val">0000</span></div>
+<div class="hud-block"><span>HEALTH</span><span id="stat-hp" class="stat-val">♥♥♥</span></div>
+<div class="hud-block"><span>XP MARKS</span><span id="stat-xp" class="stat-val">0</span></div>
+</header>
+<div id="canvas-container">
+<canvas id="runner-canvas" width="480" height="560" aria-label="Runner on a three-lane stadium track"></canvas>
+<div id="start-screen" class="overlay"><div class="panel"><div class="eyebrow">KINGDOM OF CHAMPIONS · ARCADE QUEST</div><h1>SPORTS KINGDOM RUNNER</h1><p>Race through the royal stadium! Switch between three lanes, jump over hurdles, avoid cones and collect golden stars.</p><p><b>KEYBOARD</b><br>← → or A / D to change lanes<br>↑, W or SPACE to jump</p><p><b>MOBILE</b><br>Use the buttons below the track.</p><button id="start-btn" class="main-btn">START RUN</button></div></div>
+<div id="quiz-gate" class="overlay hidden"><div class="panel"><div class="eyebrow">✦ WISDOM GATE CHALLENGE ✦</div><h2>Prove Your Sports Knowledge</h2><p id="quiz-question-box">Loading question...</p><div id="quiz-options-box" class="options-list"></div><p id="quiz-feedback" aria-live="polite"></p></div></div>
+<div id="pause-screen" class="overlay hidden"><div class="panel"><div class="eyebrow">RUN PAUSED</div><h2>Take a Breather</h2><p>Your progress is safe. Ready to return to the track?</p><button id="resume-btn" class="main-btn">RESUME RUN</button></div></div>
+<div id="end-screen" class="overlay hidden"><div class="panel"><div class="eyebrow">RUN COMPLETE</div><h2 id="end-title">Game Over</h2><p id="end-summary"></p><button id="restart-btn" class="main-btn">RUN AGAIN</button></div></div>
 </div>
-<div class="overlay" id="startScreen"><div class="panel"><div class="eyebrow">A ROYAL SPORTS FESTIVAL AWAITS</div><h2>Ready, Champion?</h2><p>Run through the stadium in three lanes. Switch lanes to avoid cones and hurdles. Jump over low hurdles, collect golden stars and answer the Wisdom Gates to earn bonus XP.</p><p><b>PC:</b> ← → / A D to move · ↑ / W / SPACE to jump<br><b>Mobile:</b> use the buttons below the track.</p><button class="mainbtn" id="startBtn">START RUN</button></div></div>
-<div class="overlay hidden" id="questionScreen"><div class="panel"><div class="eyebrow">✦ THE WISDOM GATE ✦</div><h2>Prove Your Sports Knowledge</h2><p id="questionText"></p><div class="answerlist" id="answers"></div><p id="questionFeedback" aria-live="polite"></p></div></div>
-<div class="overlay hidden" id="endScreen"><div class="panel"><div class="eyebrow">RUN COMPLETE</div><h2 id="endTitle">Champion!</h2><p id="endSummary"></p><button class="mainbtn" id="restartBtn">RUN AGAIN</button></div></div>
+<footer id="touch-controller">
+<div class="steer-box"><button class="arcade-btn" id="ctrl-left" aria-label="Move left">◀</button><button class="arcade-btn" id="ctrl-right" aria-label="Move right">▶</button></div>
+<div class="controls-note">SWITCH LANES<br>AVOID OBSTACLES</div>
+<button class="arcade-btn jump-btn" id="ctrl-jump">JUMP ▲</button>
+</footer>
 </section>
-<div class="controls">
- <div class="controlgroup"><button class="touch" data-control="left" aria-label="Move left">◀</button><button class="touch" data-control="right" aria-label="Move right">▶</button></div>
- <div class="hint">DODGE LEFT / RIGHT<br>JUMP OVER HURDLES</div>
- <div class="controlgroup"><button class="touch jump" data-control="jump">▲ JUMP</button></div>
-</div>
 <p class="foot">SPORTS QUEST · PLAY FAIR · LEARN MORE · HAVE FUN</p>
 </main>
 <script>
-(()=> {
+document.addEventListener('DOMContentLoaded',function(){
 'use strict';
-const canvas=document.getElementById('game'),ctx=canvas.getContext('2d'),W=960,H=540;
+const canvas=document.getElementById('runner-canvas');
+const ctx=canvas.getContext('2d');
 const $=id=>document.getElementById(id);
+const hud={dist:$('stat-dist'),score:$('stat-score'),hp:$('stat-hp'),xp:$('stat-xp')};
+const overlays={start:$('start-screen'),quiz:$('quiz-gate'),pause:$('pause-screen'),end:$('end-screen')};
+const assetFiles={playerRun:'player_run.png',playerJump:'player_jump.png',hurdle:'hurdle.png',star:'star.png'};
 const assets={};
-const assetPaths={
- playerRun:'../assets/images/arcade/player_run.png',
- playerJump:'../assets/images/arcade/player_jump.png',
- track:'../assets/images/arcade/stadium_track.png',
- hurdle:'../assets/images/arcade/hurdle_obstacle.png',
- cone:'../assets/images/arcade/sports_cone.png',
- backdrop:'../assets/images/arcade/scroll_bg.jpg'
-};
-Object.entries(assetPaths).forEach(([key,src])=>{const img=new Image();img.src=src;img.onload=()=>{assets[key]=img};img.onerror=()=>{};assets[key]=img});
+Object.keys(assetFiles).forEach(function(k){const im=new Image();im.src=assetFiles[k];im.onload=function(){draw()};assets[k]=im;});
+const W=480,H=560,HORIZON=145;
 const questions=[
- {q:'Which piece of equipment protects a player’s head when cycling?',a:['Helmet','Whistle','Racket'],correct:0,why:'A helmet protects the head.'},
- {q:'Which sport uses a racket and a shuttlecock?',a:['Football','Badminton','Swimming'],correct:1,why:'Badminton is played with a racket and shuttlecock.'},
- {q:'What should athletes do before exercising?',a:['Warm up','Go to sleep','Skip water'],correct:0,why:'A warm-up prepares the body for exercise.'},
- {q:'Which word means moving quickly on foot?',a:['Throw','Run','Catch'],correct:1,why:'To run means to move quickly on foot.'},
- {q:'Which item is used to score a goal in football?',a:['A ball','A helmet','A netball post'],correct:0,why:'Players kick a ball towards the goal.'},
- {q:'What is good sportsmanship?',a:['Laughing at others','Cheating','Respecting teammates and opponents'],correct:2,why:'Good sportsmanship means being fair and respectful.'},
- {q:'Which verb means to send a ball to a teammate?',a:['Pass','Dodge','Stretch'],correct:0,why:'Players pass the ball to teammates.'}
+{q:'Which word defines a lightweight wooden or aluminium shaft passed between runners in a relay race?',a:['Baton','Racket','Hurdle'],c:0,why:'A baton is passed from one runner to the next in a relay race.'},
+{q:'The referee blew the whistle to mark the formal ______ of the football final.',a:['Kick-off','Time-out','Warm-up'],c:0,why:'Kick-off is the start of a football match.'},
+{q:'Which sport includes routines that show agility, flexibility and coordination on mats?',a:['Gymnastics','Athletics','Cycling'],c:0,why:'Gymnastics uses routines that develop agility, flexibility and coordination.'},
+{q:'Which equipment is used to make a high-jump landing safer?',a:['Foam landing mats','A tennis net','A starting whistle'],c:0,why:'Foam landing mats cushion the athlete when landing.'},
+{q:'Which item protects a cyclist’s head?',a:['Helmet','Shuttlecock','Baton'],c:0,why:'A helmet protects the head while cycling.'},
+{q:'What does it mean to pass a ball?',a:['Send it to a teammate','Hold it forever','Kick it out of the stadium'],c:0,why:'Passing means sending the ball to another player.'},
+{q:'Which action shows good sportsmanship?',a:['Respecting opponents','Cheating to win','Blaming teammates'],c:0,why:'Good sportsmanship includes fairness and respect.'}
 ];
-let state,raf=0,last=0,gateClock=0,spawnClock=0,questionIndex=0,gateOpen=false,keys={};
-const horizon=180,lanes=[-1,0,1];
-function reset(){state={running:false,over:false,lane:1,visualLane:1,playerX:0,jump:0,dist:0,score:0,xp:0,lives:3,speed:0.34,objects:[],trackOffset:0,boost:0,elapsed:0,gateDue:15};gateClock=0;spawnClock=0;questionIndex=0;gateOpen=false;updateHud()}
-function updateHud(){$('distance').textContent=String(Math.floor(state.dist)).padStart(4,'0')+' m';$('score').textContent=String(state.score).padStart(6,'0');$('health').textContent=Array.from({length:3},(_,i)=>i<state.lives?'♥':'♡').join(' ');$('xp').textContent=state.xp}
-function image(key,x,y,w,h){const img=assets[key];if(img&&img.complete&&img.naturalWidth){ctx.drawImage(img,x,y,w,h);return true}return false}
-function poly(points,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);points.slice(1).forEach(p=>ctx.lineTo(p[0],p[1]));ctx.closePath();ctx.fill()}
-function drawBackground(){
- if(assets.backdrop?.complete&&assets.backdrop.naturalWidth){ctx.drawImage(assets.backdrop,0,0,W,250)}else{
-  const sky=ctx.createLinearGradient(0,0,0,250);sky.addColorStop(0,'#7ca3ad');sky.addColorStop(1,'#e6c99a');ctx.fillStyle=sky;ctx.fillRect(0,0,W,250);
-  ctx.fillStyle='#d7c18f';ctx.beginPath();ctx.arc(770,75,39,0,Math.PI*2);ctx.fill();
-  // Stadium stands and flags
-  poly([[0,135],[960,135],[960,255],[0,255]],'#536c69');
-  for(let i=0;i<12;i++){const x=i*86;ctx.fillStyle=i%2?'#d1b783':'#b58f62';ctx.fillRect(x,145,72,86);ctx.fillStyle='#e9d6ad';ctx.fillRect(x+5,153,62,6);for(let j=0;j<4;j++){ctx.fillStyle='#354f5c';ctx.fillRect(x+8+j*14,169,8,35)}}
-  ctx.fillStyle='#d5b36f';ctx.fillRect(0,230,960,8);
-  // distant pennants
-  for(let i=0;i<9;i++){const x=35+i*112;ctx.strokeStyle='#e9d4a0';ctx.beginPath();ctx.moveTo(x,72);ctx.lineTo(x,112);ctx.stroke();poly([[x,73],[x+22,80],[x,88]],i%2?'#b85d4c':'#e2b95f')}
- }
- // Track in strong perspective
- poly([[405,horizon],[555,horizon],[930,H],[30,H]],'#9a7650');
- poly([[420,horizon],[540,horizon],[860,H],[100,H]],'#b28c5d');
- // Optional painted track texture, clipped to the road and scrolled downward.
- if(assets.track?.complete&&assets.track.naturalWidth){ctx.save();ctx.beginPath();ctx.moveTo(405,horizon);ctx.lineTo(555,horizon);ctx.lineTo(930,H);ctx.lineTo(30,H);ctx.closePath();ctx.clip();const texY=horizon+(state.trackOffset*360);ctx.drawImage(assets.track,55,texY-360,850,390);ctx.drawImage(assets.track,55,texY+30,850,390);ctx.restore()}
- // track texture scrolling downward
- for(let i=0;i<15;i++){const t=((i/15+state.trackOffset)%1);const y=horizon+t*t*(H-horizon);const half=75+t*405;ctx.strokeStyle='rgba(255,239,194,'+(.08+t*.12)+')';ctx.lineWidth=1+t*2;ctx.beginPath();ctx.moveTo(W/2-half,y);ctx.lineTo(W/2+half,y);ctx.stroke()}
- // lane markings
- for(let lane=1;lane<=2;lane++){const xTop=480+(lane-1)*0;const xBottom=30+lane*300;ctx.strokeStyle='#f4dfb4';ctx.globalAlpha=.65;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(480+(lane-1)*0,horizon);ctx.lineTo(xBottom,H);ctx.stroke();ctx.globalAlpha=1}
- // grass shoulders
- poly([[0,245],[405,horizon],[30,H],[0,H]],'#526d4d');poly([[555,horizon],[960,245],[960,H],[930,H]],'#526d4d');
- // track edges
- ctx.strokeStyle='#f1d89f';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(405,horizon);ctx.lineTo(30,H);ctx.moveTo(555,horizon);ctx.lineTo(930,H);ctx.stroke();
+const lanes=[0,1,2];
+let state,raf=0,lastTime=0,spawnClock=0,gateClock=0,questionIndex=0,gateBusy=false,feedbackTimer=0;
+let highScore=Number(localStorage.getItem('sqRunnerHighScore')||0);
+function freshState(){return{active:false,over:false,lane:1,visualLane:1,jumpY:0,jumpV:0,dist:0,score:0,xp:0,lives:3,speed:.43,elapsed:0,objects:[],particles:[],boost:0,trackOffset:0,invulnerable:0};}
+function updateHud(){
+ hud.dist.textContent=String(Math.floor(state.dist)).padStart(4,'0')+'m';
+ hud.score.textContent=String(Math.max(highScore,state.score)).padStart(4,'0');
+ hud.hp.textContent=Array.from({length:3},(_,i)=>i<state.lives?'♥':'♡').join('');
+ hud.xp.textContent=String(state.xp);
 }
-function laneX(lane,t){const spread=25+t*275;return W/2+lane*spread}
-function drawObject(o){const t=o.z,scale=.24+t*1.45,x=laneX(o.lane,t),base=horizon+t*(H-horizon),w=(o.kind==='hurdle'?76:40)*scale,h=(o.kind==='hurdle'?48:62)*scale;
- if(o.kind==='star'){ctx.save();ctx.translate(x,base-28*scale);ctx.scale(scale,scale);ctx.fillStyle='#ffdf71';ctx.strokeStyle='#80572b';ctx.lineWidth=3;ctx.beginPath();for(let i=0;i<10;i++){let r=i%2?9:20,a=-Math.PI/2+i*Math.PI/5;ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r)}ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();return}
- if(o.kind==='hurdle'&&image('hurdle',x-w/2,base-h,w,h))return;
- if(o.kind==='cone'&&image('cone',x-w/2,base-h,w,h))return;
- if(o.kind==='hurdle'){ctx.fillStyle='#9b4f3d';ctx.fillRect(x-w/2,base-h*.65,w,h*.65);ctx.fillStyle='#e2bd75';ctx.fillRect(x-w/2,base-h*.72,w,h*.16);ctx.fillStyle='#5d4438';ctx.fillRect(x-w*.38,base-h*.12,w*.12,h*.12);ctx.fillRect(x+w*.26,base-h*.12,w*.12,h*.12)}
- else{poly([[x,base-h],[x-w*.48,base],[x+w*.48,base]],'#d66c43');poly([[x,base-h*.45],[x-w*.29,base-h*.47],[x+w*.29,base-h*.47]],'#fff0ce');ctx.fillStyle='#754a39';ctx.fillRect(x-w*.58,base-3*scale,w*1.16,4*scale)}
+function laneX(lane,z){const spread=18+z*112;return W/2+(lane-1)*spread;}
+function poly(points,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);for(let i=1;i<points.length;i++)ctx.lineTo(points[i][0],points[i][1]);ctx.closePath();ctx.fill();}
+function drawStadium(){
+ const sky=ctx.createLinearGradient(0,0,0,HORIZON+100);sky.addColorStop(0,'#4489ba');sky.addColorStop(1,'#f2c58b');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+ ctx.fillStyle='#ffe5a1';ctx.beginPath();ctx.arc(390,68,25,0,Math.PI*2);ctx.fill();
+ // distant kingdom towers
+ for(let i=0;i<5;i++){const x=22+i*105;ctx.fillStyle='#8b7763';ctx.fillRect(x,78-(i%2)*17,34,75+(i%2)*17);ctx.fillStyle='#b99b75';poly([[x-5,78-(i%2)*17],[x+17,49-(i%2)*17],[x+39,78-(i%2)*17]],'#a78a67');ctx.fillStyle='#f7d58c';ctx.fillRect(x+13,100,7,13);}
+ // stadium stands and cheering crowd
+ poly([[0,112],[198,HORIZON+12],[198,255],[0,226]],'#485c62');
+ poly([[480,112],[282,HORIZON+12],[282,255],[480,226]],'#485c62');
+ for(let side=0;side<2;side++){for(let i=0;i<85;i++){const x=side===0?4+(i%17)*10:306+(i%17)*10;const y=133+Math.floor(i/17)*19+(i%3)*2;ctx.fillStyle=['#d4a55e','#b65d4b','#e4d0a4','#547e83'][i%4];ctx.fillRect(x,y,4,6);}}
+ // banners
+ for(let i=0;i<4;i++){const x=i*150+25;ctx.fillStyle=i%2?'#b64e40':'#234d79';ctx.fillRect(x,125,13,45);poly([[x,170],[x+13,170],[x+7,182]],i%2?'#b64e40':'#234d79');}
+ // green verges
+ poly([[0,220],[195,HORIZON],[0,H]],'#456c45');poly([[285,HORIZON],[480,220],[480,H]],'#456c45');
+ // running track in perspective
+ poly([[194,HORIZON],[286,HORIZON],[520,H],[-40,H]],'#a74f39');
+ poly([[202,HORIZON],[278,HORIZON],[470,H],[10,H]],'#c5684a');
+ // perspective track lane lines
+ for(let j=1;j<=2;j++){ctx.strokeStyle='#ffe6bd';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(240+(j-1)*10,HORIZON);ctx.lineTo(-40+j*186,H);ctx.stroke();}
+ // cross-track dashes scroll toward camera
+ for(let i=0;i<12;i++){const z=((i/12+state.trackOffset)%1);const y=HORIZON+z*z*(H-HORIZON);const half=46+z*190;ctx.strokeStyle='rgba(255,226,190,'+(.1+z*.18)+')';ctx.lineWidth=1+z*2;ctx.beginPath();ctx.moveTo(240-half,y);ctx.lineTo(240+half,y);ctx.stroke();}
+ // track side rails
+ ctx.strokeStyle='#f0d4a2';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(194,HORIZON);ctx.lineTo(-40,H);ctx.moveTo(286,HORIZON);ctx.lineTo(520,H);ctx.stroke();
 }
-function drawPlayer(){
- const jumping=state.jump>0,key=jumping?'playerJump':'playerRun';
- const run=Math.sin(state.elapsed*15),stride=Math.cos(state.elapsed*15);
- const x=laneX(state.visualLane,1),ground=H-28;
- const bob=jumping?0:Math.abs(run)*4;
- const y=jumping?ground-150-state.jump*28:ground-116-bob;
- const w=78,h=112;
- // Soft ground shadow follows the runner's lane.
- ctx.save();ctx.globalAlpha=jumping?.18:.28;ctx.fillStyle='#17251d';
- ctx.beginPath();ctx.ellipse(x,ground+2,jumping?24:34,jumping?7:10,0,0,Math.PI*2);ctx.fill();ctx.restore();
- if(image(key,x-w/2,y,w,h))return;
- // Animated vintage sports adventurer: swinging arms and alternating legs.
+function drawFallbackRunner(x,y,w,h,frame,jumping){
  ctx.save();ctx.translate(x,y);
- if(!jumping){
-   ctx.lineCap='round';
-   ctx.strokeStyle='#26394b';ctx.lineWidth=11;
-   ctx.beginPath();
-   ctx.moveTo(34,79);ctx.lineTo(29+stride*13,101);ctx.lineTo(23-stride*12,108);
-   ctx.moveTo(46,79);ctx.lineTo(51-stride*13,101);ctx.lineTo(60+stride*12,108);
-   ctx.stroke();
-   ctx.strokeStyle='#e5c37d';ctx.lineWidth=8;
-   ctx.beginPath();ctx.moveTo(23-stride*12,108);ctx.lineTo(12-stride*12,109);ctx.moveTo(60+stride*12,108);ctx.lineTo(71+stride*12,109);ctx.stroke();
- }else{
-   ctx.strokeStyle='#26394b';ctx.lineWidth=11;ctx.lineCap='round';
-   ctx.beginPath();ctx.moveTo(34,80);ctx.lineTo(22,94);ctx.moveTo(46,80);ctx.lineTo(59,91);ctx.stroke();
-   ctx.strokeStyle='#e5c37d';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(22,94);ctx.lineTo(12,91);ctx.moveTo(59,91);ctx.lineTo(69,85);ctx.stroke();
- }
- // Head and vintage cap
- ctx.fillStyle='#3b302f';ctx.fillRect(22,10,37,10);
- ctx.fillStyle='#d7a66e';ctx.beginPath();ctx.arc(40,29,17,0,Math.PI*2);ctx.fill();
- ctx.fillStyle='#3b302f';ctx.fillRect(22,11,37,8);ctx.fillRect(49,17,17,5);
- ctx.fillStyle='#f1d6a0';ctx.fillRect(28,26,24,5);
- // Jersey, sash and belt
- ctx.fillStyle='#315b68';ctx.fillRect(19,44,43,42);
- ctx.fillStyle='#e6c47b';ctx.fillRect(19,44,43,7);ctx.fillRect(37,50,7,32);
- ctx.fillStyle='#8d5541';ctx.fillRect(17,81,47,10);
- // Swinging arms
- ctx.strokeStyle='#315b68';ctx.lineWidth=12;ctx.lineCap='round';
- ctx.beginPath();ctx.moveTo(20,52);ctx.lineTo(10+run*5,72-run*4);ctx.moveTo(61,52);ctx.lineTo(71-run*5,72+run*4);ctx.stroke();
- ctx.strokeStyle='#d7a66e';ctx.lineWidth=9;
- ctx.beginPath();ctx.moveTo(10+run*5,72-run*4);ctx.lineTo(12+run*7,83-run*5);ctx.moveTo(71-run*5,72+run*4);ctx.lineTo(69-run*7,83+run*5);ctx.stroke();
+ const swing=Math.sin(state.elapsed*17),leg=Math.cos(state.elapsed*17);
+ // legs and old-fashioned running shoes
+ ctx.strokeStyle='#28354b';ctx.lineWidth=9;ctx.lineCap='round';
+ ctx.beginPath();
+ if(jumping){ctx.moveTo(28,66);ctx.lineTo(17,78);ctx.moveTo(38,66);ctx.lineTo(51,76);}
+ else{ctx.moveTo(29,64);ctx.lineTo(23+leg*10,86);ctx.moveTo(39,64);ctx.lineTo(46-leg*10,86);}
+ ctx.stroke();
+ ctx.strokeStyle='#6b422d';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(23+leg*10,86);ctx.lineTo(13+leg*10,89);ctx.moveTo(46-leg*10,86);ctx.lineTo(55-leg*10,89);ctx.stroke();
+ // body, cream jersey and red sash
+ ctx.fillStyle='#eadfc5';ctx.fillRect(18,31,31,37);ctx.fillStyle='#a93632';ctx.fillRect(18,31,31,8);ctx.fillRect(29,39,9,18);
+ ctx.fillStyle='#f8edcf';ctx.font='bold 11px monospace';ctx.fillText('5',29,53);
+ // arms swing
+ ctx.strokeStyle='#d6a078';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(19,39);ctx.lineTo(9+swing*4,55);ctx.moveTo(47,39);ctx.lineTo(57-swing*4,54);ctx.stroke();
+ // head and 1930s cap
+ ctx.fillStyle='#c98f65';ctx.beginPath();ctx.arc(34,22,13,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#493328';ctx.fillRect(22,9,24,7);ctx.fillRect(19,14,31,4);
  ctx.restore();
 }
-function draw(){ctx.clearRect(0,0,W,H);drawBackground();const sorted=[...state.objects].sort((a,b)=>a.z-b.z);sorted.forEach(drawObject);drawPlayer();if(state.boost>0){ctx.fillStyle='#ffe38b';ctx.font='bold 20px monospace';ctx.textAlign='center';ctx.fillText('SPEED BOOST!',480,150);ctx.textAlign='left'}}
-function spawn(){const lane=lanes[Math.floor(Math.random()*3)],kind=Math.random()<.57?'hurdle':'cone';state.objects.push({lane,kind,z:0,hit:false})}
-function spawnStars(){const lane=lanes[Math.floor(Math.random()*3)];for(let i=0;i<3;i++)state.objects.push({lane,kind:'star',z:-i*.13,hit:false})}
-function crash(){state.lives--;state.speed=Math.max(.27,state.speed-.015);updateHud();if(state.lives<=0)endGame(false)}
-function openGate(){gateOpen=true;state.running=false;const q=questions[questionIndex++%questions.length];$('questionText').textContent=q.q;$('answers').innerHTML='';$('questionFeedback').textContent='Choose the correct answer to earn +50 XP and a speed boost.';q.a.forEach((answer,i)=>{const b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+answer;b.onclick=()=>{if(!gateOpen)return;gateOpen=false;[...$('answers').children].forEach(x=>x.disabled=true);if(i===q.correct){state.xp+=50;state.score+=100;state.boost=5;state.speed=Math.min(.62,state.speed+.055);$('questionFeedback').textContent='Correct! '+q.why+' +50 XP · SPEED BOOST!';}else{$('questionFeedback').textContent='Oh no! '+q.why+' You lost one heart.';crash()}updateHud();setTimeout(()=>{$('questionScreen').classList.add('hidden');if(!state.over){state.running=true;last=performance.now();raf=requestAnimationFrame(loop)}},1250)};$('answers').appendChild(b)});$('questionScreen').classList.remove('hidden')}
-function projectCollision(o){if(o.z<.86||o.z>1.03||o.hit)return;const same=o.lane===state.lane;if(!same)return;o.hit=true;if(o.kind==='star'){state.score+=25;state.xp+=5;updateHud();return}if(o.kind==='hurdle'&&state.jump>.28)return;crash()}
-function loop(now){if(!state.running||state.over||gateOpen)return;const dt=Math.min((now-last)/1000,.035);last=now;state.elapsed+=dt;state.visualLane+=(state.lane-state.visualLane)*Math.min(1,dt*11);state.dist+=dt*(state.speed*75);state.score+=Math.floor(dt*state.speed*10);state.trackOffset=(state.trackOffset+dt*state.speed*1.8)%1;state.jump=Math.max(0,state.jump-dt*1.7);if(state.boost>0)state.boost=Math.max(0,state.boost-dt);gateClock+=dt;spawnClock+=dt;
- if(spawnClock>1.05/state.speed){spawnClock=0;spawn();if(Math.random()<.65)spawnStars()}
- state.objects.forEach(o=>{o.z+=dt*state.speed*1.12;projectCollision(o)});state.objects=state.objects.filter(o=>o.z<1.13&&!o.hit);
- if(gateClock>=15){gateClock=0;openGate();draw();return}
- updateHud();draw();raf=requestAnimationFrame(loop)}
-function start(){cancelAnimationFrame(raf);reset();$('startScreen').classList.add('hidden');$('endScreen').classList.add('hidden');$('questionScreen').classList.add('hidden');state.running=true;last=performance.now();raf=requestAnimationFrame(loop)}
-function endGame(won){state.over=true;state.running=false;cancelAnimationFrame(raf);$('endTitle').textContent=won?'Champion Run!':'Game Over';$('endSummary').textContent='Distance: '+Math.floor(state.dist)+' m · Score: '+state.score+' · XP earned: '+state.xp+'. Your run has been recorded on this device.';$('endScreen').classList.remove('hidden')}
-function move(dir){if(!state?.running||gateOpen)return;state.lane=Math.max(-1,Math.min(1,state.lane+dir))}
-function jump(){if(!state?.running||gateOpen)return;if(state.jump===0)state.jump=1}
-window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['arrowleft','arrowright','arrowup',' '].includes(k))e.preventDefault();if(e.repeat)return;if(k==='arrowleft'||k==='a')move(-1);if(k==='arrowright'||k==='d')move(1);if(k==='arrowup'||k==='w'||k===' ')jump()});
-document.querySelectorAll('[data-control]').forEach(b=>{const action=()=>{const c=b.dataset.control;if(c==='left')move(-1);if(c==='right')move(1);if(c==='jump')jump()};b.addEventListener('pointerdown',e=>{e.preventDefault();action()})});
-$('startBtn').onclick=start;$('restartBtn').onclick=start;
-reset();draw();
-})();
+function drawRunner(){
+ const x=laneX(state.visualLane,1)-31;
+ const ground=H-32;
+ const y=ground-96-state.jumpY;
+ const w=62,h=96;
+ ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.4:1;
+ ctx.fillStyle='#17251d';ctx.globalAlpha*=.28;ctx.beginPath();ctx.ellipse(x+31,ground+3,state.jumpY>4?17:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
+ ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
+ const jumping=state.jumpY>4;
+ const img=assets[jumping?'playerJump':'playerRun'];
+ if(img&&img.complete&&img.naturalWidth){
+   if(jumping)ctx.drawImage(img,0,0,img.naturalWidth,img.naturalHeight,x,y,w,h);
+   else{const frame=Math.floor(state.elapsed*11)%4;ctx.drawImage(img,frame*64,0,64,96,x,y,w,h);}
+ }else drawFallbackRunner(x,y,w,h,0,jumping);
+ ctx.restore();
+}
+function drawStar(x,y,size){
+ const im=assets.star;
+ if(im&&im.complete&&im.naturalWidth){ctx.drawImage(im,x-size/2,y-size/2,size,size);return;}
+ ctx.save();ctx.translate(x,y);ctx.rotate(state.elapsed*2);ctx.fillStyle='#ffce45';ctx.strokeStyle='#754b20';ctx.lineWidth=2;ctx.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?size*.22:size*.5;ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);}ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
+}
+function drawEntity(o){
+ const z=Math.max(0,o.z),x=laneX(o.lane,z),base=HORIZON+z*(H-HORIZON),scale=.28+z*1.12;
+ if(o.kind==='star'){drawStar(x,base-27*scale,28*scale);return;}
+ const img=assets.hurdle;
+ if(o.kind==='hurdle'&&img&&img.complete&&img.naturalWidth){ctx.drawImage(img,x-42*scale,base-33*scale,84*scale,36*scale);return;}
+ if(o.kind==='hurdle'){
+   ctx.fillStyle='#36465a';ctx.fillRect(x-33*scale,base-30*scale,7*scale,31*scale);ctx.fillRect(x+26*scale,base-30*scale,7*scale,31*scale);
+   ctx.fillStyle='#f0dfc4';ctx.fillRect(x-39*scale,base-36*scale,78*scale,10*scale);
+   ctx.fillStyle='#b53c32';for(let i=0;i<4;i++)poly([[x-38*scale+i*20*scale,base-36*scale],[x-27*scale+i*20*scale,base-36*scale],[x-34*scale+i*20*scale,base-26*scale],[x-45*scale+i*20*scale,base-26*scale]],'#b53c32');
+ }else{
+   poly([[x,base-44*scale],[x-20*scale,base],[x+20*scale,base]],'#e56f3e');
+   ctx.fillStyle='#fff0d0';ctx.fillRect(x-11*scale,base-21*scale,22*scale,5*scale);
+ }
+}
+function drawScene(){
+ ctx.clearRect(0,0,W,H);drawStadium();
+ state.objects.slice().sort((a,b)=>a.z-b.z).forEach(drawEntity);
+ drawRunner();
+ if(state.boost>0){ctx.fillStyle='#ffe18a';ctx.font='bold 13px monospace';ctx.textAlign='center';ctx.fillText('SPEED BOOST!',240,205);ctx.textAlign='left';}
+ // soft vignette
+ const v=ctx.createLinearGradient(0,0,0,H);v.addColorStop(0,'rgba(4,12,24,.03)');v.addColorStop(1,'rgba(4,12,24,.16)');ctx.fillStyle=v;ctx.fillRect(0,0,W,H);
+}
+function addParticle(x,y,color){for(let i=0;i<7;i++)state.particles.push({x,y,vx:(Math.random()-.5)*100,vy:-Math.random()*100,life:.45,color});}
+function drawParticles(dt){state.particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=160*dt;p.life-=dt;ctx.globalAlpha=Math.max(0,p.life/.45);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,3,3);});ctx.globalAlpha=1;state.particles=state.particles.filter(p=>p.life>0);}
+function spawnObject(){
+ const lane=Math.floor(Math.random()*3);
+ const kind=Math.random()<.52?'hurdle':'cone';
+ state.objects.push({lane,kind,z:0,hit:false});
+ if(Math.random()<.72){const starLane=Math.floor(Math.random()*3);state.objects.push({lane:starLane,kind:'star',z:-.25,hit:false});}
+}
+function collide(o){
+ if(o.hit||o.z<.91||o.z>1.02)return;
+ if(o.lane!==Math.round(state.visualLane))return;
+ o.hit=true;
+ const x=laneX(o.lane,1);
+ if(o.kind==='star'){state.score+=50;state.xp+=5;addParticle(x,440,'#ffdc62');updateHud();return;}
+ if(o.kind==='hurdle'&&state.jumpY>34)return;
+ if(state.invulnerable>0)return;
+ state.lives--;state.invulnerable=1.15;addParticle(x,445,'#f28c68');updateHud();
+ if(state.lives<=0)finishRun();
+}
+function showGate(){
+ if(!state.active||state.over)return;
+ state.active=false;gateBusy=true;
+ const q=questions[questionIndex++%questions.length];
+ $('quiz-question-box').textContent=q.q;$('quiz-options-box').innerHTML='';$('quiz-feedback').textContent='Choose the correct answer. Correct answers earn +50 XP and a speed boost.';
+ q.a.forEach((answer,index)=>{
+  const b=document.createElement('button');b.className='option-node';b.textContent=String.fromCharCode(65+index)+'. '+answer;
+  b.addEventListener('click',function(){
+   if(!gateBusy)return;gateBusy=false;
+   Array.from($('quiz-options-box').children).forEach(x=>x.disabled=true);
+   if(index===q.c){state.xp+=50;state.score+=100;state.speed=Math.min(.82,state.speed+.055);state.boost=5;$('quiz-feedback').textContent='Correct! '+q.why+' +50 XP and a speed boost!';}
+   else{state.lives--;state.invulnerable=1.2;$('quiz-feedback').textContent='Not quite. '+q.why+' You lost one heart.';if(state.lives<=0){updateHud();finishRun();return;}}
+   updateHud();
+   setTimeout(function(){overlays.quiz.classList.add('hidden');if(!state.over){state.active=true;lastTime=performance.now();raf=requestAnimationFrame(loop);}},1300);
+  });
+  $('quiz-options-box').appendChild(b);
+ });
+ overlays.quiz.classList.remove('hidden');
+}
+function finishRun(){
+ state.over=true;state.active=false;cancelAnimationFrame(raf);
+ highScore=Math.max(highScore,state.score);localStorage.setItem('sqRunnerHighScore',String(highScore));updateHud();
+ $('end-title').textContent=state.lives>0?'Champion Run!':'Game Over';
+ $('end-summary').textContent='Distance: '+Math.floor(state.dist)+' m · Score: '+state.score+' · XP earned: '+state.xp+'.';
+ overlays.end.classList.remove('hidden');
+}
+function update(dt){
+ state.elapsed+=dt;state.visualLane+=(state.lane-state.visualLane)*Math.min(1,dt*12);
+ state.dist+=dt*state.speed*65;state.score+=Math.floor(dt*state.speed*8);
+ state.trackOffset=(state.trackOffset+dt*state.speed*1.4)%1;
+ if(state.jumpY>0||state.jumpV>0){state.jumpY+=state.jumpV*dt;state.jumpV-=1250*dt;if(state.jumpY<=0){state.jumpY=0;state.jumpV=0;}}
+ if(state.invulnerable>0)state.invulnerable=Math.max(0,state.invulnerable-dt);
+ if(state.boost>0)state.boost=Math.max(0,state.boost-dt);
+ spawnClock+=dt;gateClock+=dt;
+ if(spawnClock>Math.max(.72,1.22-(state.speed-.43)*.8)){spawnClock=0;spawnObject();}
+ state.objects.forEach(o=>{o.z+=dt*state.speed*.78;collide(o);});
+ state.objects=state.objects.filter(o=>o.z<1.12&&!o.hit);
+ updateHud();
+ if(gateClock>=15){gateClock=0;showGate();}
+}
+function loop(now){
+ if(!state.active||state.over||gateBusy)return;
+ const dt=Math.min((now-lastTime)/1000,.035);lastTime=now;
+ update(dt);drawScene();drawParticles(dt);
+ if(state.active&&!state.over&&!gateBusy)raf=requestAnimationFrame(loop);
+}
+function moveLane(dir){if(!state.active||gateBusy||state.over)return;state.lane=Math.max(0,Math.min(2,state.lane+dir));}
+function jump(){if(!state.active||gateBusy||state.over)return;if(state.jumpY<=0&&state.jumpV<=0)state.jumpV=560;}
+function startRun(){
+ cancelAnimationFrame(raf);state=freshState();spawnClock=0;gateClock=0;questionIndex=0;gateBusy=false;
+ Object.values(overlays).forEach(o=>o.classList.add('hidden'));state.active=true;lastTime=performance.now();updateHud();drawScene();raf=requestAnimationFrame(loop);
+}
+function pauseRun(){if(!state.active)return;state.active=false;cancelAnimationFrame(raf);overlays.pause.classList.remove('hidden');}
+function resumeRun(){overlays.pause.classList.add('hidden');if(state.over)return;state.active=true;lastTime=performance.now();raf=requestAnimationFrame(loop);}
+window.addEventListener('keydown',function(e){
+ const k=e.key.toLowerCase();
+ if(['arrowleft','arrowright','arrowup',' '].includes(k))e.preventDefault();
+ if(k==='escape'||k==='p'){if(state.active)pauseRun();else if(!overlays.pause.classList.contains('hidden'))resumeRun();return;}
+ if(k==='arrowleft'||k==='a')moveLane(-1);
+ if(k==='arrowright'||k==='d')moveLane(1);
+ if(k==='arrowup'||k==='w'||k===' ')jump();
+});
+$('ctrl-left').addEventListener('pointerdown',e=>{e.preventDefault();moveLane(-1);});
+$('ctrl-right').addEventListener('pointerdown',e=>{e.preventDefault();moveLane(1);});
+$('ctrl-jump').addEventListener('pointerdown',e=>{e.preventDefault();jump();});
+$('start-btn').addEventListener('click',startRun);
+$('restart-btn').addEventListener('click',startRun);
+$('resume-btn').addEventListener('click',resumeRun);
+document.addEventListener('visibilitychange',function(){if(document.hidden&&state.active)pauseRun();});
+state=freshState();updateHud();drawScene();
+});
 </script>
 </body>
 </html>
