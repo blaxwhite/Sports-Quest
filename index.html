@@ -271,6 +271,29 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
  .guide-duo-row.duo-play .hero-guide,.guide-duo-row.duo-play .hero-guide-sprite,.guide-duo-row.duo-play .hero-guide:after{animation:none!important}
 }
 
+
+/* The guide buttons carry the character through the full move sequence. */
+@keyframes duo-left-action{
+  0%,100%{transform:translateX(0) translateY(0) scale(1)}
+  9%{transform:translateX(0) translateY(7px) scale(.95,.88)}
+  23%{transform:translateX(calc(var(--duo-travel)*.35)) translateY(-48px) rotate(-6deg) scale(1.04)}
+  34%{transform:translateX(calc(var(--duo-travel)*.55)) translateY(0) rotate(0) scale(1)}
+  48%{transform:translateX(calc(var(--duo-travel)*.8)) translateY(-2px) scale(1)}
+  65%{transform:translateX(calc(var(--duo-travel)*1.25)) translateY(0) scale(1.02)}
+  78%{transform:translateX(calc(var(--duo-travel)*1.8)) translateY(-3px) scale(1.05)}
+  88%{transform:translateX(calc(var(--duo-travel)*.6)) translateY(0) scale(1)}
+}
+@keyframes duo-right-action{
+  0%,100%{transform:translateX(0) translateY(0) scale(1)}
+  9%{transform:translateX(0) translateY(7px) scale(.95,.88)}
+  23%{transform:translateX(calc(var(--duo-travel)*-.35)) translateY(-48px) rotate(6deg) scale(1.04)}
+  34%{transform:translateX(calc(var(--duo-travel)*-.55)) translateY(0) rotate(0) scale(1)}
+  48%{transform:translateX(calc(var(--duo-travel)*-.8)) translateY(-2px) scale(1)}
+  65%{transform:translateX(calc(var(--duo-travel)*-1.25)) translateY(0) scale(1.02)}
+  78%{transform:translateX(calc(var(--duo-travel)*-1.8)) translateY(-3px) scale(1.05)}
+  88%{transform:translateX(calc(var(--duo-travel)*-.6)) translateY(0) scale(1)}
+}
+
 </style></head>
 <body><div class="site-bg"></div>
 <nav class="topnav"><a class="brand" href="index.html" aria-label="Sports Quest home"><img class="brand-logo" src="assets/images/sports-quest-logo-transparent.png" alt="Sports Quest: Kingdom of Champions"><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="#lessons">Sports Guide</a><a href="arcade.html?v=5.2">Arcade Zone</a><a class="nav-cta" href="arcade.html?v=5.2">Start learning <span class="quest-arrow" aria-hidden="true">➜</span></a></div></nav>
