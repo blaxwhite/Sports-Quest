@@ -83,34 +83,51 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 .hero-guide.guide-left .hero-guide-sprite{transform:none}
 .hero-guide.guide-right .hero-guide-sprite{transform:scaleX(-1)}
 .hero-guide:hover .hero-guide-sprite{filter:drop-shadow(0 9px 5px #ffd47799)}
-.hero-guide.is-moving{animation:hero-run-across 2.4s ease-in-out}
-@keyframes hero-run-across{
-0%{transform:translateX(0) translateY(0)}
-9%{transform:translateX(0) translateY(-34px)}
-18%{transform:translateX(-12vw) translateY(0)}
-42%{transform:translateX(-112vw) translateY(0)}
-43%{transform:translateX(112vw) translateY(0)}
-68%{transform:translateX(42vw) translateY(0)}
-82%{transform:translateX(12vw) translateY(-28px)}
-91%,100%{transform:translateX(0) translateY(0)}
-}
+/* Tap either guide to trigger a shared jump-in, dash and celebration. */
 .hero-guide:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:12px}
+.guide-duo-row{--duo-travel:clamp(20px,4vw,42px)}
+.guide-duo-row.duo-play .hero-guide{animation-duration:1.75s;animation-timing-function:cubic-bezier(.2,.75,.25,1);animation-fill-mode:both}
+.guide-duo-row.duo-play .guide-left{animation-name:duo-left-action}
+.guide-duo-row.duo-play .guide-right{animation-name:duo-right-action}
+.guide-duo-row.duo-play .hero-guide-sprite{animation:hero-idle-frames .55s steps(1,end) infinite,duo-run-bounce .14s ease-in-out infinite}
+@keyframes duo-left-action{
+ 0%,100%{transform:translateX(0) translateY(0) scale(1)}
+ 9%{transform:translateX(0) translateY(7px) scale(.96,.88)}
+ 25%{transform:translateX(calc(var(--duo-travel)*.65)) translateY(-53px) rotate(-7deg) scale(1.04)}
+ 38%{transform:translateX(var(--duo-travel)) translateY(-4px) rotate(5deg) scale(1.08,.9)}
+ 49%{transform:translateX(var(--duo-travel)) translateY(0) rotate(0) scale(1)}
+ 63%{transform:translateX(calc(var(--duo-travel)*.45)) translateY(-25px) rotate(5deg) scale(1.02)}
+ 78%{transform:translateX(0) translateY(0) rotate(0) scale(1)}
+ 88%{transform:translateX(0) translateY(-13px) scale(1.03)}
+}
+@keyframes duo-right-action{
+ 0%,100%{transform:translateX(0) translateY(0) scale(1)}
+ 9%{transform:translateX(0) translateY(7px) scale(.96,.88)}
+ 25%{transform:translateX(calc(var(--duo-travel)*-.65)) translateY(-53px) rotate(7deg) scale(1.04)}
+ 38%{transform:translateX(calc(var(--duo-travel)*-1)) translateY(-4px) rotate(-5deg) scale(1.08,.9)}
+ 49%{transform:translateX(calc(var(--duo-travel)*-1)) translateY(0) rotate(0) scale(1)}
+ 63%{transform:translateX(calc(var(--duo-travel)*-.45)) translateY(-25px) rotate(-5deg) scale(1.02)}
+ 78%{transform:translateX(0) translateY(0) rotate(0) scale(1)}
+ 88%{transform:translateX(0) translateY(-13px) scale(1.03)}
+}
+@keyframes duo-run-bounce{
+ 0%,100%{translate:0 0;scale:1 1}
+ 50%{translate:0 -4px;scale:1 .97}
+}
 @media(max-width:760px){
  .section-head{display:block;margin-bottom:8px}
  .section-head p{margin-top:8px}
- .guide-duo-row{height:88px;margin:0 0 12px;gap:4px}
+ .guide-duo-row{height:88px;margin:0 0 12px;gap:4px;--duo-travel:clamp(16px,5vw,27px)}
  .guide-duo-row:after{width:142px;bottom:7px}
  .hero-guide{width:68px;height:82px;min-width:68px}
- @keyframes hero-run-across{
- 0%{transform:translateX(0) translateY(0)}
- 10%{transform:translateX(0) translateY(-25px)}
- 20%{transform:translateX(-12vw) translateY(0)}
- 43%{transform:translateX(-112vw) translateY(0)}
- 44%{transform:translateX(112vw) translateY(0)}
- 70%{transform:translateX(40vw) translateY(0)}
- 84%{transform:translateX(10vw) translateY(-22px)}
- 100%{transform:translateX(0) translateY(0)}
- }
+}
+@media(max-width:390px){
+ .guide-duo-row{height:76px;gap:0;--duo-travel:17px}
+ .guide-duo-row:after{width:120px}
+ .hero-guide{width:56px;height:68px;min-width:56px}
+}
+@media(prefers-reduced-motion:reduce){
+ .guide-duo-row.duo-play .hero-guide,.guide-duo-row.duo-play .hero-guide-sprite{animation:none!important}
 }
 @media(max-width:390px){.guide-duo-row{height:76px;gap:0}.guide-duo-row:after{width:120px}.hero-guide{width:56px;height:68px;min-width:56px}}
 /* Animated main title */
@@ -197,12 +214,17 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
  document.addEventListener('keydown',event=>{if(event.key==='Escape')close()});
 })();
 </script><script>
-document.querySelectorAll('.hero-guide').forEach((hero)=>{
-  hero.addEventListener('click',()=>{
-    hero.classList.remove('is-moving');
-    void hero.offsetWidth;
-    hero.classList.add('is-moving');
+document.querySelectorAll('.guide-duo-row').forEach((duo)=>{
+  const guides=duo.querySelectorAll('.hero-guide');
+  guides.forEach((hero)=>{
+    hero.addEventListener('click',()=>{
+      duo.classList.remove('duo-play');
+      void duo.offsetWidth;
+      duo.classList.add('duo-play');
+    });
   });
-  hero.addEventListener('animationend',()=>hero.classList.remove('is-moving'));
+  guides[0]?.addEventListener('animationend',(event)=>{
+    if(event.target===guides[0] && duo.classList.contains('duo-play')) duo.classList.remove('duo-play');
+  });
 });
 </script></body></html>
