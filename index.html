@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101d2b"><meta name="description" content="Explore sports knowledge for Year 5 English Unit 6: Sport."><title>SPORTS QUEST | Kingdom of Champions</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/site.css?v=6.5">
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101d2b"><meta name="description" content="Explore sports knowledge for Year 5 English Unit 6: Sport."><title>SPORTS QUEST | Kingdom of Champions</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/site.css?v=6.6">
 <style>
 :root{--bg:#0b1722;--panel:#172c3b;--panel2:#1e3945;--line:#405d65;--gold:#ffd477;--cream:#fff2d5;--muted:#bdcbd0;--green:#9bd3a8}
 body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans-serif}.site-bg{background:radial-gradient(ellipse at 10% 5%,#477b5b55,transparent 34%),radial-gradient(ellipse at 88% 25%,#ad794033,transparent 30%),linear-gradient(145deg,#0b1722,#142b3b 58%,#10251f)}
@@ -167,54 +167,69 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
  image-rendering:pixelated;
 }
 
-/* Consistent typography and left alignment for every homepage section heading. */
+/* Homepage section typography: clear hierarchy, consistent left alignment and stronger contrast. */
 .content-section>.section-head{
+ display:grid;
+ grid-template-columns:minmax(0,1fr);
+ justify-items:start;
+ align-items:start;
+ gap:10px;
+ width:100%;
+ margin:0 0 18px;
+ text-align:left;
+}
+.content-section>.section-head>div{
+ width:100%;
  display:flex;
  flex-direction:column;
  align-items:flex-start;
- justify-content:flex-start;
- gap:7px;
- margin:0 0 12px;
  text-align:left;
 }
-.content-section>.section-head>div{width:100%;text-align:left}
 .content-section>.section-head .kicker{
  display:block;
- font-size:9px;
- line-height:1.8;
- letter-spacing:.12em;
+ margin:0 0 5px;
+ color:#f4c96f;
+ font-family:'Outfit','DM Sans',sans-serif;
+ font-size:11px;
+ font-weight:800;
+ line-height:1.5;
+ letter-spacing:.16em;
  text-align:left;
 }
 .content-section>.section-head h2{
- margin:2px 0 0;
- max-width:760px;
+ width:100%;
+ max-width:850px;
+ margin:0;
+ color:#fff0d1;
  font-family:'Space Grotesk','Outfit',sans-serif;
- font-size:clamp(29px,4.2vw,40px);
+ font-size:clamp(34px,4.8vw,46px);
  font-weight:700;
- line-height:1.12;
- letter-spacing:-.045em;
+ line-height:1.08;
+ letter-spacing:-.055em;
  text-align:left;
  text-wrap:balance;
 }
 .content-section>.section-head p{
+ display:block;
  width:100%;
- max-width:650px;
+ max-width:690px;
  margin:0;
  color:#c5d2d2;
- font-family:'Outfit','DM Sans',sans-serif;
- font-size:14px;
+ font-family:'DM Sans','Outfit',sans-serif;
+ font-size:15px;
  font-weight:400;
- line-height:1.7;
+ line-height:1.75;
  text-align:left;
 }
 @media(max-width:760px){
- .content-section>.section-head{gap:6px;margin-bottom:10px}
- .content-section>.section-head h2{font-size:clamp(27px,7.2vw,34px);line-height:1.12}
- .content-section>.section-head p{max-width:100%;font-size:13.5px;line-height:1.65}
+ .content-section>.section-head{gap:8px;margin-bottom:15px}
+ .content-section>.section-head .kicker{font-size:10px;letter-spacing:.13em}
+ .content-section>.section-head h2{font-size:clamp(30px,8vw,38px);line-height:1.1;letter-spacing:-.045em}
+ .content-section>.section-head p{max-width:100%;font-size:14px;line-height:1.7}
 }
 @media(max-width:390px){
- .content-section>.section-head h2{font-size:27px}
- .content-section>.section-head .kicker{font-size:8px}
+ .content-section>.section-head h2{font-size:29px}
+ .content-section>.section-head .kicker{font-size:9px}
 }
 </style></head>
 <body><div class="site-bg"></div>
