@@ -106,53 +106,21 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 .hero-guide.guide-left .hero-guide-sprite{transform:none}
 .hero-guide.guide-right .hero-guide-sprite{transform:scaleX(-1)}
 .hero-guide:hover .hero-guide-sprite{filter:drop-shadow(0 9px 5px #ffd47799)}
-/* Tap either guide to trigger a shared jump-in, dash and celebration. */
+
+/* Guide controls: one clean animation system, no legacy duo-play effects. */
 .hero-guide:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:12px}
-.guide-duo-row{--duo-travel:clamp(20px,4vw,42px)}
-.guide-duo-row.duo-play .hero-guide{animation-duration:1.75s;animation-timing-function:cubic-bezier(.2,.75,.25,1);animation-fill-mode:both}
-.guide-duo-row.duo-play .guide-left{animation-name:duo-left-action}
-.guide-duo-row.duo-play .guide-right{animation-name:duo-right-action}
-.guide-duo-row.duo-play .hero-guide-sprite{animation:hero-idle-frames .55s steps(1,end) infinite,duo-run-bounce .14s ease-in-out infinite}
-@keyframes duo-left-action{
- 0%,100%{transform:translateX(0) translateY(0) scale(1)}
- 9%{transform:translateX(0) translateY(7px) scale(.96,.88)}
- 25%{transform:translateX(calc(var(--duo-travel)*.65)) translateY(-53px) rotate(-7deg) scale(1.04)}
- 38%{transform:translateX(var(--duo-travel)) translateY(-4px) rotate(5deg) scale(1.08,.9)}
- 49%{transform:translateX(var(--duo-travel)) translateY(0) rotate(0) scale(1)}
- 63%{transform:translateX(calc(var(--duo-travel)*.45)) translateY(-25px) rotate(5deg) scale(1.02)}
- 78%{transform:translateX(0) translateY(0) rotate(0) scale(1)}
- 88%{transform:translateX(0) translateY(-13px) scale(1.03)}
-}
-@keyframes duo-right-action{
- 0%,100%{transform:translateX(0) translateY(0) scale(1)}
- 9%{transform:translateX(0) translateY(7px) scale(.96,.88)}
- 25%{transform:translateX(calc(var(--duo-travel)*-.65)) translateY(-53px) rotate(7deg) scale(1.04)}
- 38%{transform:translateX(calc(var(--duo-travel)*-1)) translateY(-4px) rotate(-5deg) scale(1.08,.9)}
- 49%{transform:translateX(calc(var(--duo-travel)*-1)) translateY(0) rotate(0) scale(1)}
- 63%{transform:translateX(calc(var(--duo-travel)*-.45)) translateY(-25px) rotate(-5deg) scale(1.02)}
- 78%{transform:translateX(0) translateY(0) rotate(0) scale(1)}
- 88%{transform:translateX(0) translateY(-13px) scale(1.03)}
-}
-@keyframes duo-run-bounce{
- 0%,100%{translate:0 0;scale:1 1}
- 50%{translate:0 -4px;scale:1 .97}
-}
 @media(max-width:760px){
  .section-head{display:block;margin-bottom:8px}
  .section-head p{margin-top:8px}
- .guide-duo-row{height:88px;margin:0 0 12px;gap:4px;--duo-travel:clamp(16px,5vw,27px)}
+ .guide-duo-row{height:88px;margin:0 0 12px;gap:4px}
  .guide-duo-row:after{width:142px;bottom:7px}
  .hero-guide{width:68px;height:82px;min-width:68px}
 }
 @media(max-width:390px){
- .guide-duo-row{height:76px;gap:0;--duo-travel:17px}
+ .guide-duo-row{height:76px;gap:0}
  .guide-duo-row:after{width:120px}
  .hero-guide{width:56px;height:68px;min-width:56px}
 }
-@media(prefers-reduced-motion:reduce){
- .guide-duo-row.duo-play .hero-guide,.guide-duo-row.duo-play .hero-guide-sprite{animation:none!important}
-}
-@media(max-width:390px){.guide-duo-row{height:76px;gap:0}.guide-duo-row:after{width:120px}.hero-guide{width:56px;height:68px;min-width:56px}}
 /* Animated main title */
 .hero-title-row h1.title-animated{animation:titleBreathe 2.8s ease-in-out infinite;transform-origin:left center;will-change:transform}
 @keyframes titleBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
@@ -239,109 +207,43 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
  .content-section>.section-head .kicker{font-size:9px}
 }
 
-/* Character moveset: jump, run cycle, dash and return. Uses the existing 5x4 hero sprite sheet. */
-.guide-duo-row.duo-play .hero-guide{animation-duration:2.35s;animation-timing-function:cubic-bezier(.18,.72,.22,1);animation-fill-mode:both}
-.guide-duo-row.duo-play .hero-guide-sprite{animation:hero-moveset-frames 2.35s steps(1,end) both;will-change:background-position,transform,opacity}
-@keyframes hero-moveset-frames{
-  0%,7%{background-position:50% 66.6667%;transform:translateY(0) scale(1)}
-  12%{background-position:50% 66.6667%;transform:translateY(5px) scale(.94,.88)}
-  22%{background-position:50% 66.6667%;transform:translateY(-25px) scale(1.04)}
-  30%{background-position:50% 66.6667%;transform:translateY(-10px) scale(1.02)}
-  34%{background-position:0% 100%;transform:translateY(0) scale(1)}
-  42%{background-position:25% 100%;transform:translateY(-3px) scale(1)}
-  50%{background-position:50% 100%;transform:translateY(0) scale(1)}
-  58%{background-position:75% 100%;transform:translateY(-3px) scale(1)}
-  66%{background-position:100% 100%;transform:translateY(0) scale(1)}
-  73%{background-position:25% 100%;transform:translateY(-2px) scale(1.04)}
-  82%{background-position:50% 100%;transform:translateY(0) scale(1.08,.94);opacity:.12}
-  90%{background-position:75% 100%;transform:translateY(-5px) scale(1.03);opacity:.65}
-  100%{background-position:0% 0%;transform:translateY(0) scale(1);opacity:1}
-}
-.guide-duo-row.duo-play .hero-guide:after{content:"";position:absolute;z-index:2;top:48%;width:38px;height:5px;border-radius:50%;background:linear-gradient(90deg,transparent,#8dd7e8aa,transparent);opacity:0;pointer-events:none}
-.guide-duo-row.duo-play .guide-left:after{right:65%}
-.guide-duo-row.duo-play .guide-right:after{left:65%}
-.guide-duo-row.duo-play .hero-guide:after{animation:hero-dash-trail 2.35s ease-out both}
-@keyframes hero-dash-trail{
-  0%,66%{opacity:0;transform:scaleX(.2)}
-  73%{opacity:.9;transform:scaleX(1.2)}
-  84%{opacity:0;transform:scaleX(1.8)}
-  100%{opacity:0}
-}
-@media(prefers-reduced-motion:reduce){
- .guide-duo-row.duo-play .hero-guide,.guide-duo-row.duo-play .hero-guide-sprite,.guide-duo-row.duo-play .hero-guide:after{animation:none!important}
-}
 
-
-/* The guide buttons carry the character through the full move sequence. */
-@keyframes duo-left-action{
-  0%,100%{transform:translateX(0) translateY(0) scale(1)}
-  9%{transform:translateX(0) translateY(7px) scale(.95,.88)}
-  23%{transform:translateX(calc(var(--duo-travel)*.35)) translateY(-48px) rotate(-6deg) scale(1.04)}
-  34%{transform:translateX(calc(var(--duo-travel)*.55)) translateY(0) rotate(0) scale(1)}
-  48%{transform:translateX(calc(var(--duo-travel)*.8)) translateY(-2px) scale(1)}
-  65%{transform:translateX(calc(var(--duo-travel)*1.25)) translateY(0) scale(1.02)}
-  78%{transform:translateX(calc(var(--duo-travel)*1.8)) translateY(-3px) scale(1.05)}
-  88%{transform:translateX(calc(var(--duo-travel)*.6)) translateY(0) scale(1)}
+/* Click action: jump first, then use the five actual running poses while crossing the screen. */
+.guide-duo-row .hero-guide.is-running{
+ z-index:8;
+ pointer-events:none;
+ animation:guide-jump-and-cross 2.8s cubic-bezier(.2,.72,.25,1) both!important;
+ will-change:transform,opacity;
 }
-@keyframes duo-right-action{
-  0%,100%{transform:translateX(0) translateY(0) scale(1)}
-  9%{transform:translateX(0) translateY(7px) scale(.95,.88)}
-  23%{transform:translateX(calc(var(--duo-travel)*-.35)) translateY(-48px) rotate(6deg) scale(1.04)}
-  34%{transform:translateX(calc(var(--duo-travel)*-.55)) translateY(0) rotate(0) scale(1)}
-  48%{transform:translateX(calc(var(--duo-travel)*-.8)) translateY(-2px) scale(1)}
-  65%{transform:translateX(calc(var(--duo-travel)*-1.25)) translateY(0) scale(1.02)}
-  78%{transform:translateX(calc(var(--duo-travel)*-1.8)) translateY(-3px) scale(1.05)}
-  88%{transform:translateX(calc(var(--duo-travel)*-.6)) translateY(0) scale(1)}
+.guide-duo-row .hero-guide.is-running .hero-guide-sprite{
+ animation:guide-character-poses 2.8s steps(1,end) both!important;
+ will-change:background-position;
 }
-
-
-/* Female guide: use her own 5x4 sprite sheet for a matching jump, run and dash sequence. */
-.guide-duo-row.duo-play .hero-guide-female .hero-guide-sprite{
- animation:female-moveset-frames 2.35s steps(1,end) both!important;
-}
-@keyframes female-moveset-frames{
-  0%,7%{background-position:0% 0%;transform:translateY(0) scale(1);opacity:1}
-  12%{background-position:25% 0%;transform:translateY(5px) scale(.94,.88);opacity:1}
-  20%{background-position:50% 0%;transform:translateY(-22px) scale(1.04);opacity:1}
-  27%{background-position:75% 0%;transform:translateY(-13px) scale(1.02);opacity:1}
-  32%{background-position:100% 0%;transform:translateY(-4px) scale(1);opacity:1}
-  38%{background-position:0% 100%;transform:translateY(0) scale(1);opacity:1}
-  44%{background-position:25% 100%;transform:translateY(-3px) scale(1);opacity:1}
-  50%{background-position:50% 100%;transform:translateY(0) scale(1);opacity:1}
-  56%{background-position:75% 100%;transform:translateY(-3px) scale(1);opacity:1}
-  62%{background-position:100% 100%;transform:translateY(0) scale(1);opacity:1}
-  70%{background-position:25% 100%;transform:translateY(-2px) scale(1.05);opacity:1}
-  80%{background-position:50% 100%;transform:translateY(0) scale(1.08,.94);opacity:.18}
-  89%{background-position:75% 100%;transform:translateY(-4px) scale(1.03);opacity:.7}
-  100%{background-position:0% 0%;transform:translateY(0) scale(1);opacity:1}
-}
-
-
-/* Click-triggered action: jump, sprint across the screen, then return. */
-.guide-duo-row .hero-guide.is-running{z-index:5;animation:guide-screen-run 2.5s cubic-bezier(.2,.7,.25,1) both!important;pointer-events:none}
-.guide-duo-row .hero-guide.is-running .hero-guide-sprite{animation:guide-run-frames .12s steps(1,end) infinite!important;will-change:background-position}
 .guide-duo-row .hero-guide.is-running.guide-left{--run-direction:1}
 .guide-duo-row .hero-guide.is-running.guide-right{--run-direction:-1}
-@keyframes guide-screen-run{
-  0%{transform:translateX(0) translateY(0) scale(1);opacity:1}
-  9%{transform:translateX(0) translateY(7px) scale(.96,.88);opacity:1}
-  19%{transform:translateX(0) translateY(-52px) scale(1.05);opacity:1}
-  27%{transform:translateX(0) translateY(0) scale(1);opacity:1}
-  77%{transform:translateX(calc(var(--run-direction)*min(72vw,780px))) translateY(0) scale(1);opacity:1}
-  84%{transform:translateX(calc(var(--run-direction)*min(72vw,780px))) translateY(-5px) scale(1.02);opacity:.25}
-  90%{transform:translateX(calc(var(--run-direction)*min(72vw,780px))) translateY(0) scale(1);opacity:0}
-  99%{transform:translateX(0) translateY(0) scale(1);opacity:0}
-  100%{transform:translateX(0) translateY(0) scale(1);opacity:1}
+@keyframes guide-jump-and-cross{
+ 0%{transform:translateX(0) translateY(0) scale(1);opacity:1}
+ 7%{transform:translateX(0) translateY(5px) scale(.96,.9);opacity:1}
+ 19%{transform:translateX(0) translateY(-48px) scale(1.03);opacity:1}
+ 26%{transform:translateX(0) translateY(0) scale(1);opacity:1}
+ 92%{transform:translateX(calc(var(--run-direction)*min(82vw,900px))) translateY(0) scale(1);opacity:1}
+ 97%{transform:translateX(calc(var(--run-direction)*min(82vw,900px))) translateY(0) scale(1);opacity:0}
+ 99%{transform:translateX(0) translateY(0) scale(1);opacity:0}
+ 100%{transform:translateX(0) translateY(0) scale(1);opacity:1}
 }
-@keyframes guide-run-frames{
-  0%,100%{background-position:0% 100%}
-  20%{background-position:25% 100%}
-  40%{background-position:50% 100%}
-  60%{background-position:75% 100%}
-  80%{background-position:100% 100%}
+@keyframes guide-character-poses{
+ 0%,26%{background-position:50% 66.6667%}
+ 27%{background-position:0% 100%}
+ 41%{background-position:25% 100%}
+ 55%{background-position:50% 100%}
+ 69%{background-position:75% 100%}
+ 83%,92%{background-position:100% 100%}
+ 100%{background-position:0% 0%}
 }
-@media(prefers-reduced-motion:reduce){.guide-duo-row .hero-guide.is-running,.guide-duo-row .hero-guide.is-running .hero-guide-sprite{animation:none!important}}
-
+@media(prefers-reduced-motion:reduce){
+ .guide-duo-row .hero-guide.is-running,
+ .guide-duo-row .hero-guide.is-running .hero-guide-sprite{animation:none!important}
+}
 </style></head>
 <body><div class="site-bg"></div>
 <nav class="topnav"><a class="brand" href="index.html" aria-label="Sports Quest home"><img class="brand-logo" src="assets/images/sports-quest-logo-transparent.png" alt="Sports Quest: Kingdom of Champions"><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="#lessons">Sports Guide</a><a href="arcade.html?v=5.2">Arcade Zone</a><a class="nav-cta" href="arcade.html?v=5.2">Start learning <span class="quest-arrow" aria-hidden="true">➜</span></a></div></nav>
@@ -406,16 +308,17 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
  document.addEventListener('keydown',event=>{if(event.key==='Escape')close()});
 })();
 </script><script>
-document.querySelectorAll('.guide-duo-row').forEach((duo)=>{
-  duo.querySelectorAll('.hero-guide').forEach((hero)=>{
-    hero.addEventListener('click',()=>{
+document.querySelectorAll('.guide-duo-row .hero-guide').forEach((hero)=>{
+  hero.addEventListener('click',()=>{
+    if(hero.classList.contains('is-running')) return;
+    hero.classList.remove('is-running');
+    void hero.offsetWidth;
+    hero.classList.add('is-running');
+  });
+  hero.addEventListener('animationend',(event)=>{
+    if(event.target===hero && event.animationName==='guide-jump-and-cross'){
       hero.classList.remove('is-running');
-      void hero.offsetWidth;
-      hero.classList.add('is-running');
-    });
-    hero.addEventListener('animationend',(event)=>{
-      if(event.target===hero && event.animationName==='guide-screen-run') hero.classList.remove('is-running');
-    });
+    }
   });
 });
 </script></body></html>
