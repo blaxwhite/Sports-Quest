@@ -245,7 +245,7 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
  .guide-duo-row .hero-guide.is-running .hero-guide-sprite{animation:none!important}
 }
 
-/* Real jump/run sprite sheets: idle -> jump -> run, then return to idle. */
+/* Frame-accurate sprite animation: 4 jump frames, then 4 run frames repeated twice. */
 .guide-duo-row .hero-guide.is-running .hero-guide-sprite{
   width:66%!important;
   height:100%!important;
@@ -253,8 +253,10 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
   background-repeat:no-repeat!important;
   background-size:400% 200%!important;
   background-position:0% 0%!important;
-  animation:guide-real-sprite-poses 2.8s steps(1,end) both!important;
   clip-path:none!important;
+  animation:
+    guide-jump-frames .56s steps(4,end) 1 both,
+    guide-run-frames 1.12s steps(4,end) 2 .56s both!important;
 }
 .guide-duo-row .hero-guide.is-running.guide-left .hero-guide-sprite{
   background-image:url("assets/images/characters/hero-moves.webp")!important;
@@ -262,17 +264,13 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 .guide-duo-row .hero-guide.is-running.guide-right .hero-guide-sprite{
   background-image:url("assets/images/characters/hero-female-moves.webp")!important;
 }
-@keyframes guide-real-sprite-poses{
-  0%,5%{background-position:0% 0%}
-  10%{background-position:33.333% 0%}
-  16%{background-position:66.667% 0%}
-  22%,25%{background-position:100% 0%}
-  26%,27%{background-position:0% 100%}
-  42%{background-position:33.333% 100%}
-  58%{background-position:66.667% 100%}
-  74%{background-position:100% 100%}
-  90%,92%{background-position:0% 100%}
-  100%{background-position:0% 0%}
+@keyframes guide-jump-frames{
+  from{background-position:0% 0%}
+  to{background-position:100% 0%}
+}
+@keyframes guide-run-frames{
+  from{background-position:0% 100%}
+  to{background-position:100% 100%}
 }
 @media(max-width:760px){
   .guide-duo-row .hero-guide.is-running .hero-guide-sprite{width:66%!important}
