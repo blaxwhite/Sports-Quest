@@ -187,3 +187,10 @@ body{image-rendering:auto}
 .quest-arrow{display:inline-block;margin-left:.28em;color:#ffd477;font-family:'Outfit',sans-serif;font-size:1.18em;font-weight:900;line-height:.8;vertical-align:-.04em;text-shadow:0 1px 0 #6d4b21;transition:transform .22s ease,color .22s ease,text-shadow .22s ease}
 a:hover .quest-arrow,button:hover .quest-arrow,a:focus-visible .quest-arrow,button:focus-visible .quest-arrow{transform:translateX(4px);color:#fff0b4;text-shadow:0 0 9px #ffd47788}
 @media(prefers-reduced-motion:reduce){.quest-arrow{transition:none}}
+
+
+/* Keep quest arrows readable against every button colour. */
+.quest-arrow{color:inherit;text-shadow:none}
+a:hover .quest-arrow,button:hover .quest-arrow,a:focus-visible .quest-arrow,button:focus-visible .quest-arrow{color:inherit;text-shadow:none}
+.nav-cta .quest-arrow,.btn-primary .quest-arrow,.play-link .quest-arrow{color:#172238;text-shadow:none}
+.btn-dark .quest-arrow{color:#fff2d5;text-shadow:none}
