@@ -238,6 +238,39 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
  .content-section>.section-head h2{font-size:29px}
  .content-section>.section-head .kicker{font-size:9px}
 }
+
+/* Character moveset: jump, run cycle, dash and return. Uses the existing 5x4 hero sprite sheet. */
+.guide-duo-row.duo-play .hero-guide{animation-duration:2.35s;animation-timing-function:cubic-bezier(.18,.72,.22,1);animation-fill-mode:both}
+.guide-duo-row.duo-play .hero-guide-sprite{animation:hero-moveset-frames 2.35s steps(1,end) both;will-change:background-position,transform,opacity}
+@keyframes hero-moveset-frames{
+  0%,7%{background-position:50% 66.6667%;transform:translateY(0) scale(1)}
+  12%{background-position:50% 66.6667%;transform:translateY(5px) scale(.94,.88)}
+  22%{background-position:50% 66.6667%;transform:translateY(-25px) scale(1.04)}
+  30%{background-position:50% 66.6667%;transform:translateY(-10px) scale(1.02)}
+  34%{background-position:0% 100%;transform:translateY(0) scale(1)}
+  42%{background-position:25% 100%;transform:translateY(-3px) scale(1)}
+  50%{background-position:50% 100%;transform:translateY(0) scale(1)}
+  58%{background-position:75% 100%;transform:translateY(-3px) scale(1)}
+  66%{background-position:100% 100%;transform:translateY(0) scale(1)}
+  73%{background-position:25% 100%;transform:translateY(-2px) scale(1.04)}
+  82%{background-position:50% 100%;transform:translateY(0) scale(1.08,.94);opacity:.12}
+  90%{background-position:75% 100%;transform:translateY(-5px) scale(1.03);opacity:.65}
+  100%{background-position:0% 0%;transform:translateY(0) scale(1);opacity:1}
+}
+.guide-duo-row.duo-play .hero-guide:after{content:"";position:absolute;z-index:2;top:48%;width:38px;height:5px;border-radius:50%;background:linear-gradient(90deg,transparent,#8dd7e8aa,transparent);opacity:0;pointer-events:none}
+.guide-duo-row.duo-play .guide-left:after{right:65%}
+.guide-duo-row.duo-play .guide-right:after{left:65%}
+.guide-duo-row.duo-play .hero-guide:after{animation:hero-dash-trail 2.35s ease-out both}
+@keyframes hero-dash-trail{
+  0%,66%{opacity:0;transform:scaleX(.2)}
+  73%{opacity:.9;transform:scaleX(1.2)}
+  84%{opacity:0;transform:scaleX(1.8)}
+  100%{opacity:0}
+}
+@media(prefers-reduced-motion:reduce){
+ .guide-duo-row.duo-play .hero-guide,.guide-duo-row.duo-play .hero-guide-sprite,.guide-duo-row.duo-play .hero-guide:after{animation:none!important}
+}
+
 </style></head>
 <body><div class="site-bg"></div>
 <nav class="topnav"><a class="brand" href="index.html" aria-label="Sports Quest home"><img class="brand-logo" src="assets/images/sports-quest-logo-transparent.png" alt="Sports Quest: Kingdom of Champions"><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="#lessons">Sports Guide</a><a href="arcade.html?v=5.2">Arcade Zone</a><a class="nav-cta" href="arcade.html?v=5.2">Start learning <span class="quest-arrow" aria-hidden="true">➜</span></a></div></nav>
