@@ -294,6 +294,28 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
   88%{transform:translateX(calc(var(--duo-travel)*-.6)) translateY(0) scale(1)}
 }
 
+
+/* Female guide: use her own 5x4 sprite sheet for a matching jump, run and dash sequence. */
+.guide-duo-row.duo-play .hero-guide-female .hero-guide-sprite{
+ animation:female-moveset-frames 2.35s steps(1,end) both!important;
+}
+@keyframes female-moveset-frames{
+  0%,7%{background-position:0% 0%;transform:translateY(0) scale(1);opacity:1}
+  12%{background-position:25% 0%;transform:translateY(5px) scale(.94,.88);opacity:1}
+  20%{background-position:50% 0%;transform:translateY(-22px) scale(1.04);opacity:1}
+  27%{background-position:75% 0%;transform:translateY(-13px) scale(1.02);opacity:1}
+  32%{background-position:100% 0%;transform:translateY(-4px) scale(1);opacity:1}
+  38%{background-position:0% 100%;transform:translateY(0) scale(1);opacity:1}
+  44%{background-position:25% 100%;transform:translateY(-3px) scale(1);opacity:1}
+  50%{background-position:50% 100%;transform:translateY(0) scale(1);opacity:1}
+  56%{background-position:75% 100%;transform:translateY(-3px) scale(1);opacity:1}
+  62%{background-position:100% 100%;transform:translateY(0) scale(1);opacity:1}
+  70%{background-position:25% 100%;transform:translateY(-2px) scale(1.05);opacity:1}
+  80%{background-position:50% 100%;transform:translateY(0) scale(1.08,.94);opacity:.18}
+  89%{background-position:75% 100%;transform:translateY(-4px) scale(1.03);opacity:.7}
+  100%{background-position:0% 0%;transform:translateY(0) scale(1);opacity:1}
+}
+
 </style></head>
 <body><div class="site-bg"></div>
 <nav class="topnav"><a class="brand" href="index.html" aria-label="Sports Quest home"><img class="brand-logo" src="assets/images/sports-quest-logo-transparent.png" alt="Sports Quest: Kingdom of Champions"><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="#lessons">Sports Guide</a><a href="arcade.html?v=5.2">Arcade Zone</a><a class="nav-cta" href="arcade.html?v=5.2">Start learning <span class="quest-arrow" aria-hidden="true">➜</span></a></div></nav>
