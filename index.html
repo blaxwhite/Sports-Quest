@@ -42,7 +42,7 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 
 .hero-title-row{display:flex;align-items:center;gap:8px;max-width:100%}
 .hero-title-row h1{flex:1 1 auto;min-width:0}
-.hero-mascot{flex:0 0 clamp(112px,13vw,150px);width:clamp(112px,13vw,150px);height:clamp(112px,13vw,150px);background-image:url("assets/images/characters/hero-idle.png");background-repeat:no-repeat;background-size:500% 400%;image-rendering:pixelated;pointer-events:none;filter:drop-shadow(0 7px 3px #101b25aa);animation:hero-idle-frames 6s steps(1,end) infinite}
+.hero-mascot{flex:0 0 clamp(112px,13vw,150px);width:clamp(112px,13vw,150px);height:clamp(112px,13vw,150px);background-image:url("assets/images/characters/hero-idle.png");background-repeat:no-repeat;background-size:500% 400%;image-rendering:pixelated;pointer-events:none;filter:drop-shadow(0 7px 3px #101b25aa);clip-path:inset(6% 0 2% 0);contain:paint;animation:hero-idle-frames 6s steps(1,end) infinite}
 @keyframes hero-idle-frames{
   0%{background-position:0% 0%}
   5%{background-position:25% 0%}
