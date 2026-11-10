@@ -316,6 +316,32 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
   100%{background-position:0% 0%;transform:translateY(0) scale(1);opacity:1}
 }
 
+
+/* Click-triggered action: jump, sprint across the screen, then return. */
+.guide-duo-row .hero-guide.is-running{z-index:5;animation:guide-screen-run 2.5s cubic-bezier(.2,.7,.25,1) both!important;pointer-events:none}
+.guide-duo-row .hero-guide.is-running .hero-guide-sprite{animation:guide-run-frames .12s steps(1,end) infinite!important;will-change:background-position}
+.guide-duo-row .hero-guide.is-running.guide-left{--run-direction:1}
+.guide-duo-row .hero-guide.is-running.guide-right{--run-direction:-1}
+@keyframes guide-screen-run{
+  0%{transform:translateX(0) translateY(0) scale(1);opacity:1}
+  9%{transform:translateX(0) translateY(7px) scale(.96,.88);opacity:1}
+  19%{transform:translateX(0) translateY(-52px) scale(1.05);opacity:1}
+  27%{transform:translateX(0) translateY(0) scale(1);opacity:1}
+  77%{transform:translateX(calc(var(--run-direction)*min(72vw,780px))) translateY(0) scale(1);opacity:1}
+  84%{transform:translateX(calc(var(--run-direction)*min(72vw,780px))) translateY(-5px) scale(1.02);opacity:.25}
+  90%{transform:translateX(calc(var(--run-direction)*min(72vw,780px))) translateY(0) scale(1);opacity:0}
+  99%{transform:translateX(0) translateY(0) scale(1);opacity:0}
+  100%{transform:translateX(0) translateY(0) scale(1);opacity:1}
+}
+@keyframes guide-run-frames{
+  0%,100%{background-position:0% 100%}
+  20%{background-position:25% 100%}
+  40%{background-position:50% 100%}
+  60%{background-position:75% 100%}
+  80%{background-position:100% 100%}
+}
+@media(prefers-reduced-motion:reduce){.guide-duo-row .hero-guide.is-running,.guide-duo-row .hero-guide.is-running .hero-guide-sprite{animation:none!important}}
+
 </style></head>
 <body><div class="site-bg"></div>
 <nav class="topnav"><a class="brand" href="index.html" aria-label="Sports Quest home"><img class="brand-logo" src="assets/images/sports-quest-logo-transparent.png" alt="Sports Quest: Kingdom of Champions"><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="#lessons">Sports Guide</a><a href="arcade.html?v=5.2">Arcade Zone</a><a class="nav-cta" href="arcade.html?v=5.2">Start learning <span class="quest-arrow" aria-hidden="true">➜</span></a></div></nav>
@@ -381,16 +407,15 @@ body{background:var(--bg);color:var(--cream);font-family:'Outfit','DM Sans',sans
 })();
 </script><script>
 document.querySelectorAll('.guide-duo-row').forEach((duo)=>{
-  const guides=duo.querySelectorAll('.hero-guide');
-  guides.forEach((hero)=>{
+  duo.querySelectorAll('.hero-guide').forEach((hero)=>{
     hero.addEventListener('click',()=>{
-      duo.classList.remove('duo-play');
-      void duo.offsetWidth;
-      duo.classList.add('duo-play');
+      hero.classList.remove('is-running');
+      void hero.offsetWidth;
+      hero.classList.add('is-running');
     });
-  });
-  guides[0]?.addEventListener('animationend',(event)=>{
-    if(event.target===guides[0] && duo.classList.contains('duo-play')) duo.classList.remove('duo-play');
+    hero.addEventListener('animationend',(event)=>{
+      if(event.target===hero && event.animationName==='guide-screen-run') hero.classList.remove('is-running');
+    });
   });
 });
 </script></body></html>
