@@ -182,14 +182,15 @@ function drawRunner(){
   // Sprite atlas: eight 192px columns, four 192px rows.
   // Row 0: run (8); row 1: jump (4); row 2: slide (4); row 3: stumble (4).
   let row=0,frame=Math.floor(state.elapsed*12)%8;
-  if(stumbling){row=3;frame=Math.min(3,Math.floor((.65-state.stumble)/.1625));}
+  if(stumbling){row=3;frame=Math.max(0,Math.min(3,Math.floor((.65-state.stumble)/.1625)));}
   else if(sliding){row=2;frame=Math.min(3,Math.floor((.7-state.slide)/.175));}
   else if(jumping){row=1;frame=state.jumpV>220?0:state.jumpV>0?1:state.jumpV< -220?3:2;}
-  const size=sliding?76:76;
-  const h=sliding?66:104;
+  const size=sliding?76:68;
+  const h=sliding?65:96;
   ctx.translate(x+31,baseY+96);
-  ctx.rotate(-state.lean*.1);
-  ctx.drawImage(sheet,frame*192,row*192,192,192,-size/2,-h,size,h);
+  ctx.rotate(-state.lean*.075);
+  // Crop the atlas cell to its central character region to suppress edge bleed.
+  ctx.drawImage(sheet,frame*192+16,row*192+8,160,176,-size/2,-h,size,h);
  }else{
   // Preserve the original character if the new sprite atlas has not been uploaded.
   ctx.translate(x+31,baseY+96);
@@ -247,7 +248,7 @@ function spawnObject(){
 }
 function collide(o){
  if(o.hit||o.z<.97||o.z>1.07)return;
- if(Math.abs(o.lane-state.visualLane)>.43)return;
+ if(o.lane!==state.lane)return;
  o.hit=true;
  const x=laneX(o.lane,1);
  if(o.kind==='star'){state.combo++;state.score+=50+Math.min(state.combo,10)*5;state.xp+=5;state.notice=state.combo>1?'STAR COMBO x'+state.combo:'STAR +50';state.noticeTime=.85;addParticle(x,440,'#ffdc62');updateHud();return;}
@@ -286,7 +287,7 @@ function finishRun(){
 }
 function update(dt){
  state.elapsed+=dt;
- state.visualLane+=(state.lane-state.visualLane)*Math.min(1,dt*10);
+ state.visualLane+=(state.lane-state.visualLane)*Math.min(1,dt*23);
  state.lean+=(Math.max(-1,Math.min(1,(state.lane-state.visualLane)*1.4))-state.lean)*Math.min(1,dt*9);
  state.shake=Math.max(0,state.shake-dt*2.5);state.flash=Math.max(0,state.flash-dt*2.8);state.noticeTime=Math.max(0,state.noticeTime-dt);state.stumble=Math.max(0,state.stumble-dt);
  state.dist+=dt*state.speed*65;state.speed=Math.min(.84,state.speed+dt*.00075);state.score+=Math.floor(dt*state.speed*8);
@@ -310,8 +311,8 @@ function loop(now){
  if(state.active&&!state.over&&!gateBusy)raf=requestAnimationFrame(loop);
 }
 function moveLane(dir){if(!state.active||gateBusy||state.over)return;state.lane=Math.max(0,Math.min(2,state.lane+dir));}
-function jump(){if(!state.active||gateBusy||state.over)return;if(state.jumpY<=0&&state.jumpV<=0&&state.slide<=0)state.jumpV=560;}
-function slide(){if(!state.active||gateBusy||state.over)return;if(state.jumpY<=0)state.slide=.7;}
+function jump(){if(!state.active||gateBusy||state.over)return;if(state.jumpY<=0&&state.jumpV<=0&&state.slide<=0){state.jumpY=12;state.jumpV=620;}}
+function slide(){if(!state.active||gateBusy||state.over)return;if(state.jumpY<=0){state.slide=.7;state.stumble=0;}}
 function startRun(){
  cancelAnimationFrame(raf);state=freshState();spawnClock=0;gateClock=0;questionIndex=0;gateBusy=false;
  Object.values(overlays).forEach(o=>o.classList.add('hidden'));state.active=true;lastTime=performance.now();updateHud();drawScene();raf=requestAnimationFrame(loop);
