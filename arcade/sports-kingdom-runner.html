@@ -117,18 +117,36 @@ function poly(points,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(points[
 const roadTexture=new Image();roadTexture.src='assets/kingdom-cobblestone.svg';
 roadTexture.onload=function(){if(state)drawScene();};
 function drawCobblestoneRoad(){
- if(!roadTexture.complete||!roadTexture.naturalWidth)return;
- ctx.save();ctx.beginPath();ctx.moveTo(205,HORIZON);ctx.lineTo(275,HORIZON);ctx.lineTo(W-16,H);ctx.lineTo(16,H);ctx.closePath();ctx.clip();
- ctx.imageSmoothingEnabled=false;
- // Perspective bands: nearby stones appear larger and scroll faster.
- const bands=112,travel=(state.trackOffset%1+1)%1;
- for(let i=0;i<bands;i++){
-  const d0=i/bands,d1=(i+1)/bands;
-  const y0=HORIZON+d0*(H-HORIZON),y1=HORIZON+d1*(H-HORIZON)+1;
+ // Perspective-mapped cobblestone tiles: each stone has visible height and width.
+ // Previous implementation sampled only one source pixel row per strip,
+ // which flattened the texture and made the update effectively invisible.
+ ctx.save();
+ ctx.beginPath();ctx.moveTo(205,HORIZON);ctx.lineTo(275,HORIZON);
+ ctx.lineTo(W-16,H);ctx.lineTo(16,H);ctx.closePath();ctx.clip();
+ const offset=(state.trackOffset%1+1)%1;
+ const colors=['#b6a09e','#cbb1a5','#aa9599','#d2b7a6','#bfa7a2'];
+ // Perspective stone courses advance down the road, maintaining row spacing.
+ for(let row=0;row<29;row++){
+  const z0=((row+offset)/29)%1,z1=((row+1+offset)/29)%1;
+  if(z1<=z0)continue;
+  const d0=z0*z0,d1=z1*z1;
+  const y0=HORIZON+d0*(H-HORIZON),y1=HORIZON+d1*(H-HORIZON);
   const half0=35+d0*205,half1=35+d1*205;
-  const width=half1*2;
-  const sourceY=((Math.floor((Math.sqrt(d0)+travel)*400)%192)+192)%192;
-  ctx.drawImage(roadTexture,0,sourceY,192,1,240-half1,y0,width,Math.max(1.5,y1-y0));
+  const columns=7,shift=row%2?.5:0;
+  for(let col=-1;col<columns+1;col++){
+   const u0=Math.max(0,(col+shift)/columns),u1=Math.min(1,(col+1+shift)/columns);
+   if(u1<=u0)continue;
+   const x00=240-half0+2*half0*u0,x01=240-half0+2*half0*u1;
+   const x10=240-half1+2*half1*u0,x11=240-half1+2*half1*u1;
+   ctx.fillStyle='#6e646b';ctx.beginPath();ctx.moveTo(x00,y0);ctx.lineTo(x01,y0);
+   ctx.lineTo(x11,y1);ctx.lineTo(x10,y1);ctx.closePath();ctx.fill();
+   const gap=Math.min(2.5,Math.max(.3,(y1-y0)*.09));
+   ctx.fillStyle=colors[(row*3+col*7+colors.length*10)%colors.length];
+   ctx.beginPath();ctx.moveTo(x00+gap,y0+gap);ctx.lineTo(x01-gap,y0+gap);
+   ctx.lineTo(x11-gap,y1-gap);ctx.lineTo(x10+gap,y1-gap);ctx.closePath();ctx.fill();
+   if(d1>.14){ctx.strokeStyle='rgba(255,234,196,.25)';ctx.lineWidth=Math.max(.5,d1*1.5);
+    ctx.beginPath();ctx.moveTo(x00+gap*2,y0+gap*2);ctx.lineTo(x01-gap*2,y0+gap*2);ctx.stroke();}
+  }
  }
  ctx.restore();
 }
