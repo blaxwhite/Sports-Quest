@@ -207,39 +207,29 @@ function drawPixelHero(pose){
 // Trim transparent margins separately for each frame to prevent jitter and clipping.
 const heroFrames=[];
 let heroAtlasReady=false;
+// Pixel-accurate bounds measured from the original transparent atlas.
+// Cropping full-image coordinates (not rigid 192px cells) avoids hair/feet cutoffs.
+const heroBounds=[[[36,12,154,184],[230,12,345,184],[427,12,535,184],[618,12,724,184],[811,12,916,184],[1002,12,1110,184],[1190,12,1304,184],[1384,12,1496,184]],[[25,217,167,376],[217,205,360,376],[420,213,541,374],[601,206,742,376]],[[27,398,165,568],[208,420,369,568],[400,433,561,568],[607,400,736,568]],[[16,599,178,758],[207,613,370,759],[400,639,562,758],[592,656,754,758]]];
 function prepareHeroAtlas(){
  const img=assets.runnerSheet;
  if(!img||!img.complete||!img.naturalWidth)return;
- const cell=192;
  try{
   heroFrames.length=0;
-  const scratch=document.createElement('canvas');scratch.width=cell;scratch.height=cell;
-  const g=scratch.getContext('2d',{willReadFrequently:true});
-  for(let row=0;row<4;row++){
+  for(const row of heroBounds){
    const frames=[];
-   for(let col=0;col<(row===0?8:4);col++){
-    g.clearRect(0,0,cell,cell);
-    // Inset the atlas sampling area: neighbouring poses can spill across cell borders.
-    const inset=4;
-    g.drawImage(img,col*cell+inset,row*cell+inset,cell-inset*2,cell-inset*2,inset,inset,cell-inset*2,cell-inset*2);
-    const rgba=g.getImageData(0,0,cell,cell).data;
-    let minX=cell,minY=cell,maxX=-1,maxY=-1;
-    for(let y=0;y<cell;y++)for(let x=0;x<cell;x++){
-     if(rgba[(y*cell+x)*4+3]<90)continue;
-     minX=Math.min(minX,x);maxX=Math.max(maxX,x);
-     minY=Math.min(minY,y);maxY=Math.max(maxY,y);
-    }
-    if(maxX<0){frames.push(null);continue;}
-    const pad=1, sx=Math.max(0,minX-pad),sy=Math.max(0,minY-pad);
-    const sw=Math.min(cell-sx,maxX-sx+pad+1),sh=Math.min(cell-sy,maxY-sy+pad+1);
-    const frame=document.createElement('canvas');frame.width=sw;frame.height=sh;
-    frame.getContext('2d').drawImage(img,col*cell+sx,row*cell+sy,sw,sh,0,0,sw,sh);
-    frames.push(frame);
+   for(const [left,top,right,bottom] of row){
+    const margin=8,fw=right-left,fh=bottom-top;
+    const frame=document.createElement('canvas');
+    frame.width=fw+margin*2;frame.height=fh+margin*2;
+    const g=frame.getContext('2d');
+    g.imageSmoothingEnabled=false;
+    g.drawImage(img,left,top,fw,fh,margin,margin,fw,fh);
+    frames.push({canvas:frame,width:fw,height:fh});
    }
    heroFrames.push(frames);
   }
   heroAtlasReady=true;
- }catch(err){heroAtlasReady=false;}
+ }catch(err){heroAtlasReady=false;console.warn('Hero atlas unavailable',err);}
 }
 assets.runnerSheet.addEventListener('load',prepareHeroAtlas);
 if(assets.runnerSheet.complete&&assets.runnerSheet.naturalWidth)prepareHeroAtlas();
@@ -258,12 +248,12 @@ function drawRunner(){
   if(pose==='stumble'){row=3;index=Math.min(3,Math.max(0,Math.floor((.65-state.stumble)/.1625)));}
   const frame=heroFrames[row][index];
   if(frame){
-   // Fixed foot anchor, consistent character height, and per-frame aspect ratio.
-   const height=row===2?66:row===3?85:100;
-   const width=Math.min(94,height*frame.width/frame.height);
+   // Draw only the real alpha-bounded pose; transparent padding is never scaled.
+   const scale=100/172;
+   const width=frame.width*scale,height=frame.height*scale;
+   const x=Math.round(center-width/2),y=Math.round(ground-state.jumpY-height-5);
    ctx.imageSmoothingEnabled=false;
-   // Leave a visible gap between shoes and shadow; do not crop feet against the road.
-   ctx.drawImage(frame,Math.round(center-width/2),Math.round(ground-state.jumpY-height-5),Math.round(width),height);
+   ctx.drawImage(frame.canvas,8,8,frame.width,frame.height,x,y,width,height);
   }
  }else{
   ctx.translate(Math.round(center-34),Math.round(ground-96-state.jumpY));
