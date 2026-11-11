@@ -149,42 +149,61 @@ function drawStadium(){
  // track side rails
  ctx.strokeStyle='#f0d4a2';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(194,HORIZON);ctx.lineTo(-40,H);ctx.moveTo(286,HORIZON);ctx.lineTo(520,H);ctx.stroke();
 }
-function drawFallbackRunner(x,y,w,h,frame,jumping){
- ctx.save();ctx.translate(x,y);
- const swing=Math.sin(state.elapsed*17),leg=Math.cos(state.elapsed*17);
- // legs and old-fashioned running shoes
- ctx.strokeStyle='#28354b';ctx.lineWidth=9;ctx.lineCap='round';
- ctx.beginPath();
- if(jumping){ctx.moveTo(28,66);ctx.lineTo(17,78);ctx.moveTo(38,66);ctx.lineTo(51,76);}
- else{ctx.moveTo(29,64);ctx.lineTo(23+leg*10,86);ctx.moveTo(39,64);ctx.lineTo(46-leg*10,86);}
- ctx.stroke();
- ctx.strokeStyle='#6b422d';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(23+leg*10,86);ctx.lineTo(13+leg*10,89);ctx.moveTo(46-leg*10,86);ctx.lineTo(55-leg*10,89);ctx.stroke();
- // body, cream jersey and red sash
- ctx.fillStyle='#eadfc5';ctx.fillRect(18,31,31,37);ctx.fillStyle='#a93632';ctx.fillRect(18,31,31,8);ctx.fillRect(29,39,9,18);
- ctx.fillStyle='#f8edcf';ctx.font='bold 11px monospace';ctx.fillText('5',29,53);
- // arms swing
- ctx.strokeStyle='#d6a078';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(19,39);ctx.lineTo(9+swing*4,55);ctx.moveTo(47,39);ctx.lineTo(57-swing*4,54);ctx.stroke();
- // head and 1930s cap
- ctx.fillStyle='#c98f65';ctx.beginPath();ctx.arc(34,22,13,0,Math.PI*2);ctx.fill();
- ctx.fillStyle='#493328';ctx.fillRect(22,9,24,7);ctx.fillRect(19,14,31,4);
+// Frame-safe procedural pixel character: each pose is drawn independently.
+// This avoids atlas bleed, misaligned frames and the side-to-side sprite jitter.
+function drawPixelHero(pose){
+ const t=state.elapsed*15,step=Math.sin(t),other=Math.sin(t+Math.PI);
+ const stumble=pose==='stumble',jump=pose==='jump',slide=pose==='slide';
+ ctx.save();
+ ctx.lineJoin='round';ctx.lineCap='round';
+ // Pixel-style limb segments with dark outlines.
+ function limb(x1,y1,x2,y2,width,color){
+  ctx.strokeStyle='#17243b';ctx.lineWidth=width+4;
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  ctx.strokeStyle=color;ctx.lineWidth=width;
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+ }
+ function shoe(x,y){ctx.fillStyle='#17243b';ctx.fillRect(x-7,y-4,14,9);ctx.fillStyle='#f3f5ff';ctx.fillRect(x-5,y-2,10,5);ctx.fillStyle='#8899df';ctx.fillRect(x-4,y+2,9,2);}
+ // Body anchors stay constant across all animation states.
+ let bodyY=0,tilt=0;
+ if(jump){bodyY=-4;tilt=state.jumpV>0?-.08:.08;}
+ if(stumble){bodyY=4;tilt=Math.sin((.65-state.stumble)*18)*.19;}
+ if(slide){bodyY=19;tilt=.1;}
+ ctx.translate(34,45+bodyY);ctx.rotate(tilt);ctx.translate(-34,-45);
+ const legL=jump?-12:slide?13:step*12;
+ const legR=jump?-9:slide?10:other*12;
+ limb(26,65,24+legL,82+(slide?-9:0),9,'#283c72');
+ limb(42,65,44+legR,82+(slide?-9:0),9,'#283c72');
+ shoe(24+legL,85+(slide?-9:0));shoe(44+legR,85+(slide?-9:0));
+ // Shirt, sleeves and royal crown emblem.
+ ctx.fillStyle='#17243b';ctx.fillRect(16,31,36,37);
+ ctx.fillStyle='#3561b8';ctx.fillRect(19,33,30,32);
+ ctx.fillStyle='#f4f5f9';ctx.fillRect(19,33,30,5);ctx.fillRect(19,62,30,4);
+ ctx.fillStyle='#f2c94c';ctx.fillRect(28,42,3,8);ctx.fillRect(33,39,3,11);ctx.fillRect(38,42,3,8);ctx.fillRect(28,49,13,4);
+ const armSwing=jump?-9:slide?7:step*9;
+ limb(18,39,11-armSwing*.4,54+armSwing*.35,8,'#3561b8');
+ limb(50,39,57+armSwing*.4,54-armSwing*.35,8,'#3561b8');
+ ctx.fillStyle='#e6ae81';ctx.fillRect(6-armSwing*.4,51+armSwing*.35,9,8);ctx.fillRect(53+armSwing*.4,51-armSwing*.35,9,8);
+ // Head, hair, headband and two trailing ribbons.
+ ctx.fillStyle='#17243b';ctx.fillRect(19,9,30,23);
+ ctx.fillStyle='#d99b70';ctx.fillRect(22,15,24,15);
+ ctx.fillStyle='#513327';ctx.fillRect(19,7,29,13);ctx.fillRect(15,12,10,8);ctx.fillRect(43,10,9,9);ctx.fillRect(27,4,15,7);
+ ctx.fillStyle='#f5f7ff';ctx.fillRect(20,17,29,5);
+ ctx.fillRect(11,20,12,4);ctx.fillRect(7,24+Math.round(step*2),10,4);
  ctx.restore();
 }
 function drawRunner(){
- // Render the runner directly: no misaligned sprite cells or neighbouring-frame bleed.
  const center=laneX(state.visualLane,1),ground=H-32;
- const jumping=state.jumpY>4,sliding=state.slide>0;
- const bob=jumping||sliding?0:Math.sin(state.elapsed*17)*1.2;
- ctx.save();
- ctx.fillStyle='rgba(16,39,32,.28)';
- ctx.beginPath();ctx.ellipse(center,ground+3,jumping?16:25,6,0,0,Math.PI*2);ctx.fill();
- ctx.restore();
- ctx.save();
- ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
- ctx.translate(center-34,ground-96-state.jumpY+bob);
- // Keep the player centered without rotating or scaling across sprite boundaries.
- if(sliding){ctx.translate(0,44);ctx.scale(1,.54);}
- else if(state.land>0){ctx.translate(0,96);ctx.scale(1+state.land*.04,1-state.land*.07);ctx.translate(0,-96);}
- drawFallbackRunner(0,0,68,96,0,jumping);
+ const jumping=state.jumpY>4,sliding=state.slide>0,stumbling=state.stumble>0;
+ const pose=stumbling?'stumble':sliding?'slide':jumping?'jump':'run';
+ const bob=pose==='run'?Math.sin(state.elapsed*30)*1.1:0;
+ ctx.save();ctx.fillStyle='rgba(16,39,32,.28)';ctx.beginPath();
+ ctx.ellipse(center,ground+3,jumping?16:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
+ ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
+ ctx.translate(Math.round(center-34),Math.round(ground-96-state.jumpY+bob));
+ if(sliding){ctx.translate(0,96);ctx.scale(1.12,.65);ctx.translate(-34,-96);ctx.translate(34,0);}
+ else if(state.land>0&&!jumping){ctx.translate(34,96);ctx.scale(1+state.land*.04,1-state.land*.06);ctx.translate(-34,-96);}
+ drawPixelHero(pose);
  ctx.restore();
 }
 function drawStar(x,y,size){
