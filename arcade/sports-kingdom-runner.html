@@ -275,6 +275,17 @@ function drawKingdom(){
   poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#8d806b');
   poly([[205,HORIZON],[275,HORIZON],[W-16,H],[16,H]],'#d3c29d');
  }
+ // Cover the pale-blue seam baked into the terrain artwork with a narrow
+ // stone-and-moss embankment that follows the actual road perspective.
+ // The animated cobblestone road is drawn later and hides the inner overlap.
+ if(kingdomTerrainReady){
+  ctx.save();
+  poly([[184,HORIZON],[210,HORIZON],[21,H],[-5,H]],'#566a55');
+  poly([[270,HORIZON],[296,HORIZON],[W+5,H],[W-21,H]],'#566a55');
+  poly([[191,HORIZON],[207,HORIZON],[18,H],[2,H]],'#8c8a70');
+  poly([[273,HORIZON],[289,HORIZON],[W-2,H],[W-18,H]],'#8c8a70');
+  ctx.restore();
+ }
  // Castle remains in front of the terrain, with no artificial green platform.
  if(kingdomCastleReady){
   const castleWidth=390;
