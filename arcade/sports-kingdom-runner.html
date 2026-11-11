@@ -219,7 +219,9 @@ function prepareHeroAtlas(){
    const frames=[];
    for(let col=0;col<(row===0?8:4);col++){
     g.clearRect(0,0,cell,cell);
-    g.drawImage(img,col*cell,row*cell,cell,cell,0,0,cell,cell);
+    // Inset the atlas sampling area: neighbouring poses can spill across cell borders.
+    const inset=4;
+    g.drawImage(img,col*cell+inset,row*cell+inset,cell-inset*2,cell-inset*2,inset,inset,cell-inset*2,cell-inset*2);
     const rgba=g.getImageData(0,0,cell,cell).data;
     let minX=cell,minY=cell,maxX=-1,maxY=-1;
     for(let y=0;y<cell;y++)for(let x=0;x<cell;x++){
@@ -228,7 +230,7 @@ function prepareHeroAtlas(){
      minY=Math.min(minY,y);maxY=Math.max(maxY,y);
     }
     if(maxX<0){frames.push(null);continue;}
-    const pad=2, sx=Math.max(0,minX-pad),sy=Math.max(0,minY-pad);
+    const pad=1, sx=Math.max(0,minX-pad),sy=Math.max(0,minY-pad);
     const sw=Math.min(cell-sx,maxX-sx+pad+1),sh=Math.min(cell-sy,maxY-sy+pad+1);
     const frame=document.createElement('canvas');frame.width=sw;frame.height=sh;
     frame.getContext('2d').drawImage(img,col*cell+sx,row*cell+sy,sw,sh,0,0,sw,sh);
@@ -246,7 +248,7 @@ function drawRunner(){
  const jumping=state.jumpY>4,sliding=state.slide>0,stumbling=state.stumble>0;
  const pose=stumbling?'stumble':sliding?'slide':jumping?'jump':'run';
  ctx.save();ctx.fillStyle='rgba(16,39,32,.28)';ctx.beginPath();
- ctx.ellipse(center,ground+3,jumping?16:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
+ ctx.ellipse(center,ground+10,jumping?13:19,4,0,0,Math.PI*2);ctx.fill();ctx.restore();
  ctx.save();
  ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
  if(heroAtlasReady){
@@ -260,7 +262,8 @@ function drawRunner(){
    const height=row===2?66:row===3?85:100;
    const width=Math.min(94,height*frame.width/frame.height);
    ctx.imageSmoothingEnabled=false;
-   ctx.drawImage(frame,Math.round(center-width/2),Math.round(ground-state.jumpY-height),Math.round(width),height);
+   // Leave a visible gap between shoes and shadow; do not crop feet against the road.
+   ctx.drawImage(frame,Math.round(center-width/2),Math.round(ground-state.jumpY-height-5),Math.round(width),height);
   }
  }else{
   ctx.translate(Math.round(center-34),Math.round(ground-96-state.jumpY));
