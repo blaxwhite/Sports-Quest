@@ -170,48 +170,21 @@ function drawFallbackRunner(x,y,w,h,frame,jumping){
  ctx.restore();
 }
 function drawRunner(){
- const x=laneX(state.visualLane,1)-31,ground=H-32;
- const jumping=state.jumpY>4,sliding=state.slide>0,stumbling=state.stumble>0;
- const runBob=jumping||sliding||stumbling?0:Math.sin(state.elapsed*19)*1.6;
- const baseY=ground-96-state.jumpY+runBob;
- ctx.save();ctx.fillStyle='rgba(16,39,32,.28)';ctx.beginPath();
- ctx.ellipse(x+31,ground+3,jumping?16:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
- ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
- // Temporarily disable the malformed generated atlas; use reliable original sprites until a cleaned atlas is available.
- const sheet=null;
- if(sheet&&sheet.complete&&sheet.naturalWidth>=1536&&sheet.naturalHeight>=768){
-  // Sprite atlas: eight 192px columns, four 192px rows.
-  // Row 0: run (8); row 1: jump (4); row 2: slide (4); row 3: stumble (4).
-  let row=0,frame=Math.floor(state.elapsed*12)%8;
-  if(stumbling){row=3;frame=Math.max(0,Math.min(3,Math.floor((.65-state.stumble)/.1625)));}
-  else if(sliding){row=2;frame=Math.min(3,Math.floor((.7-state.slide)/.175));}
-  else if(jumping){row=1;frame=state.jumpV>220?0:state.jumpV>0?1:state.jumpV< -220?3:2;}
-  const size=sliding?76:68;
-  const h=sliding?65:96;
-  ctx.translate(x+31,baseY+96);
-  ctx.rotate(-state.lean*.075);
-  // The generated art is NOT a uniform 8-column grid in the lower rows.
-  // Use the actual pose centres so running/jumping never sample neighbouring frames.
-  const runCenters=[160,354,540,721,903,1085,1264,1435];
-  const actionCenters=[356,584,822,1054];
-  const center=(row===0?runCenters:actionCenters)[frame];
-  const cropW=row===0?136:156;
-  const sourceX=Math.max(0,Math.min(sheet.naturalWidth-cropW,center-cropW/2));
-  const sourceY=[9,201,394,585][row];
-  const sourceH=172;
-  ctx.drawImage(sheet,sourceX,sourceY,cropW,sourceH,-size/2,-h,size,h);
- }else{
-  // Preserve the original character if the new sprite atlas has not been uploaded.
-  ctx.translate(x+31,baseY+96);
-  ctx.rotate(-state.lean*.12);
-  ctx.scale(sliding?1.2:1,(sliding?.56:1)/(1+state.land*.15));
-  ctx.translate(-31,-96);
-  const img=assets[jumping?'playerJump':'playerRun'];
-  if(img&&img.complete&&img.naturalWidth){
-   if(jumping)ctx.drawImage(img,0,0,img.naturalWidth,img.naturalHeight,0,0,62,96);
-   else{const frames=Math.max(1,Math.floor(img.naturalWidth/64));const frame=Math.floor(state.elapsed*12)%frames;const fw=img.naturalWidth/frames;ctx.drawImage(img,frame*fw,0,fw,img.naturalHeight,0,0,62,96);}
-  }else drawFallbackRunner(0,0,62,96,0,jumping);
- }
+ // Render the runner directly: no misaligned sprite cells or neighbouring-frame bleed.
+ const center=laneX(state.visualLane,1),ground=H-32;
+ const jumping=state.jumpY>4,sliding=state.slide>0;
+ const bob=jumping||sliding?0:Math.sin(state.elapsed*17)*1.2;
+ ctx.save();
+ ctx.fillStyle='rgba(16,39,32,.28)';
+ ctx.beginPath();ctx.ellipse(center,ground+3,jumping?16:25,6,0,0,Math.PI*2);ctx.fill();
+ ctx.restore();
+ ctx.save();
+ ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
+ ctx.translate(center-34,ground-96-state.jumpY+bob);
+ // Keep the player centered without rotating or scaling across sprite boundaries.
+ if(sliding){ctx.translate(0,44);ctx.scale(1,.54);}
+ else if(state.land>0){ctx.translate(0,96);ctx.scale(1+state.land*.04,1-state.land*.07);ctx.translate(0,-96);}
+ drawFallbackRunner(0,0,68,96,0,jumping);
  ctx.restore();
 }
 function drawStar(x,y,size){
