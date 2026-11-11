@@ -114,21 +114,78 @@ function updateHud(){
 function laneX(lane,z){const spread=18+z*112;return W/2+(lane-1)*spread;}
 function poly(points,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);for(let i=1;i<points.length;i++)ctx.lineTo(points[i][0],points[i][1]);ctx.closePath();ctx.fill();}
 function drawKingdom(){
- const sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#1860bd');sky.addColorStop(.35,'#6cc8ff');sky.addColorStop(1,'#e5f6ff');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
- ctx.fillStyle='#fff4c4';ctx.beginPath();ctx.arc(382,69,31,0,Math.PI*2);ctx.fill();
- for(let i=0;i<7;i++){let x=((i*115-state.dist*.055)%720+720)%720-90,y=36+(i%3)*26;ctx.fillStyle='#ffffffbd';ctx.beginPath();ctx.ellipse(x,y,40,13,0,0,Math.PI*2);ctx.ellipse(x+22,y-8,24,14,0,0,Math.PI*2);ctx.fill();}
- poly([[0,170],[55,112],[100,158],[172,96],[245,160],[325,107],[397,165],[480,113],[480,250],[0,250]],'#85a7c2');
- poly([[0,193],[80,142],[149,183],[239,135],[317,184],[417,146],[480,179],[480,280],[0,280]],'#4d9997');
- ctx.fillStyle='#c8c7bd';ctx.fillRect(212,99,56,57);
- for(const [x,y] of [[208,103],[232,82],[257,104]]){ctx.fillStyle='#b6b7c2';ctx.fillRect(x,y,16,51);poly([[x-4,y],[x+8,y-24],[x+20,y]],'#235ba6');ctx.fillStyle='#f9d365';ctx.fillRect(x+6,y+14,4,8);}
- ctx.fillStyle='#31528d';ctx.fillRect(233,127,15,29);
- poly([[186,HORIZON],[294,HORIZON],[W+85,H],[-85,H]],'#418d51');
- poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#ae997a');
- poly([[205,HORIZON],[275,HORIZON],[W-16,H],[16,H]],'#dac8a4');
- for(let j=1;j<=2;j++){ctx.strokeStyle='#fff0c4aa';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(240+(j-1.5)*24,HORIZON);ctx.lineTo(16+j*149,H);ctx.stroke();}
- for(let i=0;i<13;i++){const z=(i/13+state.trackOffset)%1,d=z*z,y=HORIZON+d*(H-HORIZON),half=35+d*204;ctx.strokeStyle='rgba(255,246,216,'+(.08+d*.2)+')';ctx.lineWidth=1+d*3;ctx.beginPath();ctx.moveTo(240-half,y);ctx.lineTo(240+half,y);ctx.stroke();}
- for(let side=0;side<2;side++)for(let i=0;i<8;i++){const z=(i/8+state.trackOffset)%1,d=z*z,x=side===0?178-d*230:302+d*230,y=HORIZON+d*(H-HORIZON),s=6+d*60;ctx.fillStyle='#65503c';ctx.fillRect(x-s*.12,y-s*.6,s*.24,s*.6);poly([[x-s*.65,y-s*.45],[x,y-s*1.8],[x+s*.65,y-s*.45]],i%2?'#207451':'#349862');}
- ctx.strokeStyle='#f4df9f';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(198,HORIZON);ctx.lineTo(-13,H);ctx.moveTo(282,HORIZON);ctx.lineTo(W+13,H);ctx.stroke();
+ // Layered kingdom landscape, with restrained parallax that never moves the runner.
+ const t=state.elapsed,travel=state.dist;
+ const sky=ctx.createLinearGradient(0,0,0,HORIZON+90);
+ sky.addColorStop(0,'#18529c');sky.addColorStop(.55,'#68b8eb');sky.addColorStop(1,'#d5e8d8');
+ ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+ // Soft sun halo and floating clouds (slow, independent parallax).
+ const halo=ctx.createRadialGradient(383,71,12,383,71,87);
+ halo.addColorStop(0,'rgba(255,236,163,.5)');halo.addColorStop(1,'rgba(255,236,163,0)');
+ ctx.fillStyle=halo;ctx.fillRect(290,0,190,160);
+ ctx.fillStyle='#ffe6a0';ctx.beginPath();ctx.arc(383,72,29,0,Math.PI*2);ctx.fill();
+ for(let i=0;i<6;i++){
+  const x=((i*117-travel*.025)%690+690)%690-95,y=34+(i%3)*28;
+  ctx.fillStyle='rgba(237,249,255,.78)';
+  ctx.fillRect(Math.round(x),y+7,65,13);ctx.fillRect(Math.round(x+11),y,38,21);
+  ctx.fillRect(Math.round(x+46),y+3,30,17);
+  ctx.fillStyle='rgba(183,218,237,.5)';ctx.fillRect(Math.round(x+9),y+20,57,3);
+ }
+ // Distant layered mountains and shadowed ridgelines.
+ poly([[0,178],[54,116],[102,164],[168,99],[246,169],[327,108],[399,174],[480,114],[480,245],[0,245]],'#8da9bd');
+ poly([[0,192],[60,150],[111,186],[189,142],[268,187],[348,144],[417,183],[480,153],[480,265],[0,265]],'#619ca0');
+ for(const [x,y] of [[54,116],[168,99],[327,108],[480,114]]){
+  poly([[x-16,y+18],[x,y],[x+17,y+20],[x+5,y+15],[x,y+9],[x-5,y+15]],'#d5e2df');
+ }
+ // Castle silhouette with brickwork, flags, battlements and lit windows.
+ ctx.fillStyle='#7b839d';ctx.fillRect(211,112,58,45);
+ ctx.fillStyle='#aeb5c5';ctx.fillRect(216,105,48,54);
+ for(const [x,y] of [[206,104],[233,84],[258,104]]){
+  ctx.fillStyle='#707d9a';ctx.fillRect(x-2,y,20,57);
+  ctx.fillStyle='#b9bdc8';ctx.fillRect(x,y,16,55);
+  for(let j=0;j<3;j++)ctx.fillRect(x+j*6,y-5,4,7);
+  poly([[x-5,y],[x+8,y-24],[x+21,y]],'#294e86');
+  ctx.fillStyle='#ffdb77';ctx.fillRect(x+6,y+14,4,9);
+  ctx.fillStyle='#4e658a';ctx.fillRect(x+8,y-26,2,11);
+  poly([[x+10,y-26],[x+24,y-22],[x+10,y-18]],'#e8b449');
+ }
+ ctx.fillStyle='#354d76';ctx.fillRect(233,127,15,30);
+ ctx.fillStyle='#d8b875';ctx.fillRect(238,134,3,5);
+ for(let i=0;i<4;i++){ctx.fillStyle='#8892a6';ctx.fillRect(220+i*11,115+(i%2)*10,7,2);}
+ // Green shoulders, stone edging and warm cobblestone road.
+ poly([[186,HORIZON],[294,HORIZON],[W+85,H],[-85,H]],'#317c56');
+ poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#8d806b');
+ poly([[205,HORIZON],[275,HORIZON],[W-16,H],[16,H]],'#d3c29d');
+ // Stone courses move forward with the player; alternating tiles add texture.
+ for(let i=0;i<18;i++){
+  const z=(i/18+state.trackOffset)%1,d=z*z,y=HORIZON+d*(H-HORIZON),half=35+d*204;
+  ctx.strokeStyle='rgba(255,248,215,'+(.12+d*.19)+')';ctx.lineWidth=1+d*2;
+  ctx.beginPath();ctx.moveTo(240-half,y);ctx.lineTo(240+half,y);ctx.stroke();
+  if(i%2===0){ctx.strokeStyle='rgba(109,99,77,.14)';ctx.beginPath();ctx.moveTo(240,y);ctx.lineTo(240,y+3+d*15);ctx.stroke();}
+ }
+ // Perspective lane markings, gold edging and narrow verge.
+ for(let j=1;j<=2;j++){
+  ctx.strokeStyle='rgba(255,245,209,.73)';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(240+(j-1.5)*24,HORIZON);ctx.lineTo(16+j*149,H);ctx.stroke();
+ }
+ ctx.strokeStyle='#f0dba4';ctx.lineWidth=3;ctx.beginPath();
+ ctx.moveTo(198,HORIZON);ctx.lineTo(-13,H);ctx.moveTo(282,HORIZON);ctx.lineTo(W+13,H);ctx.stroke();
+ // Two rows of trees: farther trees move slowly, nearer trees move faster.
+ for(let layer=0;layer<2;layer++)for(let side=0;side<2;side++)for(let i=0;i<8;i++){
+  const z=(i/8+state.trackOffset*(layer?1:.55))%1,d=z*z;
+  const x=side===0?177-d*(layer?242:214):303+d*(layer?242:214);
+  const y=HORIZON+d*(H-HORIZON),s=(layer?7:5)+d*(layer?57:35);
+  ctx.fillStyle='#604c38';ctx.fillRect(Math.round(x-s*.12),Math.round(y-s*.68),Math.max(2,Math.round(s*.24)),Math.round(s*.68));
+  poly([[x-s*.68,y-s*.42],[x,y-s*1.95],[x+s*.68,y-s*.42]],(i+layer)%2?'#1f674e':'#2b8b61');
+  poly([[x-s*.49,y-s*.95],[x,y-s*1.7],[x+s*.49,y-s*.95]],'#3b9c6c');
+  ctx.fillStyle='rgba(229,255,197,.25)';ctx.fillRect(Math.round(x-s*.16),Math.round(y-s*1.38),Math.max(1,s*.09),Math.max(1,s*.17));
+ }
+ // Occasional drifting light motes: ambience only, not gameplay collectibles.
+ for(let i=0;i<9;i++){
+  const x=((i*79+Math.sin(t*.65+i)*19)%480+480)%480;
+  const y=155+(i*47)%180+Math.sin(t*1.2+i)*5;
+  ctx.fillStyle='rgba(255,233,147,.35)';ctx.fillRect(Math.round(x),Math.round(y),2,2);
+ }
 }
 function drawStadium(){
  const sky=ctx.createLinearGradient(0,0,0,HORIZON+100);sky.addColorStop(0,'#4489ba');sky.addColorStop(1,'#f2c58b');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
