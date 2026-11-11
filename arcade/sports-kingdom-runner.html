@@ -177,7 +177,8 @@ function drawRunner(){
  ctx.save();ctx.fillStyle='rgba(16,39,32,.28)';ctx.beginPath();
  ctx.ellipse(x+31,ground+3,jumping?16:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
  ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
- const sheet=assets.runnerSheet;
+ // Temporarily disable the malformed generated atlas; use reliable original sprites until a cleaned atlas is available.
+ const sheet=null;
  if(sheet&&sheet.complete&&sheet.naturalWidth>=1536&&sheet.naturalHeight>=768){
   // Sprite atlas: eight 192px columns, four 192px rows.
   // Row 0: run (8); row 1: jump (4); row 2: slide (4); row 3: stumble (4).
