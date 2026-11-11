@@ -113,6 +113,25 @@ function updateHud(){
 }
 function laneX(lane,z){const spread=18+z*112;return W/2+(lane-1)*spread;}
 function poly(points,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);for(let i=1;i<points.length;i++)ctx.lineTo(points[i][0],points[i][1]);ctx.closePath();ctx.fill();}
+// Custom road asset. Drawn in perspective bands so cobblestones scroll toward the player.
+const roadTexture=new Image();roadTexture.src='assets/kingdom-cobblestone.svg';
+roadTexture.onload=function(){if(state)drawScene();};
+function drawCobblestoneRoad(){
+ if(!roadTexture.complete||!roadTexture.naturalWidth)return;
+ ctx.save();ctx.beginPath();ctx.moveTo(205,HORIZON);ctx.lineTo(275,HORIZON);ctx.lineTo(W-16,H);ctx.lineTo(16,H);ctx.closePath();ctx.clip();
+ ctx.imageSmoothingEnabled=false;
+ // Perspective bands: nearby stones appear larger and scroll faster.
+ const bands=112,travel=(state.trackOffset%1+1)%1;
+ for(let i=0;i<bands;i++){
+  const d0=i/bands,d1=(i+1)/bands;
+  const y0=HORIZON+d0*(H-HORIZON),y1=HORIZON+d1*(H-HORIZON)+1;
+  const half0=35+d0*205,half1=35+d1*205;
+  const width=half1*2;
+  const sourceY=((Math.floor((Math.sqrt(d0)+travel)*400)%192)+192)%192;
+  ctx.drawImage(roadTexture,0,sourceY,192,1,240-half1,y0,width,Math.max(1.5,y1-y0));
+ }
+ ctx.restore();
+}
 function drawKingdom(){
  // Layered kingdom landscape, with restrained parallax that never moves the runner.
  const t=state.elapsed,travel=state.dist;
@@ -156,6 +175,7 @@ function drawKingdom(){
  poly([[186,HORIZON],[294,HORIZON],[W+85,H],[-85,H]],'#317c56');
  poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#8d806b');
  poly([[205,HORIZON],[275,HORIZON],[W-16,H],[16,H]],'#d3c29d');
+ drawCobblestoneRoad();
  // Stone courses move forward with the player; alternating tiles add texture.
  for(let i=0;i<18;i++){
   const z=(i/18+state.trackOffset)%1,d=z*z,y=HORIZON+d*(H-HORIZON),half=35+d*204;
