@@ -84,7 +84,7 @@ const ctx=canvas.getContext('2d');
 const $=id=>document.getElementById(id);
 const hud={dist:$('stat-dist'),score:$('stat-score'),hp:$('stat-hp'),xp:$('stat-xp')};
 const overlays={start:$('start-screen'),quiz:$('quiz-gate'),pause:$('pause-screen'),end:$('end-screen')};
-const assetFiles={playerRun:'player_run.png',playerJump:'player_jump.png',hurdle:'hurdle.png',star:'star.png'};
+const assetFiles={playerRun:'player_run.png',playerJump:'player_jump.png',hurdle:'hurdle.png',star:'star.png',runnerSheet:'sports_runner_animations.png'};
 const assets={};
 Object.keys(assetFiles).forEach(function(k){const im=new Image();im.src=assetFiles[k];im.onload=function(){if(state)drawScene()};assets[k]=im;});
 const W=480,H=560,HORIZON=145;
@@ -100,7 +100,7 @@ const questions=[
 const lanes=[0,1,2];
 let state,raf=0,lastTime=0,spawnClock=0,gateClock=0,questionIndex=0,gateBusy=false,feedbackTimer=0;
 let highScore=Number(localStorage.getItem('sqRunnerHighScore')||0);
-function freshState(){return{active:false,over:false,lane:1,visualLane:1,jumpY:0,jumpV:0,slide:0,lean:0,land:0,shake:0,flash:0,combo:0,notice:'',noticeTime:0,dist:0,score:0,xp:0,lives:3,speed:.43,elapsed:0,objects:[],particles:[],boost:0,trackOffset:0,invulnerable:0};}
+function freshState(){return{active:false,over:false,lane:1,visualLane:1,jumpY:0,jumpV:0,slide:0,lean:0,land:0,shake:0,flash:0,combo:0,stumble:0,notice:'',noticeTime:0,dist:0,score:0,xp:0,lives:3,speed:.43,elapsed:0,objects:[],particles:[],boost:0,trackOffset:0,invulnerable:0};}
 function updateHud(){
  hud.dist.textContent=String(Math.floor(state.dist)).padStart(4,'0')+'m';
  hud.score.textContent=String(Math.max(highScore,state.score)).padStart(4,'0');
@@ -171,33 +171,37 @@ function drawFallbackRunner(x,y,w,h,frame,jumping){
 }
 function drawRunner(){
  const x=laneX(state.visualLane,1)-31,ground=H-32;
- const jumping=state.jumpY>4,sliding=state.slide>0;
- const runBob=jumping||sliding?0:Math.sin(state.elapsed*19)*1.6;
+ const jumping=state.jumpY>4,sliding=state.slide>0,stumbling=state.stumble>0;
+ const runBob=jumping||sliding||stumbling?0:Math.sin(state.elapsed*19)*1.6;
  const baseY=ground-96-state.jumpY+runBob;
- const landScale=1+state.land*.15;
- ctx.save();
- ctx.fillStyle='rgba(16,39,32,.28)';ctx.beginPath();
+ ctx.save();ctx.fillStyle='rgba(16,39,32,.28)';ctx.beginPath();
  ctx.ellipse(x+31,ground+3,jumping?16:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
- ctx.save();
- ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
- // Animate the full character as a single unit, keeping the feet aligned to the track.
- ctx.translate(x+31,baseY+96);
- ctx.rotate(-state.lean*.12+(jumping?Math.min(.09,state.jumpV/7000):0));
- const sx=(sliding?1.2:1)*(1+state.land*.1);
- const sy=(sliding?.56:1)/landScale;
- ctx.scale(sx,sy);
- ctx.translate(-31,-96);
- const img=assets[jumping?'playerJump':'playerRun'];
- if(img&&img.complete&&img.naturalWidth){
-  if(jumping){
-   ctx.drawImage(img,0,0,img.naturalWidth,img.naturalHeight,0,0,62,96);
-  }else{
-   const frames=Math.max(1,Math.floor(img.naturalWidth/64));
-   const frame=Math.floor(state.elapsed*(sliding?5:12))%frames;
-   const frameWidth=img.naturalWidth/frames;
-   ctx.drawImage(img,frame*frameWidth,0,frameWidth,img.naturalHeight,0,0,62,96);
-  }
- }else drawFallbackRunner(0,0,62,96,0,jumping);
+ ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
+ const sheet=assets.runnerSheet;
+ if(sheet&&sheet.complete&&sheet.naturalWidth>=1536&&sheet.naturalHeight>=768){
+  // Sprite atlas: eight 192px columns, four 192px rows.
+  // Row 0: run (8); row 1: jump (4); row 2: slide (4); row 3: stumble (4).
+  let row=0,frame=Math.floor(state.elapsed*12)%8;
+  if(stumbling){row=3;frame=Math.min(3,Math.floor((.65-state.stumble)/.1625));}
+  else if(sliding){row=2;frame=Math.min(3,Math.floor((.7-state.slide)/.175));}
+  else if(jumping){row=1;frame=state.jumpV>220?0:state.jumpV>0?1:state.jumpV< -220?3:2;}
+  const size=sliding?76:76;
+  const h=sliding?66:104;
+  ctx.translate(x+31,baseY+96);
+  ctx.rotate(-state.lean*.1);
+  ctx.drawImage(sheet,frame*192,row*192,192,192,-size/2,-h,size,h);
+ }else{
+  // Preserve the original character if the new sprite atlas has not been uploaded.
+  ctx.translate(x+31,baseY+96);
+  ctx.rotate(-state.lean*.12);
+  ctx.scale(sliding?1.2:1,(sliding?.56:1)/(1+state.land*.15));
+  ctx.translate(-31,-96);
+  const img=assets[jumping?'playerJump':'playerRun'];
+  if(img&&img.complete&&img.naturalWidth){
+   if(jumping)ctx.drawImage(img,0,0,img.naturalWidth,img.naturalHeight,0,0,62,96);
+   else{const frames=Math.max(1,Math.floor(img.naturalWidth/64));const frame=Math.floor(state.elapsed*12)%frames;const fw=img.naturalWidth/frames;ctx.drawImage(img,frame*fw,0,fw,img.naturalHeight,0,0,62,96);}
+  }else drawFallbackRunner(0,0,62,96,0,jumping);
+ }
  ctx.restore();
 }
 function drawStar(x,y,size){
@@ -251,7 +255,7 @@ function collide(o){
   if(o.kind==='cone'&&state.jumpY>25)return;
  if(o.kind==='arch'&&state.slide>0)return;
  if(state.invulnerable>0)return;
- state.lives--;state.combo=0;state.notice='WATCH OUT!';state.noticeTime=.85;state.invulnerable=1.15;state.shake=1;state.flash=1;addParticle(x,445,'#f28c68');updateHud();
+ state.lives--;state.stumble=.65;state.combo=0;state.notice='WATCH OUT!';state.noticeTime=.85;state.invulnerable=1.15;state.shake=1;state.flash=1;addParticle(x,445,'#f28c68');updateHud();
  if(state.lives<=0)finishRun();
 }
 function showGate(){
@@ -284,7 +288,7 @@ function update(dt){
  state.elapsed+=dt;
  state.visualLane+=(state.lane-state.visualLane)*Math.min(1,dt*10);
  state.lean+=(Math.max(-1,Math.min(1,(state.lane-state.visualLane)*1.4))-state.lean)*Math.min(1,dt*9);
- state.shake=Math.max(0,state.shake-dt*2.5);state.flash=Math.max(0,state.flash-dt*2.8);state.noticeTime=Math.max(0,state.noticeTime-dt);
+ state.shake=Math.max(0,state.shake-dt*2.5);state.flash=Math.max(0,state.flash-dt*2.8);state.noticeTime=Math.max(0,state.noticeTime-dt);state.stumble=Math.max(0,state.stumble-dt);
  state.dist+=dt*state.speed*65;state.speed=Math.min(.84,state.speed+dt*.00075);state.score+=Math.floor(dt*state.speed*8);
  state.trackOffset=(state.trackOffset+dt*state.speed*1.4)%1;
  if(state.jumpY>0||state.jumpV>0){state.jumpY+=state.jumpV*dt;state.jumpV-=1250*dt;if(state.jumpY<=0){state.jumpY=0;state.jumpV=0;state.land=1;addParticle(laneX(state.visualLane,1),H-30,'#d7c19b');}}
