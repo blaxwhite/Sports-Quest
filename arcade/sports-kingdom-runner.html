@@ -192,8 +192,16 @@ function allArtworkReady(){return kingdomRoadReady&&kingdomCastleReady&&heroAtla
 const kingdomBackdrop=new Image();
 let kingdomBackdropReady=false;
 kingdomBackdrop.onload=()=>{kingdomBackdropReady=true;if(typeof state!=='undefined'&&state)drawScene();};
-kingdomBackdrop.onerror=()=>{kingdomBackdropReady=false;};
-kingdomBackdrop.src='assets/fb7469c2-193b-406a-9ab4-3629412c0401.png?v=1';
+let backdropAttempts=0;
+function retryKingdomBackdrop(){
+ backdropAttempts++;
+ kingdomBackdrop.src='assets/fb7469c2-193b-406a-9ab4-3629412c0401.png?bg=20261111d&attempt='+backdropAttempts;
+}
+kingdomBackdrop.onerror=()=>{
+ kingdomBackdropReady=false;
+ if(backdropAttempts<8)setTimeout(retryKingdomBackdrop,Math.min(10000,backdropAttempts*1800));
+};
+retryKingdomBackdrop();
 
 function drawKingdom(){
  // Layered kingdom landscape, with restrained parallax that never moves the runner.
