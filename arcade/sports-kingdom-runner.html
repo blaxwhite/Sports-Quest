@@ -122,21 +122,33 @@ kingdomRoadImage.src='assets/sports_quest_road_seamless.png';
 
 function drawArtworkRoad(){
  if(!kingdomRoadReady||!kingdomRoadImage.naturalWidth)return false;
- // Narrow at the horizon, broad at the player; texture scrolls towards the camera.
- // Individual screen-space bands preserve the original three lanes and stone curbs.
  const imageW=kingdomRoadImage.naturalWidth,imageH=kingdomRoadImage.naturalHeight;
  const roadHeight=H-HORIZON,scroll=state.trackOffset*imageH;
+ // Crop the baked-in golden lines out of the PNG. Render the three cobblestone
+ // lanes independently so their boundaries cannot bow with texture sampling.
+ const crops=[[0,.315],[.365,.635],[.695,1]];
  ctx.save();
  ctx.imageSmoothingEnabled=true;
  for(let y=HORIZON;y<H;y+=2){
   const bottom=Math.min(H,y+2),z=(y-HORIZON)/roadHeight;
-  const perspective=z;
-  const left=205+(16-205)*perspective,right=275+(W-16-275)*perspective;
-  const width=right-left;
-  // Depth-dependent repetition makes cobblestones advance at a consistent rate.
-  const sourceY=((imageH*(1-perspective)*1.65+scroll)%imageH+imageH)%imageH;
+  const left=205+(16-205)*z,right=275+(W-16-275)*z;
+  const laneWidth=(right-left)/3;
+  const sourceY=((imageH*(1-z)*1.65+scroll)%imageH+imageH)%imageH;
   const sourceHeight=Math.min(3,imageH-sourceY);
-  ctx.drawImage(kingdomRoadImage,0,sourceY,imageW,sourceHeight,left,y,width,bottom-y+.45);
+  for(let lane=0;lane<3;lane++){
+   const [start,end]=crops[lane];
+   ctx.drawImage(kingdomRoadImage,imageW*start,sourceY,imageW*(end-start),sourceHeight,
+    left+lane*laneWidth,y,laneWidth+.5,bottom-y+.45);
+  }
+ }
+ // Draw perfectly straight dividers in screen space, independent of road texture.
+ for(let lane=1;lane<=2;lane++){
+  const topX=205+lane*(275-205)/3;
+  const bottomX=16+lane*((W-16)-16)/3;
+  ctx.beginPath();ctx.moveTo(topX,HORIZON);ctx.lineTo(bottomX,H);
+  ctx.strokeStyle='#8c552c';ctx.lineWidth=5;ctx.stroke();
+  ctx.beginPath();ctx.moveTo(topX,HORIZON);ctx.lineTo(bottomX,H);
+  ctx.strokeStyle='#ffcf68';ctx.lineWidth=3;ctx.stroke();
  }
  ctx.restore();
  return true;
