@@ -48,10 +48,30 @@ body{background:#0b1722;color:var(--cream);font-family:'Outfit',sans-serif}.site
 .arcade-hero>.arcade-stats{justify-content:center;align-items:center}
 @media(max-width:480px){.arcade-hero{padding:34px 16px 30px}.arcade-hero>h1.title-animated{font-size:clamp(34px,9vw,44px);line-height:1.12;max-width:100%}}
 
+
+/* Match the homepage's full-width banner layout without cropping. */
+.arcade-main{padding-top:34px}
+.arcade-banner{
+  width:100%;aspect-ratio:1672/941;max-height:650px;
+  overflow:hidden;border:2px solid #b99855;border-radius:20px;
+  background:#183d64;box-shadow:0 20px 40px #0005;
+  display:flex;align-items:center;justify-content:center;
+}
+.arcade-banner img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
+.arcade-hero{
+  margin-top:24px;min-height:0;padding:30px clamp(18px,4vw,48px);
+  background:linear-gradient(125deg,#27494a,#1b3546 65%,#293b3e);
+}
+@media(max-width:760px){
+  .arcade-main{padding-top:22px}
+  .arcade-banner{border-radius:15px;max-height:none}
+  .arcade-hero{margin-top:18px;padding:28px 16px}
+}
+
 </style></head>
 <body><div class="site-bg"></div><nav class="topnav"><a class="brand" href="index.html" aria-label="Sports Quest home"><img class="brand-logo" src="assets/images/sports-quest-logo-transparent.png" alt="Sports Quest: Kingdom of Champions"><span>SPORTS QUEST<small>KINGDOM OF CHAMPIONS</small></span></a><div class="navlinks"><a href="index.html">Knowledge Guide</a><a href="index.html#lessons">Lessons</a></div></nav>
 <main class="arcade-main">
-<header class="arcade-hero"><div class="eyebrow">✦ THE TRAINING GROUNDS AWAIT ✦</div><h1 class="title-animated">THE <span>ARCADE</span> ZONE</h1><p>Put your sports knowledge into action! Choose a quiz to practise your English skills, preview what each challenge is about, or enter the track for the ultimate running challenge.</p><div class="arcade-stats"><span class="stat-pill">📚 4 QUIZ CHALLENGES</span><span class="stat-pill">🏃 1 ACTION GAME</span><span class="stat-pill">⭐ EARN XP</span></div></header>
+<div class="arcade-banner"><img src="assets/images/sports-kingdom-hero.webp" alt="Sports Quest Kingdom of Champions, featuring the castle and sports adventurers" loading="eager"></div><header class="arcade-hero"><div class="eyebrow">✦ THE TRAINING GROUNDS AWAIT ✦</div><h1 class="title-animated">THE <span>ARCADE</span> ZONE</h1><p>Put your sports knowledge into action! Choose a quiz to practise your English skills, preview what each challenge is about, or enter the track for the ultimate running challenge.</p><div class="arcade-stats"><span class="stat-pill">📚 4 QUIZ CHALLENGES</span><span class="stat-pill">🏃 1 ACTION GAME</span><span class="stat-pill">⭐ EARN XP</span></div></header>
 <section class="arcade-section"><div class="section-title"><h2>📚 Quiz Challenges</h2><p>Choose a challenge · Preview before you play</p></div><div class="quiz-grid">
 <article class="quiz-card"><div class="quiz-visual">🏟️</div><div class="quiz-copy"><div class="quiz-no">QUIZ 01 · VOCABULARY</div><h3>Training Grounds</h3><p>Match sports with the equipment used to play them.</p><div class="card-actions"><a class="play-link" href="missions/training.html">Play quiz <span class="quest-arrow" aria-hidden="true">➜</span></a><button class="preview-btn" data-title="Training Grounds" data-visual="⚽ 🏸 🎾" data-info="Explore sports vocabulary by matching each sport with the correct equipment. Think about what players need for football, badminton, basketball and other activities." data-tip="Skill focus: sports vocabulary and equipment.">Preview quiz</button></div></div></article>
 <article class="quiz-card"><div class="quiz-visual">📯</div><div class="quiz-copy"><div class="quiz-no">QUIZ 02 · LISTENING</div><h3>Announcement Hall</h3><p>Listen to a Sports Day announcement and find key details.</p><div class="card-actions"><a class="play-link" href="missions/announcement.html">Play quiz <span class="quest-arrow" aria-hidden="true">➜</span></a><button class="preview-btn" data-title="Announcement Hall" data-visual="📣 🗓️ 🏟️" data-info="Listen carefully to a Sports Day announcement. Identify the event, date, time, venue and what participants should bring." data-tip="Skill focus: listening for specific information.">Preview quiz</button></div></div></article>
