@@ -224,13 +224,26 @@ function drawKingdom(){
  ctx.strokeStyle='#f0dba4';ctx.lineWidth=3;ctx.beginPath();
  ctx.moveTo(198,HORIZON);ctx.lineTo(-13,H);ctx.moveTo(282,HORIZON);ctx.lineTo(W+13,H);ctx.stroke();
  }
- // Place the detailed castle at the far end of the road, in front of the road
- // horizon so its central entrance meets the middle lane.
+ // Anchor the castle in the terrain instead of letting its flat PNG edge float.
  if(kingdomCastleReady){
   const castleWidth=205;
   const castleHeight=castleWidth*kingdomCastleImage.naturalHeight/kingdomCastleImage.naturalWidth;
-  ctx.save();ctx.imageSmoothingEnabled=false;
-  ctx.drawImage(kingdomCastleImage,(W-castleWidth)/2,HORIZON-castleHeight+9,castleWidth,castleHeight);
+  const castleX=(W-castleWidth)/2,castleBase=HORIZON+9;
+  ctx.save();
+  // A shallow stone approach connects the arched doorway to the road surface.
+  poly([[222,castleBase-3],[258,castleBase-3],[273,castleBase+14],[207,castleBase+14]],'#866451');
+  poly([[225,castleBase-3],[255,castleBase-3],[267,castleBase+11],[213,castleBase+11]],'#b58c70');
+  ctx.strokeStyle='rgba(248,197,116,.55)';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(240,castleBase-3);ctx.lineTo(240,castleBase+12);ctx.stroke();
+  ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(kingdomCastleImage,castleX,castleBase-castleHeight,castleWidth,castleHeight);
+  // Low shrubs hide the cutout's bottom corners and tie it to the verge.
+  for(const side of [-1,1]){
+   const x=240+side*94,y=castleBase+2;
+   ctx.fillStyle='#285f44';ctx.beginPath();ctx.ellipse(x,y,23,7,0,0,Math.PI*2);ctx.fill();
+   ctx.fillStyle='#448c54';ctx.beginPath();ctx.ellipse(x-side*4,y-3,17,6,0,0,Math.PI*2);ctx.fill();
+   ctx.fillStyle='#79b96c';ctx.fillRect(x-6,y-8,5,3);
+  }
   ctx.restore();
  }
  // Two rows of trees: farther trees move slowly, nearer trees move faster.
