@@ -100,7 +100,7 @@ const questions=[
 const lanes=[0,1,2];
 let state,raf=0,lastTime=0,spawnClock=0,gateClock=0,questionIndex=0,gateBusy=false,feedbackTimer=0;
 let highScore=Number(localStorage.getItem('sqRunnerHighScore')||0);
-function freshState(){return{active:false,over:false,lane:1,visualLane:1,jumpY:0,jumpV:0,slide:0,lean:0,land:0,shake:0,flash:0,combo:0,dist:0,score:0,xp:0,lives:3,speed:.43,elapsed:0,objects:[],particles:[],boost:0,trackOffset:0,invulnerable:0};}
+function freshState(){return{active:false,over:false,lane:1,visualLane:1,jumpY:0,jumpV:0,slide:0,lean:0,land:0,shake:0,flash:0,combo:0,notice:'',noticeTime:0,dist:0,score:0,xp:0,lives:3,speed:.43,elapsed:0,objects:[],particles:[],boost:0,trackOffset:0,invulnerable:0};}
 function updateHud(){
  hud.dist.textContent=String(Math.floor(state.dist)).padStart(4,'0')+'m';
  hud.score.textContent=String(Math.max(highScore,state.score)).padStart(4,'0');
@@ -227,6 +227,7 @@ function drawScene(){
  state.objects.slice().sort((a,b)=>a.z-b.z).forEach(drawEntity);
  drawRunner();ctx.restore();
   if(state.flash>0){ctx.fillStyle='rgba(255,92,71,'+(state.flash*.22)+')';ctx.fillRect(0,0,W,H);}
+  if(state.noticeTime>0){ctx.save();ctx.textAlign='center';ctx.font='bold 19px monospace';ctx.lineWidth=4;ctx.strokeStyle='#203248';ctx.fillStyle=state.notice==='WATCH OUT!'?'#ffb1a3':'#ffe68a';ctx.strokeText(state.notice,W/2,225);ctx.fillText(state.notice,W/2,225);ctx.restore();}
  if(state.boost>0){ctx.fillStyle='#ffe18a';ctx.font='bold 13px monospace';ctx.textAlign='center';ctx.fillText('SPEED BOOST!',240,205);ctx.textAlign='left';}
  // soft vignette
  const v=ctx.createLinearGradient(0,0,0,H);v.addColorStop(0,'rgba(4,12,24,.03)');v.addColorStop(1,'rgba(4,12,24,.16)');ctx.fillStyle=v;ctx.fillRect(0,0,W,H);
@@ -245,12 +246,12 @@ function collide(o){
  if(Math.abs(o.lane-state.visualLane)>.43)return;
  o.hit=true;
  const x=laneX(o.lane,1);
- if(o.kind==='star'){state.combo++;state.score+=50+Math.min(state.combo,10)*5;state.xp+=5;addParticle(x,440,'#ffdc62');updateHud();return;}
+ if(o.kind==='star'){state.combo++;state.score+=50+Math.min(state.combo,10)*5;state.xp+=5;state.notice=state.combo>1?'STAR COMBO x'+state.combo:'STAR +50';state.noticeTime=.85;addParticle(x,440,'#ffdc62');updateHud();return;}
  if(o.kind==='hurdle'&&state.jumpY>34)return;
   if(o.kind==='cone'&&state.jumpY>25)return;
  if(o.kind==='arch'&&state.slide>0)return;
  if(state.invulnerable>0)return;
- state.lives--;state.combo=0;state.invulnerable=1.15;state.shake=1;state.flash=1;addParticle(x,445,'#f28c68');updateHud();
+ state.lives--;state.combo=0;state.notice='WATCH OUT!';state.noticeTime=.85;state.invulnerable=1.15;state.shake=1;state.flash=1;addParticle(x,445,'#f28c68');updateHud();
  if(state.lives<=0)finishRun();
 }
 function showGate(){
@@ -283,7 +284,7 @@ function update(dt){
  state.elapsed+=dt;
  state.visualLane+=(state.lane-state.visualLane)*Math.min(1,dt*10);
  state.lean+=(Math.max(-1,Math.min(1,(state.lane-state.visualLane)*1.4))-state.lean)*Math.min(1,dt*9);
- state.shake=Math.max(0,state.shake-dt*2.5);state.flash=Math.max(0,state.flash-dt*2.8);
+ state.shake=Math.max(0,state.shake-dt*2.5);state.flash=Math.max(0,state.flash-dt*2.8);state.noticeTime=Math.max(0,state.noticeTime-dt);
  state.dist+=dt*state.speed*65;state.speed=Math.min(.84,state.speed+dt*.00075);state.score+=Math.floor(dt*state.speed*8);
  state.trackOffset=(state.trackOffset+dt*state.speed*1.4)%1;
  if(state.jumpY>0||state.jumpV>0){state.jumpY+=state.jumpV*dt;state.jumpV-=1250*dt;if(state.jumpY<=0){state.jumpY=0;state.jumpV=0;state.land=1;addParticle(laneX(state.visualLane,1),H-30,'#d7c19b');}}
@@ -316,6 +317,7 @@ function resumeRun(){overlays.pause.classList.add('hidden');if(state.over)return
 window.addEventListener('keydown',function(e){
  const k=e.key.toLowerCase();
  if(['arrowleft','arrowright','arrowup','arrowdown',' '].includes(k))e.preventDefault();
+ if(e.repeat&&['arrowleft','arrowright','a','d','arrowup','arrowdown','w','s',' '].includes(k))return;
  if(k==='escape'||k==='p'){if(state.active)pauseRun();else if(!overlays.pause.classList.contains('hidden'))resumeRun();return;}
  if(k==='arrowleft'||k==='a')moveLane(-1);
  if(k==='arrowright'||k==='d')moveLane(1);
