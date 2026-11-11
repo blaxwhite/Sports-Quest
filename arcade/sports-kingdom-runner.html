@@ -267,6 +267,11 @@ function drawKingdom(){
   ctx.drawImage(kingdomCastleImage,(W-castleWidth)/2,castleBase-castleHeight,castleWidth,castleHeight);
   ctx.restore();
  }
+ // Preserve the original road shoulder geometry.
+ poly([[186,HORIZON],[294,HORIZON],[W+85,H],[-85,H]],'#317c56');
+ poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#8d806b');
+ poly([[205,HORIZON],[275,HORIZON],[W-16,H],[16,H]],'#d3c29d');
+
  // New detailed terrain replaces the flat green landscape on both sides.
  // The central region is explicitly excluded, even if the source image is opaque.
  if(kingdomTerrainReady){
@@ -280,11 +285,6 @@ function drawKingdom(){
   ctx.drawImage(kingdomTerrainImage,0,Math.round(sourceH*.19),sourceW,Math.round(sourceH*.81),0,HORIZON,W,H-HORIZON);
   ctx.restore();
  }
- // Preserve the original road shoulder geometry.
- poly([[186,HORIZON],[294,HORIZON],[W+85,H],[-85,H]],'#317c56');
- poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#8d806b');
- poly([[205,HORIZON],[275,HORIZON],[W-16,H],[16,H]],'#d3c29d');
-
  // Use the uploaded pixel-art texture, falling back to the original road while loading.
  if(!drawArtworkRoad()){
  // Stone courses move forward with the player; alternating tiles add texture.
