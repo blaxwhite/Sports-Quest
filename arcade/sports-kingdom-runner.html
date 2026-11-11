@@ -318,25 +318,56 @@ function drawRunner(){
  }
  ctx.restore();
 }
+// Fantasy-sports obstacles and collectible effects, drawn in consistent pixel style.
 function drawStar(x,y,size){
- const im=assets.star;
- if(im&&im.complete&&im.naturalWidth){ctx.drawImage(im,x-size/2,y-size/2,size,size);return;}
- ctx.save();ctx.translate(x,y);ctx.rotate(state.elapsed*2);ctx.fillStyle='#ffce45';ctx.strokeStyle='#754b20';ctx.lineWidth=2;ctx.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?size*.22:size*.5;ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);}ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
+ ctx.save();ctx.translate(x,y);
+ const pulse=1+Math.sin(state.elapsed*7)*.09;
+ ctx.scale(pulse,pulse);
+ const glow=ctx.createRadialGradient(0,0,2,0,0,size*.82);
+ glow.addColorStop(0,'rgba(255,243,154,.48)');glow.addColorStop(1,'rgba(255,226,91,0)');
+ ctx.fillStyle=glow;ctx.beginPath();ctx.arc(0,0,size*.82,0,Math.PI*2);ctx.fill();
+ ctx.rotate(Math.sin(state.elapsed*2)*.16);
+ ctx.fillStyle='#775019';ctx.strokeStyle='#6a4216';ctx.lineWidth=Math.max(1,size*.07);
+ ctx.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?size*.24:size*.48;ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);}ctx.closePath();ctx.fill();ctx.stroke();
+ ctx.fillStyle='#ffd85c';ctx.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?size*.18:size*.4;ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);}ctx.closePath();ctx.fill();
+ ctx.fillStyle='#fff8cb';ctx.fillRect(-size*.13,-size*.23,Math.max(1,size*.1),Math.max(1,size*.17));
+ ctx.restore();
 }
 function drawEntity(o){
  const z=Math.max(0,o.z),depth=z*z,x=laneX(o.lane,depth),base=HORIZON+depth*(H-HORIZON),scale=.20+depth*1.20;
  if(o.kind==='star'){drawStar(x,base-27*scale+Math.sin(state.elapsed*5+o.z*4)*5*scale,28*scale);return;}
- if(o.kind==='arch'){ctx.fillStyle='#855e42';ctx.fillRect(x-34*scale,base-95*scale,13*scale,95*scale);ctx.fillRect(x+21*scale,base-95*scale,13*scale,95*scale);ctx.fillStyle='#d3a75f';ctx.fillRect(x-37*scale,base-100*scale,74*scale,17*scale);ctx.fillStyle='#fff4d1';ctx.font='bold '+Math.max(7,11*scale)+'px monospace';ctx.textAlign='center';ctx.fillText('SLIDE',x,base-87*scale);ctx.textAlign='left';return;}
- const img=assets.hurdle;
- if(o.kind==='hurdle'&&img&&img.complete&&img.naturalWidth){ctx.drawImage(img,x-42*scale,base-33*scale,84*scale,36*scale);return;}
- if(o.kind==='hurdle'){
-   ctx.fillStyle='#36465a';ctx.fillRect(x-33*scale,base-30*scale,7*scale,31*scale);ctx.fillRect(x+26*scale,base-30*scale,7*scale,31*scale);
-   ctx.fillStyle='#f0dfc4';ctx.fillRect(x-39*scale,base-36*scale,78*scale,10*scale);
-   ctx.fillStyle='#b53c32';for(let i=0;i<4;i++)poly([[x-38*scale+i*20*scale,base-36*scale],[x-27*scale+i*20*scale,base-36*scale],[x-34*scale+i*20*scale,base-26*scale],[x-45*scale+i*20*scale,base-26*scale]],'#b53c32');
+ ctx.save();ctx.translate(x,base);ctx.scale(scale,scale);
+ ctx.imageSmoothingEnabled=false;
+ // Ground contact shadows anchor hazards to the same perspective as the runner.
+ ctx.fillStyle='rgba(32,35,31,.23)';ctx.beginPath();ctx.ellipse(0,3,o.kind==='arch'?42:35,5,0,0,Math.PI*2);ctx.fill();
+ if(o.kind==='arch'){
+  // Royal training gate: the glowing crossbeam must be slid under.
+  ctx.fillStyle='#29334a';ctx.fillRect(-39,-103,15,103);ctx.fillRect(24,-103,15,103);
+  ctx.fillStyle='#8d6848';ctx.fillRect(-35,-100,9,98);ctx.fillRect(26,-100,9,98);
+  ctx.fillStyle='#c49b59';ctx.fillRect(-43,-110,86,19);
+  ctx.fillStyle='#f1d17c';ctx.fillRect(-39,-107,78,5);
+  ctx.fillStyle='#6d3e40';ctx.fillRect(-38,-99,76,10);
+  ctx.fillStyle='#ffe28a';ctx.fillRect(-24,-100,48,6);
+  for(const px of [-30,30]){ctx.fillStyle='#ffd66c';ctx.fillRect(px-3,-119,6,9);ctx.fillStyle='#fff0b6';ctx.fillRect(px-1,-125,2,6);}
+  ctx.font='bold 12px monospace';ctx.fillStyle='#fff9d8';ctx.textAlign='center';ctx.fillText('SLIDE',0,-94);ctx.textAlign='left';
+ }else if(o.kind==='hurdle'){
+  // Timber sports hurdle with striped danger bar and steel feet.
+  ctx.fillStyle='#2b3744';ctx.fillRect(-32,-29,8,32);ctx.fillRect(24,-29,8,32);
+  ctx.fillStyle='#b2a39b';ctx.fillRect(-38,-1,20,5);ctx.fillRect(18,-1,20,5);
+  ctx.fillStyle='#5e3d2e';ctx.fillRect(-42,-41,84,17);
+  ctx.fillStyle='#f3e0a8';ctx.fillRect(-40,-40,80,12);
+  for(let i=0;i<4;i++)poly([[-40+i*20,-40],[-30+i*20,-40],[-39+i*20,-28],[-49+i*20,-28]],'#bd493e');
+  ctx.fillStyle='#fff5d6';ctx.fillRect(-37,-44,74,3);
+  ctx.fillStyle='#6f5035';ctx.fillRect(-30,-24,60,4);
  }else{
-   poly([[x,base-44*scale],[x-20*scale,base],[x+20*scale,base]],'#e56f3e');
-   ctx.fillStyle='#fff0d0';ctx.fillRect(x-11*scale,base-21*scale,22*scale,5*scale);
+  // Orange training cone, with pixel-highlighted reflective band.
+  ctx.fillStyle='#55483a';ctx.fillRect(-24,-5,48,9);
+  poly([[0,-50],[-21,-5],[21,-5]],'#d75c35');
+  poly([[0,-50],[-3,-10],[17,-10]],'#f18a4b');
+  ctx.fillStyle='#fff1c7';ctx.fillRect(-12,-22,24,7);
+  ctx.fillStyle='#a84c2c';ctx.fillRect(-25,0,50,4);
  }
+ ctx.restore();
 }
 function drawScene(){
  ctx.clearRect(0,0,W,H);ctx.save();
