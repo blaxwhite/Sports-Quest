@@ -156,7 +156,11 @@ function drawStadium(){
 // Frame-safe procedural pixel character: each pose is drawn independently.
 // This avoids atlas bleed, misaligned frames and the side-to-side sprite jitter.
 function drawPixelHero(pose){
- const t=state.elapsed*15,step=Math.sin(t),other=Math.sin(t+Math.PI);
+ // Eight deliberate run poses; quantised motion prevents blurry, sideways sprite jitter.
+ const runFrame=Math.floor(state.elapsed*11)%8;
+ const strides=[0,6,11,6,0,-6,-11,-6];
+ const lifts=[0,2,5,2,0,2,5,2];
+ const step=strides[runFrame]/12,other=-step;
  const stumble=pose==='stumble',jump=pose==='jump',slide=pose==='slide';
  ctx.save();
  ctx.lineJoin='round';ctx.lineCap='round';
@@ -174,17 +178,19 @@ function drawPixelHero(pose){
  if(stumble){bodyY=4;tilt=Math.sin((.65-state.stumble)*18)*.19;}
  if(slide){bodyY=19;tilt=.1;}
  ctx.translate(34,45+bodyY);ctx.rotate(tilt);ctx.translate(-34,-45);
- const legL=jump?-12:slide?13:step*12;
- const legR=jump?-9:slide?10:other*12;
- limb(26,65,24+legL,82+(slide?-9:0),9,'#283c72');
- limb(42,65,44+legR,82+(slide?-9:0),9,'#283c72');
- shoe(24+legL,85+(slide?-9:0));shoe(44+legR,85+(slide?-9:0));
+ const legL=jump?-12:slide?13:strides[runFrame];
+ const legR=jump?-9:slide?10:-strides[runFrame];
+ const footLiftL=jump||slide?0:(runFrame<4?lifts[runFrame]:0);
+ const footLiftR=jump||slide?0:(runFrame>=4?lifts[runFrame]:0);
+ limb(26,65,24+legL,82+(slide?-9:0)-footLiftL,9,'#283c72');
+ limb(42,65,44+legR,82+(slide?-9:0)-footLiftR,9,'#283c72');
+ shoe(24+legL,85+(slide?-9:0)-footLiftL);shoe(44+legR,85+(slide?-9:0)-footLiftR);
  // Shirt, sleeves and royal crown emblem.
  ctx.fillStyle='#17243b';ctx.fillRect(16,31,36,37);
  ctx.fillStyle='#3561b8';ctx.fillRect(19,33,30,32);
  ctx.fillStyle='#f4f5f9';ctx.fillRect(19,33,30,5);ctx.fillRect(19,62,30,4);
  ctx.fillStyle='#f2c94c';ctx.fillRect(28,42,3,8);ctx.fillRect(33,39,3,11);ctx.fillRect(38,42,3,8);ctx.fillRect(28,49,13,4);
- const armSwing=jump?-9:slide?7:step*9;
+ const armSwing=jump?-9:slide?7:strides[runFrame]*.75;
  limb(18,39,11-armSwing*.4,54+armSwing*.35,8,'#3561b8');
  limb(50,39,57+armSwing*.4,54-armSwing*.35,8,'#3561b8');
  ctx.fillStyle='#e6ae81';ctx.fillRect(6-armSwing*.4,51+armSwing*.35,9,8);ctx.fillRect(53+armSwing*.4,51-armSwing*.35,9,8);
@@ -200,7 +206,8 @@ function drawRunner(){
  const center=laneX(state.visualLane,1),ground=H-32;
  const jumping=state.jumpY>4,sliding=state.slide>0,stumbling=state.stumble>0;
  const pose=stumbling?'stumble':sliding?'slide':jumping?'jump':'run';
- const bob=pose==='run'?Math.sin(state.elapsed*30)*1.1:0;
+ // No whole-character bob: keep the hero anchored to the road while feet animate.
+ const bob=0;
  ctx.save();ctx.fillStyle='rgba(16,39,32,.28)';ctx.beginPath();
  ctx.ellipse(center,ground+3,jumping?16:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
  ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
