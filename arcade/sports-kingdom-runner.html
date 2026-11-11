@@ -99,7 +99,7 @@ const questions=[
 const lanes=[0,1,2];
 let state,raf=0,lastTime=0,spawnClock=0,gateClock=0,questionIndex=0,gateBusy=false,feedbackTimer=0;
 let highScore=Number(localStorage.getItem('sqRunnerHighScore')||0);
-function freshState(){return{active:false,over:false,lane:1,visualLane:1,jumpY:0,jumpV:0,slide:0,dist:0,score:0,xp:0,lives:3,speed:.43,elapsed:0,objects:[],particles:[],boost:0,trackOffset:0,invulnerable:0};}
+function freshState(){return{active:false,over:false,lane:1,visualLane:1,jumpY:0,jumpV:0,slide:0,lean:0,shake:0,flash:0,combo:0,dist:0,score:0,xp:0,lives:3,speed:.43,elapsed:0,objects:[],particles:[],boost:0,trackOffset:0,invulnerable:0};}
 function updateHud(){
  hud.dist.textContent=String(Math.floor(state.dist)).padStart(4,'0')+'m';
  hud.score.textContent=String(Math.max(highScore,state.score)).padStart(4,'0');
@@ -178,6 +178,7 @@ function drawRunner(){
  ctx.fillStyle='#17251d';ctx.globalAlpha*=.28;ctx.beginPath();ctx.ellipse(x+31,ground+3,state.jumpY>4?17:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
  ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
  const jumping=state.jumpY>4;
+  ctx.translate(x+31,y+48);ctx.rotate(-state.lean*.13);ctx.translate(-(x+31),-(y+48));
  const img=assets[jumping?'playerJump':'playerRun'];
  if(img&&img.complete&&img.naturalWidth){
    if(jumping)ctx.drawImage(img,0,0,img.naturalWidth,img.naturalHeight,x,y,w,h);
@@ -206,9 +207,12 @@ function drawEntity(o){
  }
 }
 function drawScene(){
- ctx.clearRect(0,0,W,H);drawKingdom();
+ ctx.clearRect(0,0,W,H);ctx.save();
+  if(state.shake>0){const m=state.shake*7;ctx.translate(Math.sin(state.elapsed*95)*m,Math.cos(state.elapsed*77)*m*.5);}
+  drawKingdom();
  state.objects.slice().sort((a,b)=>a.z-b.z).forEach(drawEntity);
- drawRunner();
+ drawRunner();ctx.restore();
+  if(state.flash>0){ctx.fillStyle='rgba(255,92,71,'+(state.flash*.22)+')';ctx.fillRect(0,0,W,H);}
  if(state.boost>0){ctx.fillStyle='#ffe18a';ctx.font='bold 13px monospace';ctx.textAlign='center';ctx.fillText('SPEED BOOST!',240,205);ctx.textAlign='left';}
  // soft vignette
  const v=ctx.createLinearGradient(0,0,0,H);v.addColorStop(0,'rgba(4,12,24,.03)');v.addColorStop(1,'rgba(4,12,24,.16)');ctx.fillStyle=v;ctx.fillRect(0,0,W,H);
@@ -219,6 +223,7 @@ function spawnObject(){
  const lane=Math.floor(Math.random()*3);
  const roll=Math.random();const kind=roll<.39?'hurdle':roll<.78?'cone':'arch';
  state.objects.push({lane,kind,z:0,hit:false});
+  if(state.dist>150&&Math.random()<.22){const other=(lane+1+Math.floor(Math.random()*2))%3;state.objects.push({lane:other,kind:Math.random()<.5?'cone':'hurdle',z:0,hit:false});}
  if(Math.random()<.72){const starLane=Math.floor(Math.random()*3);state.objects.push({lane:starLane,kind:'star',z:-.25,hit:false});}
 }
 function collide(o){
@@ -226,11 +231,12 @@ function collide(o){
  if(Math.abs(o.lane-state.visualLane)>.38)return;
  o.hit=true;
  const x=laneX(o.lane,1);
- if(o.kind==='star'){state.score+=50;state.xp+=5;addParticle(x,440,'#ffdc62');updateHud();return;}
+ if(o.kind==='star'){state.combo++;state.score+=50+Math.min(state.combo,10)*5;state.xp+=5;addParticle(x,440,'#ffdc62');updateHud();return;}
  if(o.kind==='hurdle'&&state.jumpY>34)return;
+  if(o.kind==='cone'&&state.jumpY>25)return;
  if(o.kind==='arch'&&state.slide>0)return;
  if(state.invulnerable>0)return;
- state.lives--;state.invulnerable=1.15;addParticle(x,445,'#f28c68');updateHud();
+ state.lives--;state.combo=0;state.invulnerable=1.15;state.shake=1;state.flash=1;addParticle(x,445,'#f28c68');updateHud();
  if(state.lives<=0)finishRun();
 }
 function showGate(){
@@ -260,8 +266,11 @@ function finishRun(){
  overlays.end.classList.remove('hidden');
 }
 function update(dt){
- state.elapsed+=dt;state.visualLane+=(state.lane-state.visualLane)*Math.min(1,dt*12);
- state.dist+=dt*state.speed*65;state.score+=Math.floor(dt*state.speed*8);
+ state.elapsed+=dt;
+ state.visualLane+=(state.lane-state.visualLane)*Math.min(1,dt*10);
+ state.lean+=(Math.max(-1,Math.min(1,(state.lane-state.visualLane)*1.4))-state.lean)*Math.min(1,dt*9);
+ state.shake=Math.max(0,state.shake-dt*2.5);state.flash=Math.max(0,state.flash-dt*2.8);
+ state.dist+=dt*state.speed*65;state.speed=Math.min(.84,state.speed+dt*.00075);state.score+=Math.floor(dt*state.speed*8);
  state.trackOffset=(state.trackOffset+dt*state.speed*1.4)%1;
  if(state.jumpY>0||state.jumpV>0){state.jumpY+=state.jumpV*dt;state.jumpV-=1250*dt;if(state.jumpY<=0){state.jumpY=0;state.jumpV=0;}}
  if(state.invulnerable>0)state.invulnerable=Math.max(0,state.invulnerable-dt);
