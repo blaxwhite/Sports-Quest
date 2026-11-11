@@ -224,25 +224,26 @@ function drawKingdom(){
  ctx.strokeStyle='#f0dba4';ctx.lineWidth=3;ctx.beginPath();
  ctx.moveTo(198,HORIZON);ctx.lineTo(-13,H);ctx.moveTo(282,HORIZON);ctx.lineTo(W+13,H);ctx.stroke();
  }
- // Anchor the castle in the terrain instead of letting its flat PNG edge float.
+ // Integrate the castle as the road's destination, not a floating decoration.
  if(kingdomCastleReady){
-  const castleWidth=205;
+  const castleWidth=258;
   const castleHeight=castleWidth*kingdomCastleImage.naturalHeight/kingdomCastleImage.naturalWidth;
-  const castleX=(W-castleWidth)/2,castleBase=HORIZON+9;
+  const castleX=(W-castleWidth)/2;
+  const castleBase=HORIZON+17;
   ctx.save();
-  // A shallow stone approach connects the arched doorway to the road surface.
-  poly([[222,castleBase-3],[258,castleBase-3],[273,castleBase+14],[207,castleBase+14]],'#866451');
-  poly([[225,castleBase-3],[255,castleBase-3],[267,castleBase+11],[213,castleBase+11]],'#b58c70');
-  ctx.strokeStyle='rgba(248,197,116,.55)';ctx.lineWidth=2;
-  ctx.beginPath();ctx.moveTo(240,castleBase-3);ctx.lineTo(240,castleBase+12);ctx.stroke();
+  // The distant road continues directly beneath the arched gate.
+  poly([[225,HORIZON-4],[255,HORIZON-4],[286,castleBase+16],[194,castleBase+16]],'#926653');
+  poly([[229,HORIZON-4],[251,HORIZON-4],[275,castleBase+16],[205,castleBase+16]],'#bd8869');
+  // Distant raised grassy banks follow the castle's outer walls.
+  poly([[100,castleBase-5],[174,HORIZON-12],[200,castleBase+19],[100,castleBase+19]],'#356b4d');
+  poly([[380,castleBase-5],[306,HORIZON-12],[280,castleBase+19],[380,castleBase+19]],'#356b4d');
   ctx.imageSmoothingEnabled=false;
   ctx.drawImage(kingdomCastleImage,castleX,castleBase-castleHeight,castleWidth,castleHeight);
-  // Low shrubs hide the cutout's bottom corners and tie it to the verge.
+  // Low foreground banks overlap the PNG's bottom edge to visually bury its base.
   for(const side of [-1,1]){
-   const x=240+side*94,y=castleBase+2;
-   ctx.fillStyle='#285f44';ctx.beginPath();ctx.ellipse(x,y,23,7,0,0,Math.PI*2);ctx.fill();
-   ctx.fillStyle='#448c54';ctx.beginPath();ctx.ellipse(x-side*4,y-3,17,6,0,0,Math.PI*2);ctx.fill();
-   ctx.fillStyle='#79b96c';ctx.fillRect(x-6,y-8,5,3);
+   const x=240+side*110,y=castleBase+1;
+   ctx.fillStyle='#285c43';ctx.beginPath();ctx.ellipse(x,y,29,10,0,0,Math.PI*2);ctx.fill();
+   ctx.fillStyle='#418354';ctx.beginPath();ctx.ellipse(x-side*4,y-4,23,7,0,0,Math.PI*2);ctx.fill();
   }
   ctx.restore();
  }
