@@ -475,7 +475,8 @@ goldenStarSheet.onload=()=>{
   const temp=document.createElement('canvas');
   temp.width=Math.round(sw);temp.height=Math.round(sh);
   const tc=temp.getContext('2d',{willReadFrequently:true});
-  tc.drawImage(goldenStarSheet,0,0,sw,sh,0,0,temp.width,temp.height);
+  // The first star crosses its cell boundary; use the fully contained fifth star instead.
+  tc.drawImage(goldenStarSheet,sw*4,0,sw,sh,0,0,temp.width,temp.height);
   const pixels=tc.getImageData(0,0,temp.width,temp.height),data=pixels.data;
   let minX=temp.width,minY=temp.height,maxX=-1,maxY=-1;
   for(let y=0;y<temp.height;y++)for(let x=0;x<temp.width;x++){
@@ -490,7 +491,7 @@ goldenStarSheet.onload=()=>{
   }
   tc.putImageData(pixels,0,0);
   if(maxX>=minX&&maxY>=minY){
-   const pad=2;
+   const pad=5;
    const x=Math.max(0,minX-pad),y=Math.max(0,minY-pad);
    const w=Math.min(temp.width-x,maxX-minX+1+pad*2),h=Math.min(temp.height-y,maxY-minY+1+pad*2);
    const sprite=document.createElement('canvas');sprite.width=w;sprite.height=h;
@@ -501,7 +502,7 @@ goldenStarSheet.onload=()=>{
  if(typeof state!=='undefined'&&state)drawScene();
 };
 goldenStarSheet.onerror=()=>{goldenStarSprite=null;};
-goldenStarSheet.src='assets/Golden%20Star%20Collectible%20Sprite%20Sheet.png?v=goldstar2';
+goldenStarSheet.src='assets/Golden%20Star%20Collectible%20Sprite%20Sheet.png?v=goldstar3';
 
 function drawStar(x,y,size){
  if(goldenStarSprite){
@@ -513,7 +514,7 @@ function drawStar(x,y,size){
   const widthScale=Math.sign(turn||1)*Math.max(.12,Math.abs(turn));
   const pulse=1+Math.sin(state.elapsed*3.5)*.035;
   ctx.scale(widthScale*pulse,pulse);
-  const drawSize=size*1.15;
+  const drawSize=size*1.55;
   ctx.drawImage(goldenStarSprite,-drawSize/2,-drawSize/2,drawSize,drawSize);
   ctx.restore();
   return;
