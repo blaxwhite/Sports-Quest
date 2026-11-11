@@ -113,6 +113,34 @@ function updateHud(){
 }
 function laneX(lane,z){const spread=18+z*112;return W/2+(lane-1)*spread;}
 function poly(points,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);for(let i=1;i<points.length;i++)ctx.lineTo(points[i][0],points[i][1]);ctx.closePath();ctx.fill();}
+// External road artwork. Keep the existing painted road as a fallback until loaded.
+const kingdomRoadImage=new Image();
+let kingdomRoadReady=false;
+kingdomRoadImage.onload=()=>{kingdomRoadReady=true;};
+kingdomRoadImage.onerror=()=>{kingdomRoadReady=false;};
+kingdomRoadImage.src='assets/sports_quest_road_seamless.png';
+
+function drawArtworkRoad(){
+ if(!kingdomRoadReady||!kingdomRoadImage.naturalWidth)return false;
+ // Narrow at the horizon, broad at the player; texture scrolls towards the camera.
+ // Individual screen-space bands preserve the original three lanes and stone curbs.
+ const imageW=kingdomRoadImage.naturalWidth,imageH=kingdomRoadImage.naturalHeight;
+ const roadHeight=H-HORIZON,scroll=state.trackOffset*imageH;
+ ctx.save();
+ ctx.imageSmoothingEnabled=true;
+ for(let y=HORIZON;y<H;y+=2){
+  const bottom=Math.min(H,y+2),z=(y-HORIZON)/roadHeight;
+  const perspective=z*z;
+  const left=205+(16-205)*perspective,right=275+(W-16-275)*perspective;
+  const width=right-left;
+  // Depth-dependent repetition makes cobblestones advance at a consistent rate.
+  const sourceY=((imageH*(1-perspective)*1.65+scroll)%imageH+imageH)%imageH;
+  const sourceHeight=Math.min(3,imageH-sourceY);
+  ctx.drawImage(kingdomRoadImage,0,sourceY,imageW,sourceHeight,left,y,width,bottom-y+.45);
+ }
+ ctx.restore();
+ return true;
+}
 function drawKingdom(){
  // Layered kingdom landscape, with restrained parallax that never moves the runner.
  const t=state.elapsed,travel=state.dist;
@@ -157,6 +185,8 @@ function drawKingdom(){
  poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#8d806b');
  poly([[205,HORIZON],[275,HORIZON],[W-16,H],[16,H]],'#d3c29d');
 
+ // Use the uploaded pixel-art texture, falling back to the original road while loading.
+ if(!drawArtworkRoad()){
  // Stone courses move forward with the player; alternating tiles add texture.
  for(let i=0;i<18;i++){
   const z=(i/18+state.trackOffset)%1,d=z*z,y=HORIZON+d*(H-HORIZON),half=35+d*204;
@@ -171,6 +201,7 @@ function drawKingdom(){
  }
  ctx.strokeStyle='#f0dba4';ctx.lineWidth=3;ctx.beginPath();
  ctx.moveTo(198,HORIZON);ctx.lineTo(-13,H);ctx.moveTo(282,HORIZON);ctx.lineTo(W+13,H);ctx.stroke();
+ }
  // Two rows of trees: farther trees move slowly, nearer trees move faster.
  for(let layer=0;layer<2;layer++)for(let side=0;side<2;side++)for(let i=0;i<8;i++){
   const z=(i/8+state.trackOffset*(layer?1:.55))%1,d=z*z;
