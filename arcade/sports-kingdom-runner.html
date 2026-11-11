@@ -277,12 +277,16 @@ function drawKingdom(){
  if(kingdomTerrainReady){
   ctx.save();ctx.imageSmoothingEnabled=false;
   ctx.beginPath();
-  ctx.moveTo(0,HORIZON+5);ctx.lineTo(200,HORIZON+5);ctx.lineTo(14,H);ctx.lineTo(0,H);ctx.closePath();
-  ctx.moveTo(W,HORIZON+5);ctx.lineTo(280,HORIZON+5);ctx.lineTo(W-14,H);ctx.lineTo(W,H);ctx.closePath();
+  // Raise the detailed landscape to cover the green plateau below the castle.
+  // Keep the central gate and the perspective road entirely outside the mask.
+  ctx.moveTo(0,HORIZON-8);ctx.lineTo(184,HORIZON-8);ctx.lineTo(14,H);ctx.lineTo(0,H);ctx.closePath();
+  ctx.moveTo(W,HORIZON-8);ctx.lineTo(296,HORIZON-8);ctx.lineTo(W-14,H);ctx.lineTo(W,H);ctx.closePath();
   ctx.clip();
   const sourceW=kingdomTerrainImage.naturalWidth,sourceH=kingdomTerrainImage.naturalHeight;
-  // Crop the transparent-looking empty sky above the upper terrace.
-  ctx.drawImage(kingdomTerrainImage,0,Math.round(sourceH*.19),sourceW,Math.round(sourceH*.81),0,HORIZON,W,H-HORIZON);
+  // Start at the grassy upper terrace, not the source image's empty dark sky.
+  // This moves cliffs, rivers and greenery up into the previously flat strip.
+  const cropY=Math.round(sourceH*.27);
+  ctx.drawImage(kingdomTerrainImage,0,cropY,sourceW,sourceH-cropY,0,HORIZON-8,W,H-HORIZON+8);
   ctx.restore();
  }
  // Use the uploaded pixel-art texture, falling back to the original road while loading.
