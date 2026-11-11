@@ -55,7 +55,6 @@ canvas{display:block;width:100%;height:auto;aspect-ratio:480/560;touch-action:no
 </style>
 </head>
 <body>
-<div id="sq-asset-debug" style="position:fixed;left:6px;top:6px;z-index:9999;background:#10233ded;color:#ffdf80;border:1px solid #ffdf80;padding:5px 7px;border-radius:5px;font:10px monospace;pointer-events:none">Checking graphics…</div>
 <main class="page">
 <header class="top"><a href="../index.html">✦ SPORTS QUEST</a><a href="../arcade.html?v=5.0">← ARCADE ZONE</a></header>
 <section id="arcade-wrapper" aria-label="Sports Kingdom Runner game">
@@ -231,6 +230,18 @@ function drawKingdom(){
  ctx.fillStyle='#d8b875';ctx.fillRect(238,134,3,5);
  for(let i=0;i<4;i++){ctx.fillStyle='#8892a6';ctx.fillRect(220+i*11,115+(i%2)*10,7,2);}
  }
+ // Castle sits behind the road, so the path naturally runs into its gate.
+ if(kingdomCastleReady){
+  const castleWidth=222;
+  const castleHeight=castleWidth*kingdomCastleImage.naturalHeight/kingdomCastleImage.naturalWidth;
+  const castleBase=HORIZON+11;
+  ctx.save();ctx.imageSmoothingEnabled=false;
+  // Subtle distant terrain connects the outer walls to the hillside.
+  poly([[96,HORIZON+7],[166,HORIZON-13],[197,HORIZON+17],[96,HORIZON+17]],'#447c59');
+  poly([[384,HORIZON+7],[314,HORIZON-13],[283,HORIZON+17],[384,HORIZON+17]],'#447c59');
+  ctx.drawImage(kingdomCastleImage,(W-castleWidth)/2,castleBase-castleHeight,castleWidth,castleHeight);
+  ctx.restore();
+ }
  // Green shoulders, stone edging and warm cobblestone road.
  poly([[186,HORIZON],[294,HORIZON],[W+85,H],[-85,H]],'#317c56');
  poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#8d806b');
@@ -252,29 +263,6 @@ function drawKingdom(){
  }
  ctx.strokeStyle='#f0dba4';ctx.lineWidth=3;ctx.beginPath();
  ctx.moveTo(198,HORIZON);ctx.lineTo(-13,H);ctx.moveTo(282,HORIZON);ctx.lineTo(W+13,H);ctx.stroke();
- }
- // Integrate the castle as the road's destination, not a floating decoration.
- if(kingdomCastleReady){
-  const castleWidth=258;
-  const castleHeight=castleWidth*kingdomCastleImage.naturalHeight/kingdomCastleImage.naturalWidth;
-  const castleX=(W-castleWidth)/2;
-  const castleBase=HORIZON+17;
-  ctx.save();
-  // The distant road continues directly beneath the arched gate.
-  poly([[225,HORIZON-4],[255,HORIZON-4],[286,castleBase+16],[194,castleBase+16]],'#926653');
-  poly([[229,HORIZON-4],[251,HORIZON-4],[275,castleBase+16],[205,castleBase+16]],'#bd8869');
-  // Distant raised grassy banks follow the castle's outer walls.
-  poly([[100,castleBase-5],[174,HORIZON-12],[200,castleBase+19],[100,castleBase+19]],'#356b4d');
-  poly([[380,castleBase-5],[306,HORIZON-12],[280,castleBase+19],[380,castleBase+19]],'#356b4d');
-  ctx.imageSmoothingEnabled=false;
-  ctx.drawImage(kingdomCastleImage,castleX,castleBase-castleHeight,castleWidth,castleHeight);
-  // Low foreground banks overlap the PNG's bottom edge to visually bury its base.
-  for(const side of [-1,1]){
-   const x=240+side*110,y=castleBase+1;
-   ctx.fillStyle='#285c43';ctx.beginPath();ctx.ellipse(x,y,29,10,0,0,Math.PI*2);ctx.fill();
-   ctx.fillStyle='#418354';ctx.beginPath();ctx.ellipse(x-side*4,y-4,23,7,0,0,Math.PI*2);ctx.fill();
-  }
-  ctx.restore();
  }
  // Two rows of trees: farther trees move slowly, nearer trees move faster.
  for(let layer=0;layer<2;layer++)for(let side=0;side<2;side++)for(let i=0;i<8;i++){
@@ -475,15 +463,7 @@ function drawEntity(o){
  }
  ctx.restore();
 }
-function showAssetDebug(){
- const el=document.getElementById('sq-asset-debug');if(!el)return;
- const status=(ready,img)=>ready?'OK':(img.complete?'FAIL':'WAIT');
- el.textContent='BUILD 11NOV-C | ROAD '+status(kingdomRoadReady,kingdomRoadImage)+
- ' | HERO '+status(heroAtlasReady,assets.runnerSheet)+
- ' | CASTLE '+status(kingdomCastleReady,kingdomCastleImage);
-}
 function drawScene(){
- showAssetDebug();
  ctx.clearRect(0,0,W,H);ctx.save();
   if(state.shake>0){const m=state.shake*7;ctx.translate(Math.sin(state.elapsed*95)*m,Math.cos(state.elapsed*77)*m*.5);}
   drawKingdom();
