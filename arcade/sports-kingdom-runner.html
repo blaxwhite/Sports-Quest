@@ -465,46 +465,56 @@ function drawRunner(){
  ctx.restore();
 }
 // Fantasy-sports obstacles and collectible effects, drawn in consistent pixel style.
-// New 8-frame collectible sheet. Key out the beige sheet background at load time.
+// Use one tightly centred star sprite; animate it in canvas rather than stepping
+// through unevenly positioned generated frames (which caused sideways sliding).
 const goldenStarSheet=new Image();
-let goldenStarFrames=null;
+let goldenStarSprite=null;
 goldenStarSheet.onload=()=>{
  try{
-  const cols=8,rows=4,sw=goldenStarSheet.naturalWidth/cols,sh=goldenStarSheet.naturalHeight/rows;
-  goldenStarFrames=[];
-  for(let frame=0;frame<8;frame++){
-   const canvas=document.createElement('canvas');
-   canvas.width=Math.round(sw);canvas.height=Math.round(sh);
-   const cx=canvas.getContext('2d',{willReadFrequently:true});
-   cx.drawImage(goldenStarSheet,frame*sw,0,sw,sh,0,0,canvas.width,canvas.height);
-   const pixels=cx.getImageData(0,0,canvas.width,canvas.height);
-   const data=pixels.data;
-   // Remove the sheet's light tan background while retaining gold and dark outlines.
-   for(let i=0;i<data.length;i+=4){
-    const red=data[i],green=data[i+1],blue=data[i+2];
-    const tan=red>133&&green>110&&blue>85&&
-      Math.abs(red-green)<75&&Math.abs(green-blue)<66&&
-      blue>green*.66;
-    if(tan)data[i+3]=0;
+  const sw=goldenStarSheet.naturalWidth/8,sh=goldenStarSheet.naturalHeight/4;
+  const temp=document.createElement('canvas');
+  temp.width=Math.round(sw);temp.height=Math.round(sh);
+  const tc=temp.getContext('2d',{willReadFrequently:true});
+  tc.drawImage(goldenStarSheet,0,0,sw,sh,0,0,temp.width,temp.height);
+  const pixels=tc.getImageData(0,0,temp.width,temp.height),data=pixels.data;
+  let minX=temp.width,minY=temp.height,maxX=-1,maxY=-1;
+  for(let y=0;y<temp.height;y++)for(let x=0;x<temp.width;x++){
+   const i=(y*temp.width+x)*4;
+   const red=data[i],green=data[i+1],blue=data[i+2];
+   const tan=red>133&&green>110&&blue>85&&Math.abs(red-green)<75&&Math.abs(green-blue)<66&&blue>green*.66;
+   if(tan)data[i+3]=0;
+   if(data[i+3]>90){
+    minX=Math.min(minX,x);maxX=Math.max(maxX,x);
+    minY=Math.min(minY,y);maxY=Math.max(maxY,y);
    }
-   cx.putImageData(pixels,0,0);
-   goldenStarFrames.push(canvas);
   }
- }catch(e){goldenStarFrames=null;}
+  tc.putImageData(pixels,0,0);
+  if(maxX>=minX&&maxY>=minY){
+   const pad=2;
+   const x=Math.max(0,minX-pad),y=Math.max(0,minY-pad);
+   const w=Math.min(temp.width-x,maxX-minX+1+pad*2),h=Math.min(temp.height-y,maxY-minY+1+pad*2);
+   const sprite=document.createElement('canvas');sprite.width=w;sprite.height=h;
+   sprite.getContext('2d').drawImage(temp,x,y,w,h,0,0,w,h);
+   goldenStarSprite=sprite;
+  }
+ }catch(e){goldenStarSprite=null;}
  if(typeof state!=='undefined'&&state)drawScene();
 };
-goldenStarSheet.onerror=()=>{goldenStarFrames=null;};
-goldenStarSheet.src='assets/Golden%20Star%20Collectible%20Sprite%20Sheet.png?v=goldstar1';
+goldenStarSheet.onerror=()=>{goldenStarSprite=null;};
+goldenStarSheet.src='assets/Golden%20Star%20Collectible%20Sprite%20Sheet.png?v=goldstar2';
 
 function drawStar(x,y,size){
- if(goldenStarFrames&&goldenStarFrames.length){
-  const frame=Math.floor(state.elapsed*9)%goldenStarFrames.length;
-  const art=goldenStarFrames[frame];
-  ctx.save();ctx.translate(x,y);
+ if(goldenStarSprite){
+  ctx.save();
+  ctx.translate(x,y);
   ctx.imageSmoothingEnabled=false;
-  const bob=1+Math.sin(state.elapsed*7)*.055;
-  const drawSize=size*1.55*bob;
-  ctx.drawImage(art,-drawSize/2,-drawSize/2,drawSize,drawSize);
+  // A full 3D-style turn every ~1.6 seconds: front -> edge -> back -> edge.
+  const turn=Math.cos(state.elapsed*Math.PI*1.25);
+  const widthScale=Math.sign(turn||1)*Math.max(.12,Math.abs(turn));
+  const pulse=1+Math.sin(state.elapsed*3.5)*.035;
+  ctx.scale(widthScale*pulse,pulse);
+  const drawSize=size*1.15;
+  ctx.drawImage(goldenStarSprite,-drawSize/2,-drawSize/2,drawSize,drawSize);
   ctx.restore();
   return;
  }
