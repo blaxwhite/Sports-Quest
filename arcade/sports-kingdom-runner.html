@@ -196,6 +196,13 @@ mountainHorizonImage.onload=()=>{mountainHorizonReady=true;if(typeof state!=='un
 mountainHorizonImage.onerror=()=>{mountainHorizonReady=false;};
 mountainHorizonImage.src='assets/Pixel-Art%20Snowcapped%20Mountain%20Horizon.png?v=mountains1';
 
+// Terrain is clipped to the verges so its dark center never covers the moving road.
+const kingdomTerrainImage=new Image();
+let kingdomTerrainReady=false;
+kingdomTerrainImage.onload=()=>{kingdomTerrainReady=true;if(typeof state!=='undefined'&&state)drawScene();};
+kingdomTerrainImage.onerror=()=>{kingdomTerrainReady=false;};
+kingdomTerrainImage.src='assets/c38fe7c7-3a7b-474f-aa43-d81f43c4eceb.png?terrain=1';
+
 function drawKingdom(){
  // Layered kingdom landscape, with restrained parallax that never moves the runner.
  const t=state.elapsed,travel=state.dist;
@@ -258,6 +265,19 @@ function drawKingdom(){
   // Keep distant banks below the castle towers and behind the roadway.
   poly([[0,HORIZON+14],[95,HORIZON-10],[165,HORIZON+9],[240,HORIZON+19],[315,HORIZON+9],[385,HORIZON-10],[480,HORIZON+14],[480,HORIZON+40],[0,HORIZON+40]],'#356f54');
   ctx.drawImage(kingdomCastleImage,(W-castleWidth)/2,castleBase-castleHeight,castleWidth,castleHeight);
+  ctx.restore();
+ }
+ // New detailed terrain replaces the flat green landscape on both sides.
+ // The central region is explicitly excluded, even if the source image is opaque.
+ if(kingdomTerrainReady){
+  ctx.save();ctx.imageSmoothingEnabled=false;
+  ctx.beginPath();
+  ctx.moveTo(0,HORIZON+5);ctx.lineTo(200,HORIZON+5);ctx.lineTo(14,H);ctx.lineTo(0,H);ctx.closePath();
+  ctx.moveTo(W,HORIZON+5);ctx.lineTo(280,HORIZON+5);ctx.lineTo(W-14,H);ctx.lineTo(W,H);ctx.closePath();
+  ctx.clip();
+  const sourceW=kingdomTerrainImage.naturalWidth,sourceH=kingdomTerrainImage.naturalHeight;
+  // Crop the transparent-looking empty sky above the upper terrace.
+  ctx.drawImage(kingdomTerrainImage,0,Math.round(sourceH*.19),sourceW,Math.round(sourceH*.81),0,HORIZON,W,H-HORIZON);
   ctx.restore();
  }
  // Preserve the original road shoulder geometry.
