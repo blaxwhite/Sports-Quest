@@ -11,7 +11,8 @@
 html,body{min-height:100%;background:#0c0f1d;color:#f1f5f9;font-family:"Courier New",monospace}
 body{min-height:100svh;display:flex;justify-content:center;align-items:center;padding:12px;background:radial-gradient(ellipse at 50% 0,#263d55,#0c0f1d 70%)}
 a{color:inherit;text-decoration:none}
-.page{width:100%;max-width:520px}
+.page{width:100%;max-width:900px}
+@media(min-width:800px){body{padding:20px}#arcade-wrapper{max-width:760px;margin:auto}canvas{max-height:72vh;object-fit:contain}#touch-controller{justify-content:center;gap:32px}}
 .top{display:flex;justify-content:space-between;align-items:center;margin:0 0 9px;font-size:11px;font-weight:bold;letter-spacing:1px}
 .top a:first-child{color:#fbbf24}.top a:last-child{border:1px solid #8a744f;padding:7px 10px;border-radius:6px}
 #arcade-wrapper{position:relative;width:100%;background:#151a30;border:4px solid #b45309;border-radius:12px;box-shadow:0 25px 50px -12px #000c;overflow:hidden}
@@ -98,7 +99,7 @@ const questions=[
 const lanes=[0,1,2];
 let state,raf=0,lastTime=0,spawnClock=0,gateClock=0,questionIndex=0,gateBusy=false,feedbackTimer=0;
 let highScore=Number(localStorage.getItem('sqRunnerHighScore')||0);
-function freshState(){return{active:false,over:false,lane:1,visualLane:1,jumpY:0,jumpV:0,dist:0,score:0,xp:0,lives:3,speed:.43,elapsed:0,objects:[],particles:[],boost:0,trackOffset:0,invulnerable:0};}
+function freshState(){return{active:false,over:false,lane:1,visualLane:1,jumpY:0,jumpV:0,slide:0,dist:0,score:0,xp:0,lives:3,speed:.43,elapsed:0,objects:[],particles:[],boost:0,trackOffset:0,invulnerable:0};}
 function updateHud(){
  hud.dist.textContent=String(Math.floor(state.dist)).padStart(4,'0')+'m';
  hud.score.textContent=String(Math.max(highScore,state.score)).padStart(4,'0');
@@ -107,6 +108,23 @@ function updateHud(){
 }
 function laneX(lane,z){const spread=18+z*112;return W/2+(lane-1)*spread;}
 function poly(points,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);for(let i=1;i<points.length;i++)ctx.lineTo(points[i][0],points[i][1]);ctx.closePath();ctx.fill();}
+function drawKingdom(){
+ const sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#1860bd');sky.addColorStop(.35,'#6cc8ff');sky.addColorStop(1,'#e5f6ff');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+ ctx.fillStyle='#fff4c4';ctx.beginPath();ctx.arc(382,69,31,0,Math.PI*2);ctx.fill();
+ for(let i=0;i<7;i++){let x=((i*115-state.dist*.055)%720+720)%720-90,y=36+(i%3)*26;ctx.fillStyle='#ffffffbd';ctx.beginPath();ctx.ellipse(x,y,40,13,0,0,Math.PI*2);ctx.ellipse(x+22,y-8,24,14,0,0,Math.PI*2);ctx.fill();}
+ poly([[0,170],[55,112],[100,158],[172,96],[245,160],[325,107],[397,165],[480,113],[480,250],[0,250]],'#85a7c2');
+ poly([[0,193],[80,142],[149,183],[239,135],[317,184],[417,146],[480,179],[480,280],[0,280]],'#4d9997');
+ ctx.fillStyle='#c8c7bd';ctx.fillRect(212,99,56,57);
+ for(const [x,y] of [[208,103],[232,82],[257,104]]){ctx.fillStyle='#b6b7c2';ctx.fillRect(x,y,16,51);poly([[x-4,y],[x+8,y-24],[x+20,y]],'#235ba6');ctx.fillStyle='#f9d365';ctx.fillRect(x+6,y+14,4,8);}
+ ctx.fillStyle='#31528d';ctx.fillRect(233,127,15,29);
+ poly([[186,HORIZON],[294,HORIZON],[W+85,H],[-85,H]],'#418d51');
+ poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#ae997a');
+ poly([[205,HORIZON],[275,HORIZON],[W-16,H],[16,H]],'#dac8a4');
+ for(let j=1;j<=2;j++){ctx.strokeStyle='#fff0c4aa';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(240+(j-1.5)*24,HORIZON);ctx.lineTo(16+j*149,H);ctx.stroke();}
+ for(let i=0;i<13;i++){const z=(i/13+state.trackOffset)%1,d=z*z,y=HORIZON+d*(H-HORIZON),half=35+d*204;ctx.strokeStyle='rgba(255,246,216,'+(.08+d*.2)+')';ctx.lineWidth=1+d*3;ctx.beginPath();ctx.moveTo(240-half,y);ctx.lineTo(240+half,y);ctx.stroke();}
+ for(let side=0;side<2;side++)for(let i=0;i<8;i++){const z=(i/8+state.trackOffset)%1,d=z*z,x=side===0?178-d*230:302+d*230,y=HORIZON+d*(H-HORIZON),s=6+d*60;ctx.fillStyle='#65503c';ctx.fillRect(x-s*.12,y-s*.6,s*.24,s*.6);poly([[x-s*.65,y-s*.45],[x,y-s*1.8],[x+s*.65,y-s*.45]],i%2?'#207451':'#349862');}
+ ctx.strokeStyle='#f4df9f';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(198,HORIZON);ctx.lineTo(-13,H);ctx.moveTo(282,HORIZON);ctx.lineTo(W+13,H);ctx.stroke();
+}
 function drawStadium(){
  const sky=ctx.createLinearGradient(0,0,0,HORIZON+100);sky.addColorStop(0,'#4489ba');sky.addColorStop(1,'#f2c58b');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
  ctx.fillStyle='#ffe5a1';ctx.beginPath();ctx.arc(390,68,25,0,Math.PI*2);ctx.fill();
@@ -153,8 +171,8 @@ function drawFallbackRunner(x,y,w,h,frame,jumping){
 function drawRunner(){
  const x=laneX(state.visualLane,1)-31;
  const ground=H-32;
- const y=ground-96-state.jumpY;
- const w=62,h=96;
+ const y=ground-96-state.jumpY+(state.slide>0?30:0);
+ const w=62,h=state.slide>0?66:96;
  ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.4:1;
  ctx.fillStyle='#17251d';ctx.globalAlpha*=.28;ctx.beginPath();ctx.ellipse(x+31,ground+3,state.jumpY>4?17:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
  ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
@@ -186,7 +204,7 @@ function drawEntity(o){
  }
 }
 function drawScene(){
- ctx.clearRect(0,0,W,H);drawStadium();
+ ctx.clearRect(0,0,W,H);drawKingdom();
  state.objects.slice().sort((a,b)=>a.z-b.z).forEach(drawEntity);
  drawRunner();
  if(state.boost>0){ctx.fillStyle='#ffe18a';ctx.font='bold 13px monospace';ctx.textAlign='center';ctx.fillText('SPEED BOOST!',240,205);ctx.textAlign='left';}
@@ -244,6 +262,7 @@ function update(dt){
  state.trackOffset=(state.trackOffset+dt*state.speed*1.4)%1;
  if(state.jumpY>0||state.jumpV>0){state.jumpY+=state.jumpV*dt;state.jumpV-=1250*dt;if(state.jumpY<=0){state.jumpY=0;state.jumpV=0;}}
  if(state.invulnerable>0)state.invulnerable=Math.max(0,state.invulnerable-dt);
+ if(state.slide>0)state.slide=Math.max(0,state.slide-dt);
  if(state.boost>0)state.boost=Math.max(0,state.boost-dt);
  spawnClock+=dt;gateClock+=dt;
  if(spawnClock>Math.max(.72,1.22-(state.speed-.43)*.8)){spawnClock=0;spawnObject();}
@@ -259,7 +278,8 @@ function loop(now){
  if(state.active&&!state.over&&!gateBusy)raf=requestAnimationFrame(loop);
 }
 function moveLane(dir){if(!state.active||gateBusy||state.over)return;state.lane=Math.max(0,Math.min(2,state.lane+dir));}
-function jump(){if(!state.active||gateBusy||state.over)return;if(state.jumpY<=0&&state.jumpV<=0)state.jumpV=560;}
+function jump(){if(!state.active||gateBusy||state.over)return;if(state.jumpY<=0&&state.jumpV<=0&&state.slide<=0)state.jumpV=560;}
+function slide(){if(!state.active||gateBusy||state.over)return;if(state.jumpY<=0)state.slide=.7;}
 function startRun(){
  cancelAnimationFrame(raf);state=freshState();spawnClock=0;gateClock=0;questionIndex=0;gateBusy=false;
  Object.values(overlays).forEach(o=>o.classList.add('hidden'));state.active=true;lastTime=performance.now();updateHud();drawScene();raf=requestAnimationFrame(loop);
@@ -268,15 +288,26 @@ function pauseRun(){if(!state.active)return;state.active=false;cancelAnimationFr
 function resumeRun(){overlays.pause.classList.add('hidden');if(state.over)return;state.active=true;lastTime=performance.now();raf=requestAnimationFrame(loop);}
 window.addEventListener('keydown',function(e){
  const k=e.key.toLowerCase();
- if(['arrowleft','arrowright','arrowup',' '].includes(k))e.preventDefault();
+ if(['arrowleft','arrowright','arrowup','arrowdown',' '].includes(k))e.preventDefault();
  if(k==='escape'||k==='p'){if(state.active)pauseRun();else if(!overlays.pause.classList.contains('hidden'))resumeRun();return;}
  if(k==='arrowleft'||k==='a')moveLane(-1);
  if(k==='arrowright'||k==='d')moveLane(1);
  if(k==='arrowup'||k==='w'||k===' ')jump();
+ if(k==='arrowdown'||k==='s')slide();
 });
 $('ctrl-left').addEventListener('pointerdown',e=>{e.preventDefault();moveLane(-1);});
 $('ctrl-right').addEventListener('pointerdown',e=>{e.preventDefault();moveLane(1);});
 $('ctrl-jump').addEventListener('pointerdown',e=>{e.preventDefault();jump();});
+let swipeOrigin=null;
+canvas.addEventListener('pointerdown',e=>{swipeOrigin={x:e.clientX,y:e.clientY};});
+canvas.addEventListener('pointerup',e=>{
+ if(!swipeOrigin)return;
+ const dx=e.clientX-swipeOrigin.x,dy=e.clientY-swipeOrigin.y;swipeOrigin=null;
+ if(Math.max(Math.abs(dx),Math.abs(dy))<25)return;
+ if(Math.abs(dx)>Math.abs(dy))moveLane(dx>0?1:-1);
+ else if(dy<0)jump();else slide();
+});
+canvas.addEventListener('pointercancel',()=>{swipeOrigin=null;});
 $('start-btn').addEventListener('click',startRun);
 $('restart-btn').addEventListener('click',startRun);
 $('resume-btn').addEventListener('click',resumeRun);
