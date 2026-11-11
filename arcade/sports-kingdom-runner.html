@@ -256,37 +256,32 @@ function drawKingdom(){
  ctx.fillStyle='#d8b875';ctx.fillRect(238,134,3,5);
  for(let i=0;i<4;i++){ctx.fillStyle='#8892a6';ctx.fillRect(220+i*11,115+(i%2)*10,7,2);}
  }
- // Monumental castle on the horizon: the road meets its gate, not its front wall.
+ // Detailed terrain replaces the old flat-green banks, including the strip beneath the castle.
+ // Clip to the two sides of the road: the artwork's dark center never enters gameplay.
+ if(kingdomTerrainReady){
+  ctx.save();ctx.imageSmoothingEnabled=false;
+  ctx.beginPath();
+  const terrainTop=HORIZON-40;
+  ctx.moveTo(0,terrainTop);ctx.lineTo(205,terrainTop);ctx.lineTo(16,H);ctx.lineTo(0,H);ctx.closePath();
+  ctx.moveTo(W,terrainTop);ctx.lineTo(275,terrainTop);ctx.lineTo(W-16,H);ctx.lineTo(W,H);ctx.closePath();
+  ctx.clip();
+  const sourceW=kingdomTerrainImage.naturalWidth,sourceH=kingdomTerrainImage.naturalHeight;
+  const cropY=Math.round(sourceH*.26);
+  ctx.drawImage(kingdomTerrainImage,0,cropY,sourceW,sourceH-cropY,0,terrainTop,W,H-terrainTop);
+  ctx.restore();
+ }else{
+  // Fallback scenery only while the detailed terrain is unavailable.
+  poly([[186,HORIZON],[294,HORIZON],[W+85,H],[-85,H]],'#317c56');
+  poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#8d806b');
+  poly([[205,HORIZON],[275,HORIZON],[W-16,H],[16,H]],'#d3c29d');
+ }
+ // Castle remains in front of the terrain, with no artificial green platform.
  if(kingdomCastleReady){
   const castleWidth=390;
   const castleHeight=castleWidth*kingdomCastleImage.naturalHeight/kingdomCastleImage.naturalWidth;
   const castleBase=HORIZON+8;
   ctx.save();ctx.imageSmoothingEnabled=false;
-  // Keep distant banks below the castle towers and behind the roadway.
-  poly([[0,HORIZON+14],[95,HORIZON-10],[165,HORIZON+9],[240,HORIZON+19],[315,HORIZON+9],[385,HORIZON-10],[480,HORIZON+14],[480,HORIZON+40],[0,HORIZON+40]],'#356f54');
   ctx.drawImage(kingdomCastleImage,(W-castleWidth)/2,castleBase-castleHeight,castleWidth,castleHeight);
-  ctx.restore();
- }
- // Preserve the original road shoulder geometry.
- poly([[186,HORIZON],[294,HORIZON],[W+85,H],[-85,H]],'#317c56');
- poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#8d806b');
- poly([[205,HORIZON],[275,HORIZON],[W-16,H],[16,H]],'#d3c29d');
-
- // New detailed terrain replaces the flat green landscape on both sides.
- // The central region is explicitly excluded, even if the source image is opaque.
- if(kingdomTerrainReady){
-  ctx.save();ctx.imageSmoothingEnabled=false;
-  ctx.beginPath();
-  // Raise the detailed landscape to cover the green plateau below the castle.
-  // Keep the central gate and the perspective road entirely outside the mask.
-  ctx.moveTo(0,HORIZON-8);ctx.lineTo(184,HORIZON-8);ctx.lineTo(14,H);ctx.lineTo(0,H);ctx.closePath();
-  ctx.moveTo(W,HORIZON-8);ctx.lineTo(296,HORIZON-8);ctx.lineTo(W-14,H);ctx.lineTo(W,H);ctx.closePath();
-  ctx.clip();
-  const sourceW=kingdomTerrainImage.naturalWidth,sourceH=kingdomTerrainImage.naturalHeight;
-  // Start at the grassy upper terrace, not the source image's empty dark sky.
-  // This moves cliffs, rivers and greenery up into the previously flat strip.
-  const cropY=Math.round(sourceH*.27);
-  ctx.drawImage(kingdomTerrainImage,0,cropY,sourceW,sourceH-cropY,0,HORIZON-8,W,H-HORIZON+8);
   ctx.restore();
  }
  // Use the uploaded pixel-art texture, falling back to the original road while loading.
@@ -306,6 +301,9 @@ function drawKingdom(){
  ctx.strokeStyle='#f0dba4';ctx.lineWidth=3;ctx.beginPath();
  ctx.moveTo(198,HORIZON);ctx.lineTo(-13,H);ctx.moveTo(282,HORIZON);ctx.lineTo(W+13,H);ctx.stroke();
  }
+ // The terrain artwork includes grounded trees. Hide old geometric scrolling trees
+ // until proper tree sprites can be placed on the terrain rather than floating.
+ if(!kingdomTerrainReady){
  // Two rows of trees: farther trees move slowly, nearer trees move faster.
  for(let layer=0;layer<2;layer++)for(let side=0;side<2;side++)for(let i=0;i<8;i++){
   const z=(i/8+state.trackOffset*(layer?1:.55))%1,d=z*z;
@@ -315,6 +313,7 @@ function drawKingdom(){
   poly([[x-s*.68,y-s*.42],[x,y-s*1.95],[x+s*.68,y-s*.42]],(i+layer)%2?'#1f674e':'#2b8b61');
   poly([[x-s*.49,y-s*.95],[x,y-s*1.7],[x+s*.49,y-s*.95]],'#3b9c6c');
   ctx.fillStyle='rgba(229,255,197,.25)';ctx.fillRect(Math.round(x-s*.16),Math.round(y-s*1.38),Math.max(1,s*.09),Math.max(1,s*.17));
+ }
  }
  // Occasional drifting light motes: ambience only, not gameplay collectibles.
  for(let i=0;i<9;i++){
