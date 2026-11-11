@@ -189,8 +189,16 @@ function drawRunner(){
   const h=sliding?65:96;
   ctx.translate(x+31,baseY+96);
   ctx.rotate(-state.lean*.075);
-  // Crop the atlas cell to its central character region to suppress edge bleed.
-  ctx.drawImage(sheet,frame*192+16,row*192+8,160,176,-size/2,-h,size,h);
+  // The generated art is NOT a uniform 8-column grid in the lower rows.
+  // Use the actual pose centres so running/jumping never sample neighbouring frames.
+  const runCenters=[160,354,540,721,903,1085,1264,1435];
+  const actionCenters=[356,584,822,1054];
+  const center=(row===0?runCenters:actionCenters)[frame];
+  const cropW=row===0?136:156;
+  const sourceX=Math.max(0,Math.min(sheet.naturalWidth-cropW,center-cropW/2));
+  const sourceY=[9,201,394,585][row];
+  const sourceH=172;
+  ctx.drawImage(sheet,sourceX,sourceY,cropW,sourceH,-size/2,-h,size,h);
  }else{
   // Preserve the original character if the new sprite atlas has not been uploaded.
   ctx.translate(x+31,baseY+96);
