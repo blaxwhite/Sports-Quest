@@ -20,6 +20,9 @@ a{color:inherit;text-decoration:none}
 .hud-block{display:flex;flex-direction:column;gap:4px;border-right:1px dashed #475569;min-width:0}.hud-block:last-child{border:0}
 .stat-val{color:#fbbf24;font-size:14px;white-space:nowrap}
 #canvas-container{position:relative;width:100%;background:#172c42;line-height:0}
+#pause-control{position:absolute;right:12px;top:12px;z-index:5;width:42px;height:42px;border:2px solid #f6d78e;border-radius:10px;background:rgba(16,31,52,.84);color:#ffe4a3;font-size:20px;font-weight:bold;cursor:pointer;touch-action:manipulation;box-shadow:0 3px 0 #0b1426}
+#pause-control:active{transform:translateY(2px);box-shadow:none}
+#pause-control:focus-visible{outline:3px solid #fff;outline-offset:2px}
 canvas{display:block;width:100%;height:auto;aspect-ratio:480/560;touch-action:none}
 #touch-controller{background:#0f172a;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;border-top:3px solid #b45309;gap:10px}
 .steer-box{display:flex;gap:10px}
@@ -62,7 +65,8 @@ canvas{display:block;width:100%;height:auto;aspect-ratio:480/560;touch-action:no
 <div class="hud-block"><span>XP MARKS</span><span id="stat-xp" class="stat-val">0</span></div>
 </header>
 <div id="canvas-container">
-<canvas id="runner-canvas" width="480" height="560" aria-label="Runner on a three-lane stadium track"></canvas>
+<canvas id="runner-canvas" width="480" height="560" aria-label="Runner on a three-lane kingdom track"></canvas>
+<button id="pause-control" type="button" aria-label="Pause game" title="Pause game">Ⅱ</button>
 <div id="start-screen" class="overlay"><div class="panel"><div class="eyebrow">KINGDOM OF CHAMPIONS · ARCADE QUEST</div><h1 class="title-animated">SPORTS KINGDOM RUNNER</h1><p>Race through the royal stadium! Switch between three lanes, jump over hurdles, avoid cones and collect golden stars.</p><p><b>KEYBOARD</b><br>← → or A / D to change lanes<br>↑, W or SPACE to jump · ↓ or S to slide</p><p><b>MOBILE</b><br>Swipe left or right to switch lanes, up to jump, down to slide.</p><button id="start-btn" class="main-btn">START RUN</button></div></div>
 <div id="quiz-gate" class="overlay hidden"><div class="panel"><div class="eyebrow">✦ WISDOM GATE CHALLENGE ✦</div><h2>Prove Your Sports Knowledge</h2><p id="quiz-question-box">Loading question...</p><div id="quiz-options-box" class="options-list"></div><p id="quiz-feedback" aria-live="polite"></p></div></div>
 <div id="pause-screen" class="overlay hidden"><div class="panel"><div class="eyebrow">RUN PAUSED</div><h2>Take a Breather</h2><p>Your progress is safe. Ready to return to the track?</p><button id="resume-btn" class="main-btn">RESUME RUN</button></div></div>
@@ -315,11 +319,12 @@ function moveLane(dir){if(!state.active||gateBusy||state.over)return;state.lane=
 function jump(){if(!state.active||gateBusy||state.over)return;if(state.jumpY<=0&&state.jumpV<=0&&state.slide<=0){state.jumpY=12;state.jumpV=620;}}
 function slide(){if(!state.active||gateBusy||state.over)return;if(state.jumpY<=0){state.slide=.7;state.stumble=0;}}
 function startRun(){
+ $('pause-control').textContent='Ⅱ';$('pause-control').setAttribute('aria-label','Pause game');
  cancelAnimationFrame(raf);state=freshState();spawnClock=0;gateClock=0;questionIndex=0;gateBusy=false;
  Object.values(overlays).forEach(o=>o.classList.add('hidden'));state.active=true;lastTime=performance.now();updateHud();drawScene();raf=requestAnimationFrame(loop);
 }
-function pauseRun(){if(!state.active)return;state.active=false;cancelAnimationFrame(raf);overlays.pause.classList.remove('hidden');}
-function resumeRun(){overlays.pause.classList.add('hidden');if(state.over)return;state.active=true;lastTime=performance.now();raf=requestAnimationFrame(loop);}
+function pauseRun(){if(!state.active)return;state.active=false;cancelAnimationFrame(raf);$('pause-control').textContent='▶';$('pause-control').setAttribute('aria-label','Resume game');overlays.pause.classList.remove('hidden');}
+function resumeRun(){overlays.pause.classList.add('hidden');if(state.over)return;$('pause-control').textContent='Ⅱ';$('pause-control').setAttribute('aria-label','Pause game');state.active=true;lastTime=performance.now();raf=requestAnimationFrame(loop);}
 window.addEventListener('keydown',function(e){
  const k=e.key.toLowerCase();
  if(['arrowleft','arrowright','arrowup','arrowdown',' '].includes(k))e.preventDefault();
@@ -361,6 +366,7 @@ canvas.addEventListener('pointerup',e=>{
  gesture=null;
 });
 canvas.addEventListener('pointercancel',()=>{gesture=null;});
+$('pause-control').addEventListener('click',function(){if(state.active)pauseRun();else if(!overlays.pause.classList.contains('hidden'))resumeRun();});
 $('start-btn').addEventListener('click',startRun);
 $('restart-btn').addEventListener('click',startRun);
 $('resume-btn').addEventListener('click',resumeRun);
