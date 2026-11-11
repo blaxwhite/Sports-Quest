@@ -130,7 +130,7 @@ function drawArtworkRoad(){
  ctx.imageSmoothingEnabled=true;
  for(let y=HORIZON;y<H;y+=2){
   const bottom=Math.min(H,y+2),z=(y-HORIZON)/roadHeight;
-  const perspective=z*z;
+  const perspective=z;
   const left=205+(16-205)*perspective,right=275+(W-16-275)*perspective;
   const width=right-left;
   // Depth-dependent repetition makes cobblestones advance at a consistent rate.
