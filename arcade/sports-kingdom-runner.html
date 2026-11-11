@@ -153,6 +153,13 @@ function drawArtworkRoad(){
  ctx.restore();
  return true;
 }
+// Castle illustration supplied in arcade/assets. Fall back to original geometry if unavailable.
+const kingdomCastleImage=new Image();
+let kingdomCastleReady=false;
+kingdomCastleImage.onload=()=>{kingdomCastleReady=true;};
+kingdomCastleImage.onerror=()=>{kingdomCastleReady=false;};
+kingdomCastleImage.src='assets/Pixel-Art%20Castle%20with%20Golden%20Banners.png';
+
 function drawKingdom(){
  // Layered kingdom landscape, with restrained parallax that never moves the runner.
  const t=state.elapsed,travel=state.dist;
@@ -177,6 +184,8 @@ function drawKingdom(){
  for(const [x,y] of [[54,116],[168,99],[327,108],[480,114]]){
   poly([[x-16,y+18],[x,y],[x+17,y+20],[x+5,y+15],[x,y+9],[x-5,y+15]],'#d5e2df');
  }
+ // Original castle remains a fallback if the custom PNG cannot load.
+ if(!kingdomCastleReady){
  // Castle silhouette with brickwork, flags, battlements and lit windows.
  ctx.fillStyle='#7b839d';ctx.fillRect(211,112,58,45);
  ctx.fillStyle='#aeb5c5';ctx.fillRect(216,105,48,54);
@@ -192,6 +201,7 @@ function drawKingdom(){
  ctx.fillStyle='#354d76';ctx.fillRect(233,127,15,30);
  ctx.fillStyle='#d8b875';ctx.fillRect(238,134,3,5);
  for(let i=0;i<4;i++){ctx.fillStyle='#8892a6';ctx.fillRect(220+i*11,115+(i%2)*10,7,2);}
+ }
  // Green shoulders, stone edging and warm cobblestone road.
  poly([[186,HORIZON],[294,HORIZON],[W+85,H],[-85,H]],'#317c56');
  poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#8d806b');
@@ -213,6 +223,15 @@ function drawKingdom(){
  }
  ctx.strokeStyle='#f0dba4';ctx.lineWidth=3;ctx.beginPath();
  ctx.moveTo(198,HORIZON);ctx.lineTo(-13,H);ctx.moveTo(282,HORIZON);ctx.lineTo(W+13,H);ctx.stroke();
+ }
+ // Place the detailed castle at the far end of the road, in front of the road
+ // horizon so its central entrance meets the middle lane.
+ if(kingdomCastleReady){
+  const castleWidth=205;
+  const castleHeight=castleWidth*kingdomCastleImage.naturalHeight/kingdomCastleImage.naturalWidth;
+  ctx.save();ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(kingdomCastleImage,(W-castleWidth)/2,HORIZON-castleHeight+9,castleWidth,castleHeight);
+  ctx.restore();
  }
  // Two rows of trees: farther trees move slowly, nearer trees move faster.
  for(let layer=0;layer<2;layer++)for(let side=0;side<2;side++)for(let i=0;i<8;i++){
