@@ -475,15 +475,6 @@ function drawEntity(o){
  ctx.restore();
 }
 function drawScene(){
- if(!allArtworkReady()){
-  ctx.clearRect(0,0,W,H);
-  ctx.fillStyle='#142641';ctx.fillRect(0,0,W,H);
-  ctx.fillStyle='#fbd478';ctx.font='bold 19px monospace';ctx.textAlign='center';
-  ctx.fillText('LOADING SPORTS KINGDOM',W/2,H/2-14);
-  ctx.font='12px monospace';ctx.fillStyle='#e9e2c8';
-  ctx.fillText(artLoadingMessage||'Preparing castle, road and hero…',W/2,H/2+18);
-  ctx.textAlign='left';return;
- }
  ctx.clearRect(0,0,W,H);ctx.save();
   if(state.shake>0){const m=state.shake*7;ctx.translate(Math.sin(state.elapsed*95)*m,Math.cos(state.elapsed*77)*m*.5);}
   drawKingdom();
