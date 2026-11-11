@@ -189,6 +189,13 @@ artSources.forEach(item=>{
 });
 function allArtworkReady(){return kingdomRoadReady&&kingdomCastleReady&&heroAtlasReady;}
 // Unified castle and landscape artwork; gameplay layers stay independent.
+// Independent mountain layer; does not alter the castle, road, runner or obstacles.
+const mountainHorizonImage=new Image();
+let mountainHorizonReady=false;
+mountainHorizonImage.onload=()=>{mountainHorizonReady=true;if(typeof state!=='undefined'&&state)drawScene();};
+mountainHorizonImage.onerror=()=>{mountainHorizonReady=false;};
+mountainHorizonImage.src='assets/Pixel-Art%20Snowcapped%20Mountain%20Horizon.png?v=mountains1';
+
 function drawKingdom(){
  // Layered kingdom landscape, with restrained parallax that never moves the runner.
  const t=state.elapsed,travel=state.dist;
@@ -207,11 +214,22 @@ function drawKingdom(){
   ctx.fillRect(Math.round(x+46),y+3,30,17);
   ctx.fillStyle='rgba(183,218,237,.5)';ctx.fillRect(Math.round(x+9),y+20,57,3);
  }
+ // Distant mountain layer, behind the castle and in front of the sky.
+ if(mountainHorizonReady){
+  ctx.save();ctx.imageSmoothingEnabled=false;
+  // The transparent artwork is a wide horizon strip. Scale to canvas width
+  // and anchor its forested baseline at the original mountain foothills.
+  const mountainWidth=W;
+  const mountainHeight=mountainWidth*mountainHorizonImage.naturalHeight/mountainHorizonImage.naturalWidth;
+  ctx.drawImage(mountainHorizonImage,0,193-mountainHeight,mountainWidth,mountainHeight);
+  ctx.restore();
+ }else{
  // Distant layered mountains and shadowed ridgelines.
  poly([[0,178],[54,116],[102,164],[168,99],[246,169],[327,108],[399,174],[480,114],[480,245],[0,245]],'#8da9bd');
  poly([[0,192],[60,150],[111,186],[189,142],[268,187],[348,144],[417,183],[480,153],[480,265],[0,265]],'#619ca0');
  for(const [x,y] of [[54,116],[168,99],[327,108],[480,114]]){
   poly([[x-16,y+18],[x,y],[x+17,y+20],[x+5,y+15],[x,y+9],[x-5,y+15]],'#d5e2df');
+ }
  }
  // Original castle remains a fallback if the custom PNG cannot load.
  if(!kingdomCastleReady){
