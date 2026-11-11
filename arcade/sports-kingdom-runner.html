@@ -100,7 +100,7 @@ const questions=[
 const lanes=[0,1,2];
 let state,raf=0,lastTime=0,spawnClock=0,gateClock=0,questionIndex=0,gateBusy=false,feedbackTimer=0;
 let highScore=Number(localStorage.getItem('sqRunnerHighScore')||0);
-function freshState(){return{active:false,over:false,lane:1,visualLane:1,jumpY:0,jumpV:0,slide:0,lean:0,shake:0,flash:0,combo:0,dist:0,score:0,xp:0,lives:3,speed:.43,elapsed:0,objects:[],particles:[],boost:0,trackOffset:0,invulnerable:0};}
+function freshState(){return{active:false,over:false,lane:1,visualLane:1,jumpY:0,jumpV:0,slide:0,lean:0,land:0,shake:0,flash:0,combo:0,dist:0,score:0,xp:0,lives:3,speed:.43,elapsed:0,objects:[],particles:[],boost:0,trackOffset:0,invulnerable:0};}
 function updateHud(){
  hud.dist.textContent=String(Math.floor(state.dist)).padStart(4,'0')+'m';
  hud.score.textContent=String(Math.max(highScore,state.score)).padStart(4,'0');
@@ -170,21 +170,34 @@ function drawFallbackRunner(x,y,w,h,frame,jumping){
  ctx.restore();
 }
 function drawRunner(){
- const x=laneX(state.visualLane,1)-31;
- const sway=state.jumpY>0?0:Math.sin(state.elapsed*18)*1.4;
- const ground=H-32;
- const y=ground-96-state.jumpY+(state.slide>0?30:0)+sway;
- const w=62,h=state.slide>0?66:96;
- ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.4:1;
- ctx.fillStyle='#17251d';ctx.globalAlpha*=.28;ctx.beginPath();ctx.ellipse(x+31,ground+3,state.jumpY>4?17:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
- ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
- const jumping=state.jumpY>4;
-  ctx.translate(x+31,y+48);ctx.rotate(-state.lean*.13);ctx.translate(-(x+31),-(y+48));
+ const x=laneX(state.visualLane,1)-31,ground=H-32;
+ const jumping=state.jumpY>4,sliding=state.slide>0;
+ const runBob=jumping||sliding?0:Math.sin(state.elapsed*19)*1.6;
+ const baseY=ground-96-state.jumpY+runBob;
+ const landScale=1+state.land*.15;
+ ctx.save();
+ ctx.fillStyle='rgba(16,39,32,.28)';ctx.beginPath();
+ ctx.ellipse(x+31,ground+3,jumping?16:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
+ ctx.save();
+ ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
+ // Animate the full character as a single unit, keeping the feet aligned to the track.
+ ctx.translate(x+31,baseY+96);
+ ctx.rotate(-state.lean*.12+(jumping?Math.min(.09,state.jumpV/7000):0));
+ const sx=(sliding?1.2:1)*(1+state.land*.1);
+ const sy=(sliding?.56:1)/landScale;
+ ctx.scale(sx,sy);
+ ctx.translate(-31,-96);
  const img=assets[jumping?'playerJump':'playerRun'];
  if(img&&img.complete&&img.naturalWidth){
-   if(jumping)ctx.drawImage(img,0,0,img.naturalWidth,img.naturalHeight,x,y,w,h);
-   else{const frame=Math.floor(state.elapsed*12)%Math.max(1,Math.floor(img.naturalWidth/64));ctx.drawImage(img,frame*64,0,64,96,x,y,w,h);}
- }else drawFallbackRunner(x,y,w,h,0,jumping);
+  if(jumping){
+   ctx.drawImage(img,0,0,img.naturalWidth,img.naturalHeight,0,0,62,96);
+  }else{
+   const frames=Math.max(1,Math.floor(img.naturalWidth/64));
+   const frame=Math.floor(state.elapsed*(sliding?5:12))%frames;
+   const frameWidth=img.naturalWidth/frames;
+   ctx.drawImage(img,frame*frameWidth,0,frameWidth,img.naturalHeight,0,0,62,96);
+  }
+ }else drawFallbackRunner(0,0,62,96,0,jumping);
  ctx.restore();
 }
 function drawStar(x,y,size){
@@ -273,9 +286,10 @@ function update(dt){
  state.shake=Math.max(0,state.shake-dt*2.5);state.flash=Math.max(0,state.flash-dt*2.8);
  state.dist+=dt*state.speed*65;state.speed=Math.min(.84,state.speed+dt*.00075);state.score+=Math.floor(dt*state.speed*8);
  state.trackOffset=(state.trackOffset+dt*state.speed*1.4)%1;
- if(state.jumpY>0||state.jumpV>0){state.jumpY+=state.jumpV*dt;state.jumpV-=1250*dt;if(state.jumpY<=0){state.jumpY=0;state.jumpV=0;}}
+ if(state.jumpY>0||state.jumpV>0){state.jumpY+=state.jumpV*dt;state.jumpV-=1250*dt;if(state.jumpY<=0){state.jumpY=0;state.jumpV=0;state.land=1;addParticle(laneX(state.visualLane,1),H-30,'#d7c19b');}}
  if(state.invulnerable>0)state.invulnerable=Math.max(0,state.invulnerable-dt);
  if(state.slide>0)state.slide=Math.max(0,state.slide-dt);
+ if(state.land>0)state.land=Math.max(0,state.land-dt*4);
  if(state.boost>0)state.boost=Math.max(0,state.boost-dt);
  spawnClock+=dt;gateClock+=dt;
  if(spawnClock>Math.max(1.05,1.65-(state.speed-.43)*.65)){spawnClock=0;spawnObject();}
