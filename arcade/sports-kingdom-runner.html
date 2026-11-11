@@ -202,19 +202,70 @@ function drawPixelHero(pose){
  ctx.fillRect(11,20,12,4);ctx.fillRect(7,24+Math.round(step*2),10,4);
  ctx.restore();
 }
+// The uploaded sprite sheet is a genuine 192x192-cell atlas:
+// 8 run frames in row 0, and 4 jump/slide/stumble frames in rows 1-3.
+// Trim transparent margins separately for each frame to prevent jitter and clipping.
+const heroFrames=[];
+let heroAtlasReady=false;
+function prepareHeroAtlas(){
+ const img=assets.runnerSheet;
+ if(!img||!img.complete||!img.naturalWidth)return;
+ const cell=192;
+ try{
+  heroFrames.length=0;
+  const scratch=document.createElement('canvas');scratch.width=cell;scratch.height=cell;
+  const g=scratch.getContext('2d',{willReadFrequently:true});
+  for(let row=0;row<4;row++){
+   const frames=[];
+   for(let col=0;col<(row===0?8:4);col++){
+    g.clearRect(0,0,cell,cell);
+    g.drawImage(img,col*cell,row*cell,cell,cell,0,0,cell,cell);
+    const rgba=g.getImageData(0,0,cell,cell).data;
+    let minX=cell,minY=cell,maxX=-1,maxY=-1;
+    for(let y=0;y<cell;y++)for(let x=0;x<cell;x++){
+     if(rgba[(y*cell+x)*4+3]<90)continue;
+     minX=Math.min(minX,x);maxX=Math.max(maxX,x);
+     minY=Math.min(minY,y);maxY=Math.max(maxY,y);
+    }
+    if(maxX<0){frames.push(null);continue;}
+    const pad=2, sx=Math.max(0,minX-pad),sy=Math.max(0,minY-pad);
+    const sw=Math.min(cell-sx,maxX-sx+pad+1),sh=Math.min(cell-sy,maxY-sy+pad+1);
+    const frame=document.createElement('canvas');frame.width=sw;frame.height=sh;
+    frame.getContext('2d').drawImage(img,col*cell+sx,row*cell+sy,sw,sh,0,0,sw,sh);
+    frames.push(frame);
+   }
+   heroFrames.push(frames);
+  }
+  heroAtlasReady=true;
+ }catch(err){heroAtlasReady=false;}
+}
+assets.runnerSheet.addEventListener('load',prepareHeroAtlas);
+if(assets.runnerSheet.complete&&assets.runnerSheet.naturalWidth)prepareHeroAtlas();
 function drawRunner(){
  const center=laneX(state.visualLane,1),ground=H-32;
  const jumping=state.jumpY>4,sliding=state.slide>0,stumbling=state.stumble>0;
  const pose=stumbling?'stumble':sliding?'slide':jumping?'jump':'run';
- // No whole-character bob: keep the hero anchored to the road while feet animate.
- const bob=0;
  ctx.save();ctx.fillStyle='rgba(16,39,32,.28)';ctx.beginPath();
  ctx.ellipse(center,ground+3,jumping?16:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
- ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
- ctx.translate(Math.round(center-34),Math.round(ground-96-state.jumpY+bob));
- if(sliding){ctx.translate(0,96);ctx.scale(1.12,.65);ctx.translate(-34,-96);ctx.translate(34,0);}
- else if(state.land>0&&!jumping){ctx.translate(34,96);ctx.scale(1+state.land*.04,1-state.land*.06);ctx.translate(-34,-96);}
- drawPixelHero(pose);
+ ctx.save();
+ ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.45:1;
+ if(heroAtlasReady){
+  let row=0,index=Math.floor(state.elapsed*11)%8;
+  if(pose==='jump'){row=1;index=state.jumpV>240?0:state.jumpV>0?1:state.jumpV< -240?3:2;}
+  if(pose==='slide'){row=2;index=Math.min(3,Math.max(0,Math.floor((.7-state.slide)/.175)));}
+  if(pose==='stumble'){row=3;index=Math.min(3,Math.max(0,Math.floor((.65-state.stumble)/.1625)));}
+  const frame=heroFrames[row][index];
+  if(frame){
+   // Fixed foot anchor, consistent character height, and per-frame aspect ratio.
+   const height=row===2?66:row===3?85:100;
+   const width=Math.min(94,height*frame.width/frame.height);
+   ctx.imageSmoothingEnabled=false;
+   ctx.drawImage(frame,Math.round(center-width/2),Math.round(ground-state.jumpY-height),Math.round(width),height);
+  }
+ }else{
+  ctx.translate(Math.round(center-34),Math.round(ground-96-state.jumpY));
+  drawPixelHero(pose);
+ }
  ctx.restore();
 }
 function drawStar(x,y,size){
