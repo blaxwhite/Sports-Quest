@@ -90,7 +90,10 @@ const hud={dist:$('stat-dist'),score:$('stat-score'),hp:$('stat-hp'),xp:$('stat-
 const overlays={start:$('start-screen'),quiz:$('quiz-gate'),pause:$('pause-screen'),end:$('end-screen')};
 const assetFiles={playerRun:'player_run.png',playerJump:'player_jump.png',hurdle:'hurdle.png',star:'star.png',runnerSheet:'sports_runner_animations.png'};
 const assets={};
-Object.keys(assetFiles).forEach(function(k){const im=new Image();im.src=assetFiles[k];im.onload=function(){if(state)drawScene()};assets[k]=im;});
+Object.keys(assetFiles).forEach(function(k){const im=new Image();assets[k]=im;
+ if(k==='runnerSheet')return; // Loaded below with retry support.
+ im.src=assetFiles[k];im.onload=function(){if(state)drawScene()};
+});
 const W=480,H=560,HORIZON=145;
 const questions=[
 {q:'Which word defines a lightweight wooden or aluminium shaft passed between runners in a relay race?',a:['Baton','Racket','Hurdle'],c:0,why:'A baton is passed from one runner to the next in a relay race.'},
@@ -118,7 +121,7 @@ const kingdomRoadImage=new Image();
 let kingdomRoadReady=false;
 kingdomRoadImage.onload=()=>{kingdomRoadReady=true;};
 kingdomRoadImage.onerror=()=>{kingdomRoadReady=false;};
-kingdomRoadImage.src='assets/sports_quest_road_seamless.png';
+
 
 function drawArtworkRoad(){
  if(!kingdomRoadReady||!kingdomRoadImage.naturalWidth)return false;
@@ -158,8 +161,33 @@ const kingdomCastleImage=new Image();
 let kingdomCastleReady=false;
 kingdomCastleImage.onload=()=>{kingdomCastleReady=true;};
 kingdomCastleImage.onerror=()=>{kingdomCastleReady=false;};
-kingdomCastleImage.src='assets/Pixel-Art%20Castle%20with%20Golden%20Banners.png';
 
+
+// Retry failed art requests and display a loading state instead of quietly reverting
+// to the old vector graphics. Versioned URLs also bypass stale image responses.
+const artSources=[
+ {img:kingdomRoadImage,url:'assets/sports_quest_road_seamless.png',name:'road'},
+ {img:kingdomCastleImage,url:'assets/Pixel-Art%20Castle%20with%20Golden%20Banners.png',name:'castle'},
+ {img:assets.runnerSheet,url:'sports_runner_animations.png',name:'hero'}
+];
+let artLoadingMessage='';
+artSources.forEach(item=>{
+ let attempts=0;
+ const load=()=>{
+  attempts++;
+  item.img.src=item.url+'?asset=20261111b&retry='+attempts;
+ };
+ item.img.addEventListener('error',()=>{
+  artLoadingMessage='Reconnecting '+item.name+' artwork…';
+  if(attempts<6)setTimeout(load,Math.min(12000,attempts*2500));
+  else artLoadingMessage='Artwork loading failed. Refresh to retry.';
+ });
+ item.img.addEventListener('load',()=>{
+  if(artSources.every(a=>a.img.naturalWidth))artLoadingMessage='';
+ });
+ load();
+});
+function allArtworkReady(){return kingdomRoadReady&&kingdomCastleReady&&heroAtlasReady;}
 function drawKingdom(){
  // Layered kingdom landscape, with restrained parallax that never moves the runner.
  const t=state.elapsed,travel=state.dist;
@@ -447,6 +475,15 @@ function drawEntity(o){
  ctx.restore();
 }
 function drawScene(){
+ if(!allArtworkReady()){
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#142641';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#fbd478';ctx.font='bold 19px monospace';ctx.textAlign='center';
+  ctx.fillText('LOADING SPORTS KINGDOM',W/2,H/2-14);
+  ctx.font='12px monospace';ctx.fillStyle='#e9e2c8';
+  ctx.fillText(artLoadingMessage||'Preparing castle, road and hero…',W/2,H/2+18);
+  ctx.textAlign='left';return;
+ }
  ctx.clearRect(0,0,W,H);ctx.save();
   if(state.shake>0){const m=state.shake*7;ctx.translate(Math.sin(state.elapsed*95)*m,Math.cos(state.elapsed*77)*m*.5);}
   drawKingdom();
