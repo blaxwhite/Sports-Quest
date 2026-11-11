@@ -56,7 +56,7 @@ canvas{display:block;width:100%;height:auto;aspect-ratio:480/560;touch-action:no
 </style>
 </head>
 <body>
-<div id="sq-build-check">V2 · CASTLE TEST 11NOV</div>
+<div id="sq-build-check">V2 · ASSET CHECK <span id="sq-asset-status">loading…</span></div>
 <main class="page">
 <header class="top"><a href="../index.html">✦ SPORTS QUEST</a><a href="../arcade.html?v=5.0">← ARCADE ZONE</a></header>
 <section id="arcade-wrapper" aria-label="Sports Kingdom Runner game">
@@ -434,7 +434,15 @@ function drawEntity(o){
  }
  ctx.restore();
 }
+function updateAssetStatus(){
+ const road=kingdomRoadReady?'ROAD OK':(kingdomRoadImage.complete?'ROAD FAIL':'ROAD WAIT');
+ const hero=heroAtlasReady?'HERO OK':(assets.runnerSheet.complete?'HERO FAIL':'HERO WAIT');
+ const castle=kingdomCastleReady?'CASTLE OK':(kingdomCastleImage.complete?'CASTLE FAIL':'CASTLE WAIT');
+ const el=document.getElementById('sq-asset-status');
+ if(el)el.textContent=road+' · '+hero+' · '+castle;
+}
 function drawScene(){
+ updateAssetStatus();
  ctx.clearRect(0,0,W,H);ctx.save();
   if(state.shake>0){const m=state.shake*7;ctx.translate(Math.sin(state.elapsed*95)*m,Math.cos(state.elapsed*77)*m*.5);}
   drawKingdom();
