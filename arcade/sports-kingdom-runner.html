@@ -189,33 +189,9 @@ artSources.forEach(item=>{
 });
 function allArtworkReady(){return kingdomRoadReady&&kingdomCastleReady&&heroAtlasReady;}
 // Unified castle and landscape artwork; gameplay layers stay independent.
-const kingdomBackdrop=new Image();
-let kingdomBackdropReady=false;
-kingdomBackdrop.onload=()=>{kingdomBackdropReady=true;if(typeof state!=='undefined'&&state)drawScene();};
-let backdropAttempts=0;
-function retryKingdomBackdrop(){
- backdropAttempts++;
- kingdomBackdrop.src='assets/fb7469c2-193b-406a-9ab4-3629412c0401.png?bg=20261111d&attempt='+backdropAttempts;
-}
-kingdomBackdrop.onerror=()=>{
- kingdomBackdropReady=false;
- if(backdropAttempts<8)setTimeout(retryKingdomBackdrop,Math.min(10000,backdropAttempts*1800));
-};
-retryKingdomBackdrop();
-
 function drawKingdom(){
  // Layered kingdom landscape, with restrained parallax that never moves the runner.
  const t=state.elapsed,travel=state.dist;
- if(kingdomBackdropReady){
-  // The gate is centered on the road's horizon; the lower grassy field is
-  // intentionally covered by the existing animated road.
-  ctx.save();ctx.imageSmoothingEnabled=false;
-  // Frame the whole castle, including its tallest tower, while matching the gate to the road horizon.
-  const backdropWidth=400;
-  const backdropHeight=backdropWidth*kingdomBackdrop.naturalHeight/kingdomBackdrop.naturalWidth;
-  ctx.drawImage(kingdomBackdrop,(W-backdropWidth)/2,0,backdropWidth,backdropHeight);
-  ctx.restore();
- }else{
  const sky=ctx.createLinearGradient(0,0,0,HORIZON+90);
  sky.addColorStop(0,'#18529c');sky.addColorStop(.55,'#68b8eb');sky.addColorStop(1,'#d5e8d8');
  ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
@@ -267,16 +243,10 @@ function drawKingdom(){
   ctx.restore();
  }
  }
- // Green shoulders, stone edging and warm cobblestone road.
- if(kingdomBackdropReady){
-  // Thin road-edge shadows only: preserve the detailed scenery on either side.
-  poly([[201,HORIZON],[205,HORIZON],[16,H],[9,H]],'#355c47');
-  poly([[275,HORIZON],[279,HORIZON],[W-9,H],[W-16,H]],'#355c47');
- }else{
-  poly([[186,HORIZON],[294,HORIZON],[W+85,H],[-85,H]],'#317c56');
-  poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#8d806b');
-  poly([[205,HORIZON],[275,HORIZON],[W-16,H],[16,H]],'#d3c29d');
- }
+ // Preserve the original road shoulder geometry.
+ poly([[186,HORIZON],[294,HORIZON],[W+85,H],[-85,H]],'#317c56');
+ poly([[198,HORIZON],[282,HORIZON],[W+13,H],[-13,H]],'#8d806b');
+ poly([[205,HORIZON],[275,HORIZON],[W-16,H],[16,H]],'#d3c29d');
 
  // Use the uploaded pixel-art texture, falling back to the original road while loading.
  if(!drawArtworkRoad()){
@@ -295,7 +265,6 @@ function drawKingdom(){
  ctx.strokeStyle='#f0dba4';ctx.lineWidth=3;ctx.beginPath();
  ctx.moveTo(198,HORIZON);ctx.lineTo(-13,H);ctx.moveTo(282,HORIZON);ctx.lineTo(W+13,H);ctx.stroke();
  }
- if(!kingdomBackdropReady){
  // Two rows of trees: farther trees move slowly, nearer trees move faster.
  for(let layer=0;layer<2;layer++)for(let side=0;side<2;side++)for(let i=0;i<8;i++){
   const z=(i/8+state.trackOffset*(layer?1:.55))%1,d=z*z;
@@ -305,7 +274,6 @@ function drawKingdom(){
   poly([[x-s*.68,y-s*.42],[x,y-s*1.95],[x+s*.68,y-s*.42]],(i+layer)%2?'#1f674e':'#2b8b61');
   poly([[x-s*.49,y-s*.95],[x,y-s*1.7],[x+s*.49,y-s*.95]],'#3b9c6c');
   ctx.fillStyle='rgba(229,255,197,.25)';ctx.fillRect(Math.round(x-s*.16),Math.round(y-s*1.38),Math.max(1,s*.09),Math.max(1,s*.17));
- }
  }
  // Occasional drifting light motes: ambience only, not gameplay collectibles.
  for(let i=0;i<9;i++){
