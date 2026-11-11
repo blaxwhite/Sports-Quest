@@ -170,8 +170,9 @@ function drawFallbackRunner(x,y,w,h,frame,jumping){
 }
 function drawRunner(){
  const x=laneX(state.visualLane,1)-31;
+ const sway=state.jumpY>0?0:Math.sin(state.elapsed*18)*1.4;
  const ground=H-32;
- const y=ground-96-state.jumpY+(state.slide>0?30:0);
+ const y=ground-96-state.jumpY+(state.slide>0?30:0)+sway;
  const w=62,h=state.slide>0?66:96;
  ctx.save();ctx.globalAlpha=state.invulnerable>0&&Math.floor(state.elapsed*14)%2===0?.4:1;
  ctx.fillStyle='#17251d';ctx.globalAlpha*=.28;ctx.beginPath();ctx.ellipse(x+31,ground+3,state.jumpY>4?17:25,6,0,0,Math.PI*2);ctx.fill();ctx.restore();
@@ -180,7 +181,7 @@ function drawRunner(){
  const img=assets[jumping?'playerJump':'playerRun'];
  if(img&&img.complete&&img.naturalWidth){
    if(jumping)ctx.drawImage(img,0,0,img.naturalWidth,img.naturalHeight,x,y,w,h);
-   else{const frame=Math.floor(state.elapsed*11)%4;ctx.drawImage(img,frame*64,0,64,96,x,y,w,h);}
+   else{const frame=Math.floor(state.elapsed*12)%Math.max(1,Math.floor(img.naturalWidth/64));ctx.drawImage(img,frame*64,0,64,96,x,y,w,h);}
  }else drawFallbackRunner(x,y,w,h,0,jumping);
  ctx.restore();
 }
@@ -191,7 +192,8 @@ function drawStar(x,y,size){
 }
 function drawEntity(o){
  const z=Math.max(0,o.z),x=laneX(o.lane,z),base=HORIZON+z*(H-HORIZON),scale=.28+z*1.12;
- if(o.kind==='star'){drawStar(x,base-27*scale,28*scale);return;}
+ if(o.kind==='star'){drawStar(x,base-27*scale+Math.sin(state.elapsed*5+o.z*4)*5*scale,28*scale);return;}
+ if(o.kind==='arch'){ctx.fillStyle='#855e42';ctx.fillRect(x-34*scale,base-95*scale,13*scale,95*scale);ctx.fillRect(x+21*scale,base-95*scale,13*scale,95*scale);ctx.fillStyle='#d3a75f';ctx.fillRect(x-37*scale,base-100*scale,74*scale,17*scale);ctx.fillStyle='#fff4d1';ctx.font='bold '+Math.max(7,11*scale)+'px monospace';ctx.textAlign='center';ctx.fillText('SLIDE',x,base-87*scale);ctx.textAlign='left';return;}
  const img=assets.hurdle;
  if(o.kind==='hurdle'&&img&&img.complete&&img.naturalWidth){ctx.drawImage(img,x-42*scale,base-33*scale,84*scale,36*scale);return;}
  if(o.kind==='hurdle'){
@@ -215,17 +217,18 @@ function addParticle(x,y,color){for(let i=0;i<7;i++)state.particles.push({x,y,vx
 function drawParticles(dt){state.particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=160*dt;p.life-=dt;ctx.globalAlpha=Math.max(0,p.life/.45);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,3,3);});ctx.globalAlpha=1;state.particles=state.particles.filter(p=>p.life>0);}
 function spawnObject(){
  const lane=Math.floor(Math.random()*3);
- const kind=Math.random()<.52?'hurdle':'cone';
+ const roll=Math.random();const kind=roll<.39?'hurdle':roll<.78?'cone':'arch';
  state.objects.push({lane,kind,z:0,hit:false});
  if(Math.random()<.72){const starLane=Math.floor(Math.random()*3);state.objects.push({lane:starLane,kind:'star',z:-.25,hit:false});}
 }
 function collide(o){
  if(o.hit||o.z<.91||o.z>1.02)return;
- if(o.lane!==Math.round(state.visualLane))return;
+ if(Math.abs(o.lane-state.visualLane)>.38)return;
  o.hit=true;
  const x=laneX(o.lane,1);
  if(o.kind==='star'){state.score+=50;state.xp+=5;addParticle(x,440,'#ffdc62');updateHud();return;}
  if(o.kind==='hurdle'&&state.jumpY>34)return;
+ if(o.kind==='arch'&&state.slide>0)return;
  if(state.invulnerable>0)return;
  state.lives--;state.invulnerable=1.15;addParticle(x,445,'#f28c68');updateHud();
  if(state.lives<=0)finishRun();
@@ -265,7 +268,7 @@ function update(dt){
  if(state.slide>0)state.slide=Math.max(0,state.slide-dt);
  if(state.boost>0)state.boost=Math.max(0,state.boost-dt);
  spawnClock+=dt;gateClock+=dt;
- if(spawnClock>Math.max(.72,1.22-(state.speed-.43)*.8)){spawnClock=0;spawnObject();}
+ if(spawnClock>Math.max(.82,1.3-(state.speed-.43)*.8)){spawnClock=0;spawnObject();}
  state.objects.forEach(o=>{o.z+=dt*state.speed*.78;collide(o);});
  state.objects=state.objects.filter(o=>o.z<1.12&&!o.hit);
  updateHud();
