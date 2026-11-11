@@ -230,17 +230,14 @@ function drawKingdom(){
  ctx.fillStyle='#d8b875';ctx.fillRect(238,134,3,5);
  for(let i=0;i<4;i++){ctx.fillStyle='#8892a6';ctx.fillRect(220+i*11,115+(i%2)*10,7,2);}
  }
- // The castle is a monumental background landmark, not a small object on a hill.
- // Its lower walls disappear behind the foreground road and verges.
+ // Monumental castle on the horizon: the road meets its gate, not its front wall.
  if(kingdomCastleReady){
   const castleWidth=390;
   const castleHeight=castleWidth*kingdomCastleImage.naturalHeight/kingdomCastleImage.naturalWidth;
-  const castleBase=HORIZON+66;
-  ctx.save();
-  ctx.imageSmoothingEnabled=false;
-  // Wide, shadowed hillside stretches from the castle into the mountain landscape.
-  poly([[0,HORIZON+35],[83,HORIZON-6],[161,HORIZON+11],[240,HORIZON+51],[319,HORIZON+11],[397,HORIZON-6],[480,HORIZON+35],[480,HORIZON+92],[0,HORIZON+92]],'#3e775c');
-  poly([[0,HORIZON+61],[99,HORIZON+9],[176,HORIZON+37],[240,HORIZON+68],[304,HORIZON+37],[381,HORIZON+9],[480,HORIZON+61],[480,HORIZON+103],[0,HORIZON+103]],'#285e4c');
+  const castleBase=HORIZON+8;
+  ctx.save();ctx.imageSmoothingEnabled=false;
+  // Keep distant banks below the castle towers and behind the roadway.
+  poly([[0,HORIZON+14],[95,HORIZON-10],[165,HORIZON+9],[240,HORIZON+19],[315,HORIZON+9],[385,HORIZON-10],[480,HORIZON+14],[480,HORIZON+40],[0,HORIZON+40]],'#356f54');
   ctx.drawImage(kingdomCastleImage,(W-castleWidth)/2,castleBase-castleHeight,castleWidth,castleHeight);
   ctx.restore();
  }
