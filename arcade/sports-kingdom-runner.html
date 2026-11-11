@@ -230,15 +230,17 @@ function drawKingdom(){
  ctx.fillStyle='#d8b875';ctx.fillRect(238,134,3,5);
  for(let i=0;i<4;i++){ctx.fillStyle='#8892a6';ctx.fillRect(220+i*11,115+(i%2)*10,7,2);}
  }
- // Castle sits behind the road, so the path naturally runs into its gate.
+ // The castle is a monumental background landmark, not a small object on a hill.
+ // Its lower walls disappear behind the foreground road and verges.
  if(kingdomCastleReady){
-  const castleWidth=222;
+  const castleWidth=390;
   const castleHeight=castleWidth*kingdomCastleImage.naturalHeight/kingdomCastleImage.naturalWidth;
-  const castleBase=HORIZON+11;
-  ctx.save();ctx.imageSmoothingEnabled=false;
-  // Subtle distant terrain connects the outer walls to the hillside.
-  poly([[96,HORIZON+7],[166,HORIZON-13],[197,HORIZON+17],[96,HORIZON+17]],'#447c59');
-  poly([[384,HORIZON+7],[314,HORIZON-13],[283,HORIZON+17],[384,HORIZON+17]],'#447c59');
+  const castleBase=HORIZON+66;
+  ctx.save();
+  ctx.imageSmoothingEnabled=false;
+  // Wide, shadowed hillside stretches from the castle into the mountain landscape.
+  poly([[0,HORIZON+35],[83,HORIZON-6],[161,HORIZON+11],[240,HORIZON+51],[319,HORIZON+11],[397,HORIZON-6],[480,HORIZON+35],[480,HORIZON+92],[0,HORIZON+92]],'#3e775c');
+  poly([[0,HORIZON+61],[99,HORIZON+9],[176,HORIZON+37],[240,HORIZON+68],[304,HORIZON+37],[381,HORIZON+9],[480,HORIZON+61],[480,HORIZON+103],[0,HORIZON+103]],'#285e4c');
   ctx.drawImage(kingdomCastleImage,(W-castleWidth)/2,castleBase-castleHeight,castleWidth,castleHeight);
   ctx.restore();
  }
