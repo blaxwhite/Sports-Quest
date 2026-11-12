@@ -256,6 +256,16 @@ function drawKingdom(){
  ctx.fillStyle='#d8b875';ctx.fillRect(238,134,3,5);
  for(let i=0;i<4;i++){ctx.fillStyle='#8892a6';ctx.fillRect(220+i*11,115+(i%2)*10,7,2);}
  }
+ // The castle is a small landmark at the road's vanishing point.
+ // Draw it BEFORE foreground cliffs and road so it sits behind the landscape.
+ if(kingdomCastleReady){
+  const castleWidth=100;
+  const castleHeight=castleWidth*kingdomCastleImage.naturalHeight/kingdomCastleImage.naturalWidth;
+  const castleBase=HORIZON+3;
+  ctx.save();ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(kingdomCastleImage,(W-castleWidth)/2,castleBase-castleHeight,castleWidth,castleHeight);
+  ctx.restore();
+ }
  // Detailed terrain replaces the old flat-green banks, including the strip beneath the castle.
  // Clip to the two sides of the road: the artwork's dark center never enters gameplay.
  if(kingdomTerrainReady){
@@ -284,15 +294,6 @@ function drawKingdom(){
   poly([[270,HORIZON],[296,HORIZON],[W+5,H],[W-21,H]],'#566a55');
   poly([[191,HORIZON],[207,HORIZON],[18,H],[2,H]],'#8c8a70');
   poly([[273,HORIZON],[289,HORIZON],[W-2,H],[W-18,H]],'#8c8a70');
-  ctx.restore();
- }
- // Castle remains in front of the terrain, with no artificial green platform.
- if(kingdomCastleReady){
-  const castleWidth=165;
-  const castleHeight=castleWidth*kingdomCastleImage.naturalHeight/kingdomCastleImage.naturalWidth;
-  const castleBase=HORIZON+9;
-  ctx.save();ctx.imageSmoothingEnabled=false;
-  ctx.drawImage(kingdomCastleImage,(W-castleWidth)/2,castleBase-castleHeight,castleWidth,castleHeight);
   ctx.restore();
  }
  // Use the uploaded pixel-art texture, falling back to the original road while loading.
