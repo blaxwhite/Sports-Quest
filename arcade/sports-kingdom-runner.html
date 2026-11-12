@@ -94,7 +94,7 @@ Object.keys(assetFiles).forEach(function(k){const im=new Image();assets[k]=im;
  if(k==='runnerSheet')return; // Loaded below with retry support.
  im.src=assetFiles[k];im.onload=function(){if(state)drawScene()};
 });
-const W=480,H=560,HORIZON=145;
+const W=480,H=560,HORIZON=120;
 const questions=[
 {q:'Which word defines a lightweight wooden or aluminium shaft passed between runners in a relay race?',a:['Baton','Racket','Hurdle'],c:0,why:'A baton is passed from one runner to the next in a relay race.'},
 {q:'The referee blew the whistle to mark the formal ______ of the football final.',a:['Kick-off','Time-out','Warm-up'],c:0,why:'Kick-off is the start of a football match.'},
@@ -288,9 +288,9 @@ function drawKingdom(){
  }
  // Castle remains in front of the terrain, with no artificial green platform.
  if(kingdomCastleReady){
-  const castleWidth=390;
+  const castleWidth=165;
   const castleHeight=castleWidth*kingdomCastleImage.naturalHeight/kingdomCastleImage.naturalWidth;
-  const castleBase=HORIZON+8;
+  const castleBase=HORIZON+9;
   ctx.save();ctx.imageSmoothingEnabled=false;
   ctx.drawImage(kingdomCastleImage,(W-castleWidth)/2,castleBase-castleHeight,castleWidth,castleHeight);
   ctx.restore();
