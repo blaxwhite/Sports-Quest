@@ -1,0 +1,19 @@
+/* Sports Buddy: accessible, lightweight on-device learning helper */
+#sports-buddy-root{position:fixed;right:18px;bottom:20px;z-index:99999;font-family:Arial,sans-serif;color:#fff4d8;font-size:14px}
+.sb-launch{border:2px solid #f6ce76;background:#17384b;color:#fff3c7;border-radius:40px;padding:12px 16px;box-shadow:0 6px 22px #0008;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:8px}
+.sb-launch:focus-visible,.sb-panel button:focus-visible,.sb-panel input:focus-visible{outline:3px solid #ffdf70;outline-offset:2px}
+.sb-panel{position:absolute;bottom:64px;right:0;width:min(360px,calc(100vw - 28px));height:min(490px,calc(100dvh - 110px));display:flex;flex-direction:column;border:2px solid #c9a965;border-radius:18px;overflow:hidden;background:#122c3b;box-shadow:0 12px 50px #000b}
+.sb-panel[hidden]{display:none}
+.sb-head{display:flex;align-items:center;justify-content:space-between;background:#23495a;padding:12px 14px;border-bottom:1px solid #a4b8bc55}
+.sb-head strong{font-size:16px}.sb-head small{display:block;font-size:11px;color:#d1e2df;margin-top:3px}
+.sb-close{background:transparent;color:white;border:0;font-size:24px;cursor:pointer}
+.sb-log{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;overscroll-behavior:contain}
+.sb-message{padding:10px 12px;border-radius:13px;max-width:90%;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;background:#2b5060;color:#fff}
+.sb-message.sb-user{align-self:flex-end;background:#f3c66c;color:#1d2930}
+.sb-suggestions{display:flex;gap:6px;flex-wrap:wrap;padding:0 10px 8px}
+.sb-suggestions button{font-size:11px;border:1px solid #6e939d;border-radius:20px;background:#224456;color:white;padding:7px;cursor:pointer}
+.sb-form{display:flex;gap:6px;padding:10px;border-top:1px solid #466371}
+.sb-form input{min-width:0;flex:1;border:1px solid #8ba7a9;background:#f9fcfb;color:#162c3c;border-radius:9px;padding:10px;font-size:14px}
+.sb-form button{border:0;background:#f3c66c;color:#1e2a2e;border-radius:9px;font-weight:800;padding:0 13px;cursor:pointer}
+.sb-note{font-size:10px;color:#bcd3d5;padding:0 12px 9px}
+@media(max-width:480px){#sports-buddy-root{right:10px;bottom:12px}.sb-panel{bottom:60px;width:calc(100vw - 20px);height:min(510px,calc(100dvh - 92px))}}
