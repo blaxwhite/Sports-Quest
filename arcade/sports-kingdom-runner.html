@@ -92,6 +92,7 @@ const assetFiles={playerRun:'player_run.png',playerJump:'player_jump.png',hurdle
 const assets={};
 Object.keys(assetFiles).forEach(function(k){const im=new Image();assets[k]=im;
  if(k==='runnerSheet')return; // Loaded below with retry support.
+ im.decoding='async';
  im.src=assetFiles[k];im.onload=function(){if(state)drawScene()};
 });
 const W=480,H=560,HORIZON=120;
@@ -175,7 +176,8 @@ artSources.forEach(item=>{
  let attempts=0;
  const load=()=>{
   attempts++;
-  item.img.src=item.url+'?asset=20261111b&retry='+attempts;
+  // Keep a stable URL for browser caching; retry only on genuine network errors.
+  item.img.src=item.url+(attempts>1?'?retry='+attempts:'');
  };
  item.img.addEventListener('error',()=>{
   artLoadingMessage='Reconnecting '+item.name+' artwork…';
