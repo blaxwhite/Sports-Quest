@@ -672,7 +672,9 @@ function collide(o){
 function showGate(){
  if(!state.active||state.over)return;
  state.active=false;gateBusy=true;
- if(questionIndex%questions.length===0){questionOrder=questions.map((_,i)=>i).sort(()=>Math.random()-.5);}\n const q=questions[questionOrder[questionIndex++%questions.length]];\n const shuffledAnswers=q.a.map((answer,i)=>({answer,correct:i===q.c})).sort(()=>Math.random()-.5);
+ if(questionIndex%questions.length===0){questionOrder=questions.map((_,i)=>i).sort(()=>Math.random()-.5);} 
+ const q=questions[questionOrder[questionIndex++%questions.length]]; 
+ const shuffledAnswers=q.a.map((answer,i)=>({answer,correct:i===q.c})).sort(()=>Math.random()-.5);
  $('quiz-question-box').textContent=q.q;$('quiz-options-box').innerHTML='';$('quiz-feedback').textContent='Choose the correct answer. Correct answers earn +50 XP and a speed boost.';
  shuffledAnswers.forEach(({answer,correct},index)=>{
   const b=document.createElement('button');b.className='option-node';b.textContent=String.fromCharCode(65+index)+'. '+answer;
