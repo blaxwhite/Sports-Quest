@@ -17,3 +17,41 @@
 .sb-form button{border:0;background:#f3c66c;color:#1e2a2e;border-radius:9px;font-weight:800;padding:0 13px;cursor:pointer}
 .sb-note{font-size:10px;color:#bcd3d5;padding:0 12px 9px}
 @media(max-width:480px){#sports-buddy-root{right:10px;bottom:12px}.sb-panel{bottom:60px;width:calc(100vw - 20px);height:min(510px,calc(100dvh - 92px))}}
+
+/* Sports Buddy v2: CSS pixel mascot, RPG dialogue styling, responsive controls */
+#sports-buddy-root{font-family:'Outfit',Arial,sans-serif}
+.sb-launch{border-radius:14px 14px 8px 14px;position:relative;gap:10px;transition:transform .18s,box-shadow .18s}
+.sb-launch:hover{transform:translateY(-3px);box-shadow:0 10px 28px #000a}
+.sb-launch-label{display:flex;flex-direction:column;align-items:flex-start;gap:1px;line-height:1.15}
+.sb-launch-label small{font-size:10px;font-weight:600;color:#bde9de}
+.sb-mascot{position:relative;display:inline-block;width:43px;height:49px;flex:0 0 43px;image-rendering:pixelated;animation:sb-bob 2.8s ease-in-out infinite;filter:drop-shadow(0 3px 0 #071927)}
+.sb-mascot .sb-crown{position:absolute;left:12px;top:0;width:23px;height:10px;background:#ffcf60;clip-path:polygon(0 50%,0 0,27% 42%,50% 0,73% 42%,100% 0,100% 100%,0 100%);border-bottom:3px solid #b27a32}
+.sb-mascot .sb-face{position:absolute;left:7px;top:10px;width:34px;height:30px;background:#7ad7c9;border:4px solid #18485e;border-radius:7px;box-shadow:inset 0 -5px 0 #49a6a3}
+.sb-mascot .sb-eye{position:absolute;top:9px;width:5px;height:7px;background:#16374d;border-radius:1px;animation:sb-blink 5.4s infinite}
+.sb-mascot .sb-eye.left{left:6px}.sb-mascot .sb-eye.right{right:6px}
+.sb-mascot .sb-mouth{position:absolute;left:12px;top:19px;width:7px;height:3px;background:#25526b;border-radius:0 0 4px 4px}
+.sb-mascot .sb-arm{position:absolute;top:27px;width:7px;height:13px;background:#ffc86b;border:2px solid #17465c}
+.sb-mascot .sb-arm.left{left:0;transform:rotate(20deg)}.sb-mascot .sb-arm.right{right:-1px;transform-origin:top left;animation:sb-wave 2.7s ease-in-out infinite}
+.sb-mascot .sb-foot{position:absolute;top:39px;width:11px;height:7px;background:#ffc86b;border:2px solid #17465c}
+.sb-mascot .sb-foot.left{left:12px}.sb-mascot .sb-foot.right{right:3px}
+.sb-panel{background:#102838;border-color:#e8bd66;border-radius:16px;box-shadow:0 16px 55px #000c,0 0 0 3px #21475a}
+.sb-head{background:linear-gradient(125deg,#275b66,#173e57);border-bottom:2px solid #bd9553}
+.sb-head-title{display:flex;align-items:center;gap:9px}
+.sb-head .sb-mascot{transform:scale(.8);transform-origin:center;animation:none;margin-right:0}
+.sb-head strong{color:#ffe09a;letter-spacing:.02em}
+.sb-head small{color:#d3e9e4}
+.sb-message{border:1px solid #56808b;border-radius:5px 13px 13px 13px;animation:sb-message-in .2s ease-out}
+.sb-message.sb-user{border-color:#d9ad59;border-radius:13px 5px 13px 13px}
+.sb-categories{display:flex;gap:7px;overflow-x:auto;padding:10px 10px 7px;scrollbar-width:thin}
+.sb-categories button{flex:0 0 auto;border:1px solid #6b9397;background:#193e50;color:#f7e8c7;border-radius:8px;padding:8px 10px;font-weight:700;font-size:11px;cursor:pointer}
+.sb-categories button[aria-pressed="true"]{background:#e8bb63;color:#1c3440;border-color:#ffdf99}
+.sb-suggestions{max-height:91px;overflow-y:auto}
+.sb-suggestions button{background:#244d60;border-radius:8px;font-size:11px}
+.sb-typing{align-self:flex-start;color:#b8e6e1;font-size:12px;padding:4px 8px;animation:sb-bob 1.2s infinite}
+.sb-panel button:hover{filter:brightness(1.12)}
+@keyframes sb-bob{0%,100%{translate:0 0}50%{translate:0 -4px}}
+@keyframes sb-wave{0%,55%,100%{transform:rotate(-12deg)}65%,85%{transform:rotate(-58deg)}75%{transform:rotate(-30deg)}}
+@keyframes sb-blink{0%,44%,48%,100%{transform:scaleY(1)}46%{transform:scaleY(.12)}}
+@keyframes sb-message-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){#sports-buddy-root *,#sports-buddy-root *:before,#sports-buddy-root *:after{animation:none!important;transition:none!important}}
+@media(max-width:480px){.sb-launch{padding:8px 11px}.sb-mascot{scale:.85;margin:-3px}.sb-panel{height:min(530px,calc(100dvh - 90px))}}
