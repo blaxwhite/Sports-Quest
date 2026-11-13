@@ -2,7 +2,7 @@
 'use strict';
 if(document.getElementById('sports-buddy-root'))return;
 const root=document.createElement('div');root.id='sports-buddy-root';
-root.innerHTML='<button class="sb-launch" type="button" aria-expanded="false" aria-controls="sb-panel">🏅 Sports Buddy <span aria-hidden="true">💬</span></button><section class="sb-panel" id="sb-panel" aria-label="Sports Buddy learning chat" hidden><header class="sb-head"><div><strong>🏅 Sports Buddy</strong><small>Your Year 5 sports learning helper</small></div><button class="sb-close" type="button" aria-label="Close Sports Buddy">×</button></header><div class="sb-log" role="log" aria-live="polite" aria-relevant="additions"></div><div class="sb-suggestions"></div><form class="sb-form"><input type="text" aria-label="Ask Sports Buddy" maxlength="180" placeholder="Ask about sports..." required autocomplete="off"><button type="submit">Ask</button></form><div class="sb-note">Topic-based helper. No AI account or personal details needed.</div></section>';
+root.innerHTML="<button class=\"sb-launch\" type=\"button\" aria-expanded=\"false\" aria-controls=\"sb-panel\"><span class=\"sb-mascot\" aria-hidden=\"true\"><span class=\"sb-crown\"></span><span class=\"sb-face\"><span class=\"sb-eye left\"></span><span class=\"sb-eye right\"></span><span class=\"sb-mouth\"></span></span><span class=\"sb-arm left\"></span><span class=\"sb-arm right\"></span><span class=\"sb-foot left\"></span><span class=\"sb-foot right\"></span></span><span class=\"sb-launch-label\"><strong>SPORTS BUDDY</strong><small>Ask your companion ✨</small></span></button><section class=\"sb-panel\" id=\"sb-panel\" aria-label=\"Sports Buddy learning chat\" hidden><header class=\"sb-head\"><div class=\"sb-head-title\"><span class=\"sb-mascot\" aria-hidden=\"true\"><span class=\"sb-crown\"></span><span class=\"sb-face\"><span class=\"sb-eye left\"></span><span class=\"sb-eye right\"></span><span class=\"sb-mouth\"></span></span><span class=\"sb-arm left\"></span><span class=\"sb-arm right\"></span><span class=\"sb-foot left\"></span><span class=\"sb-foot right\"></span></span><div><strong>SPORTS BUDDY</strong><small>Your friendly Sports Kingdom guide</small></div></div><button class=\"sb-close\" type=\"button\" aria-label=\"Close Sports Buddy\">×</button></header><div class=\"sb-categories\" aria-label=\"Choose a topic\"></div><div class=\"sb-log\" role=\"log\" aria-live=\"polite\" aria-relevant=\"additions\"></div><div class=\"sb-suggestions\"></div><form class=\"sb-form\"><input type=\"text\" aria-label=\"Ask Sports Buddy\" maxlength=\"180\" placeholder=\"Ask about sports...\" required autocomplete=\"off\"><button type=\"submit\">Ask</button></form><div class=\"sb-note\">Sports-topic helper with prepared answers. No personal details needed.</div></section>";
 document.body.appendChild(root);
 const panel=root.querySelector('.sb-panel'),launch=root.querySelector('.sb-launch'),log=root.querySelector('.sb-log'),input=root.querySelector('input'),suggestions=root.querySelector('.sb-suggestions');
 function add(message,user){const bubble=document.createElement('div');bubble.className='sb-message'+(user?' sb-user':'');bubble.textContent=message;log.appendChild(bubble);log.scrollTop=log.scrollHeight}
@@ -31,9 +31,22 @@ if(/hint|help me answer|give me answer/.test(q))return 'Here is a hint: Look for
 const found=facts.find(f=>f.words.some(w=>q.includes(w)));
 return found?found.answer:'I can help with Year 5 sports! Try asking “What is a relay race?”, “What is sportsmanship?” or “How do I play the runner?”';
 }
-function ask(text){const q=text.trim();if(!q)return;add(q,true);add(answer(q),false);input.value=''}
-['What is a relay race?','What is sportsmanship?','How do I play the runner?'].forEach(q=>{const b=document.createElement('button');b.type='button';b.textContent=q;b.addEventListener('click',()=>ask(q));suggestions.appendChild(b)});
-add('Hi, champion! 👋 I am Sports Buddy. Ask me about sports, the quizzes or the runner game.');
+function ask(text){const q=text.trim();if(!q)return;add(q,true);input.value='';const typing=document.createElement('div');typing.className='sb-typing';typing.textContent='Sports Buddy is thinking •••';log.appendChild(typing);log.scrollTop=log.scrollHeight;setTimeout(()=>{typing.remove();add(answer(q),false)},Math.min(650,180+q.length*8))}
+const categories=[
+{label:'⚽ Sports',questions:['What is a relay race?','How do you play badminton?','What is basketball?']},
+{label:'🏅 Equipment',questions:['What equipment do I need?','Why do cyclists wear helmets?','What is a shuttlecock?']},
+{label:'💛 Teamwork',questions:['What is sportsmanship?','How can I be a good teammate?','Why should we warm up?']},
+{label:'🎮 Website',questions:['How do I play the runner?','Where are the quizzes?','How do I earn points?']}
+];
+const categoryBar=root.querySelector('.sb-categories');
+function showCategory(index){
+ categoryBar.querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===index)));
+ suggestions.replaceChildren();
+ categories[index].questions.forEach(q=>{const b=document.createElement('button');b.type='button';b.textContent=q;b.addEventListener('click',()=>ask(q));suggestions.appendChild(b)});
+}
+categories.forEach((cat,i)=>{const b=document.createElement('button');b.type='button';b.textContent=cat.label;b.setAttribute('aria-pressed','false');b.addEventListener('click',()=>showCategory(i));categoryBar.appendChild(b)});
+showCategory(0);
+add('Hey, champion! 🌟 I am Sports Buddy, your guide through the Sports Kingdom. Pick a topic above or ask me a question!');
 function toggle(open){panel.hidden=!open;launch.setAttribute('aria-expanded',String(open));if(open)input.focus();else launch.focus()}
 launch.addEventListener('click',()=>toggle(panel.hidden));root.querySelector('.sb-close').addEventListener('click',()=>toggle(false));
 root.querySelector('form').addEventListener('submit',e=>{e.preventDefault();ask(input.value)});
