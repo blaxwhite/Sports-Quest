@@ -97,16 +97,21 @@ Object.keys(assetFiles).forEach(function(k){const im=new Image();assets[k]=im;
 });
 const W=480,H=560,HORIZON=120;
 const questions=[
-{q:'Which word defines a lightweight wooden or aluminium shaft passed between runners in a relay race?',a:['Baton','Racket','Hurdle'],c:0,why:'A baton is passed from one runner to the next in a relay race.'},
-{q:'The referee blew the whistle to mark the formal ______ of the football final.',a:['Kick-off','Time-out','Warm-up'],c:0,why:'Kick-off is the start of a football match.'},
-{q:'Which sport includes routines that show agility, flexibility and coordination on mats?',a:['Gymnastics','Athletics','Cycling'],c:0,why:'Gymnastics uses routines that develop agility, flexibility and coordination.'},
-{q:'Which equipment is used to make a high-jump landing safer?',a:['Foam landing mats','A tennis net','A starting whistle'],c:0,why:'Foam landing mats cushion the athlete when landing.'},
-{q:'Which item protects a cyclist’s head?',a:['Helmet','Shuttlecock','Baton'],c:0,why:'A helmet protects the head while cycling.'},
-{q:'What does it mean to pass a ball?',a:['Send it to a teammate','Hold it forever','Kick it out of the stadium'],c:0,why:'Passing means sending the ball to another player.'},
-{q:'Which action shows good sportsmanship?',a:['Respecting opponents','Cheating to win','Blaming teammates'],c:0,why:'Good sportsmanship includes fairness and respect.'}
+{q:'Which sport uses a football?',a:['Football','Tennis','Swimming'],c:0,why:'We kick a football when playing football.'},
+{q:'What do you use to play badminton?',a:['A bat','A racket','A helmet'],c:1,why:'We use a racket and a shuttlecock in badminton.'},
+{q:'What should you drink after running?',a:['Water','Paint','Sand'],c:0,why:'Drinking water helps us stay hydrated.'},
+{q:'Which sport is played in a pool?',a:['Cycling','Swimming','Football'],c:1,why:'We swim in a pool.'},
+{q:'What do you wear to protect your head when cycling?',a:['Gloves','Helmet','Socks'],c:1,why:'A helmet protects your head.'},
+{q:'How many players are on one badminton singles team?',a:['One','Five','Ten'],c:0,why:'Singles badminton has one player on each side.'},
+{q:'What do you do before exercise?',a:['Warm up','Go to sleep','Eat lots of sweets'],c:0,why:'Warming up prepares your body for exercise.'},
+{q:'What should you say when your friend wins?',a:['Well done!','Go away!','That is unfair!'],c:0,why:'Congratulating others shows good sportsmanship.'},
+{q:'Which sport uses a basketball hoop?',a:['Basketball','Badminton','Running'],c:0,why:'Basketball players throw the ball into a hoop.'},
+{q:'What do runners do in a relay race?',a:['Pass a baton','Kick a ball','Use a racket'],c:0,why:'Relay runners pass a baton to teammates.'},
+{q:'Which sport uses a net and a shuttlecock?',a:['Badminton','Swimming','Cycling'],c:0,why:'Badminton uses a net and a shuttlecock.'},
+{q:'What should you do if a teammate makes a mistake?',a:['Help them','Laugh at them','Shout at them'],c:0,why:'A good teammate helps and encourages others.'}
 ];
 const lanes=[0,1,2];
-let state,raf=0,lastTime=0,spawnClock=0,gateClock=0,questionIndex=0,gateBusy=false,feedbackTimer=0;
+let state,raf=0,lastTime=0,spawnClock=0,gateClock=0,questionIndex=0,questionOrder=[],gateBusy=false,feedbackTimer=0;
 let highScore=Number(localStorage.getItem('sqRunnerHighScore')||0);
 function freshState(){return{active:false,over:false,lane:1,visualLane:1,jumpY:0,jumpV:0,slide:0,lean:0,land:0,shake:0,flash:0,combo:0,stumble:0,notice:'',noticeTime:0,dist:0,score:0,xp:0,lives:3,speed:.43,elapsed:0,objects:[],particles:[],boost:0,trackOffset:0,invulnerable:0};}
 function updateHud(){
@@ -667,15 +672,15 @@ function collide(o){
 function showGate(){
  if(!state.active||state.over)return;
  state.active=false;gateBusy=true;
- const q=questions[questionIndex++%questions.length];
+ if(questionIndex%questions.length===0){questionOrder=questions.map((_,i)=>i).sort(()=>Math.random()-.5);}\n const q=questions[questionOrder[questionIndex++%questions.length]];\n const shuffledAnswers=q.a.map((answer,i)=>({answer,correct:i===q.c})).sort(()=>Math.random()-.5);
  $('quiz-question-box').textContent=q.q;$('quiz-options-box').innerHTML='';$('quiz-feedback').textContent='Choose the correct answer. Correct answers earn +50 XP and a speed boost.';
- q.a.forEach((answer,index)=>{
+ shuffledAnswers.forEach(({answer,correct},index)=>{
   const b=document.createElement('button');b.className='option-node';b.textContent=String.fromCharCode(65+index)+'. '+answer;
   b.addEventListener('click',function(){
    if(!gateBusy)return;gateBusy=false;
    Array.from($('quiz-options-box').children).forEach(x=>x.disabled=true);
-   if(index===q.c){state.xp+=50;state.score+=100;state.speed=Math.min(.82,state.speed+.055);state.boost=5;$('quiz-feedback').textContent='Correct! '+q.why+' +50 XP and a speed boost!';}
-   else{state.lives--;state.invulnerable=1.2;$('quiz-feedback').textContent='Not quite. '+q.why+' You lost one heart.';if(state.lives<=0){updateHud();finishRun();return;}}
+   if(correct){state.xp+=50;state.score+=100;state.speed=Math.min(.82,state.speed+.055);state.boost=5;$('quiz-feedback').textContent='Correct! '+q.why+' +50 XP and a speed boost!';}
+   else{$('quiz-feedback').textContent='Good try! '+q.why+' Keep running!';}
    updateHud();
    setTimeout(function(){overlays.quiz.classList.add('hidden');if(!state.over){state.active=true;lastTime=performance.now();raf=requestAnimationFrame(loop);}},1300);
   });
@@ -720,7 +725,7 @@ function jump(){if(!state.active||gateBusy||state.over)return;if(state.jumpY<=0&
 function slide(){if(!state.active||gateBusy||state.over)return;if(state.jumpY<=0){state.slide=.7;state.stumble=0;}}
 function startRun(){
  $('pause-control').textContent='Ⅱ';$('pause-control').setAttribute('aria-label','Pause game');
- cancelAnimationFrame(raf);state=freshState();spawnClock=0;gateClock=0;questionIndex=0;gateBusy=false;
+ cancelAnimationFrame(raf);state=freshState();spawnClock=0;gateClock=0;questionIndex=0;questionOrder=[];gateBusy=false;
  Object.values(overlays).forEach(o=>o.classList.add('hidden'));state.active=true;lastTime=performance.now();updateHud();drawScene();raf=requestAnimationFrame(loop);
 }
 function pauseRun(){if(!state.active)return;state.active=false;cancelAnimationFrame(raf);$('pause-control').textContent='▶';$('pause-control').setAttribute('aria-label','Resume game');overlays.pause.classList.remove('hidden');}
