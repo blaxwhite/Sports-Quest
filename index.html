@@ -419,5 +419,5 @@ credit.replaceChildren(document.createTextNode('Video: '+v.title+' · Creator: '
 v.answers.forEach((a,i)=>{const b=document.createElement('button');b.type='button';b.textContent=a;b.onclick=()=>{answers.querySelectorAll('button').forEach((btn,j)=>{btn.disabled=true;if(j===v.correct)btn.classList.add('correct');else if(j===i)btn.classList.add('wrong')});feedback.textContent=(i===v.correct?'🌟 Correct! ':'💡 Nice try! ')+v.explain};answers.appendChild(b)})}
 document.querySelectorAll('.sq-theatre-tabs button').forEach((b,i)=>b.addEventListener('click',()=>show(i)));document.getElementById('sq-theatre-retry').addEventListener('click',()=>show(selected));show(0);
 })();
-</script></body></html>
+</script><script defer src="assets/js/champions.js?v=1"></script></body></html>
 @media(prefers-reduced-motion:reduce){.scene-sports span{animation:none!important}}
