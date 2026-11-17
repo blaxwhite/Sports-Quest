@@ -1,0 +1,29 @@
+/* Sports Quest hands-on learning lab */
+.sq-lab{margin:28px 0 35px;padding:22px;border:1px solid #bd985a;border-radius:20px;background:linear-gradient(145deg,#193b46,#122a3b);box-shadow:0 14px 35px #0004}
+.sq-lab-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.sq-lab h2{color:#ffe3a0;font-size:clamp(22px,3vw,30px);margin:6px 0}
+.sq-lab p{color:#d5e2e2;line-height:1.55}.sq-lab-status{font-weight:800;color:#ffda84;border:1px solid #92794c;border-radius:30px;padding:8px 13px}
+.sq-lab-tabs{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}
+.sq-lab-tabs button{background:#274d5a;color:#f8edcf;border:1px solid #77929a;border-radius:9px;padding:11px 14px;font:700 13px 'Outfit',sans-serif;cursor:pointer}
+.sq-lab-tabs button[aria-selected=true]{background:#ffcf72;color:#182f3a;border-color:#ffe4a2}
+.sq-lab-stage{border:1px solid #527884;border-radius:14px;padding:18px;background:#102a3a;min-height:250px}
+.sq-lab-stage h3{color:#ffe1a0;font-size:19px;margin:0 0 8px}
+.sq-lab-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+.sq-lab-options button{border:1px solid #6b9ca3;border-radius:11px;padding:12px 8px;background:#245062;color:#fff5dc;cursor:pointer;font:700 13px 'Outfit',sans-serif;min-height:75px;transition:transform .16s,background .16s}
+.sq-lab-options button:hover{transform:translateY(-3px);background:#30677b}
+.sq-lab-options button:focus-visible,.sq-lab-tabs button:focus-visible,.sq-lab-next:focus-visible{outline:3px solid #ffd86e;outline-offset:3px}
+.sq-lab-options button:disabled{cursor:default;opacity:.8;transform:none}
+.sq-lab-options button.sq-right{background:#276c56;border-color:#9ee5aa;color:white}
+.sq-lab-options button.sq-wrong{background:#7c4b46;border-color:#ffc1a0}
+.sq-lab-options .sq-icon{display:block;font-size:37px;margin-bottom:5px;animation:sq-float 2.5s ease-in-out infinite}
+.sq-lab-feedback{min-height:48px;padding:12px;border-radius:9px;background:#214653;color:#f8e8c9;font-weight:600}
+.sq-lab-next{background:#ffcf72;color:#1b2c37;border:0;border-radius:9px;padding:11px 17px;font-weight:900;cursor:pointer;margin-top:12px}
+.sq-lab-next:disabled{opacity:.45;cursor:default}
+.sq-lab-progress{height:8px;background:#315461;border-radius:10px;overflow:hidden;margin-top:12px}
+.sq-lab-progress span{display:block;height:100%;width:0;background:#ffcf72;transition:width .35s}
+.sq-lab-scene{display:flex;justify-content:center;align-items:center;gap:12px;padding:12px;min-height:85px;font-size:48px;background:radial-gradient(ellipse at center,#2e6775,#17394b 70%);border-radius:10px}
+.sq-lab-scene span{display:inline-block;animation:sq-float 2.5s ease-in-out infinite}
+.sq-lab-scene span:nth-child(2){animation-delay:.45s}.sq-lab-scene span:nth-child(3){animation-delay:.9s}
+@keyframes sq-float{50%{transform:translateY(-7px) rotate(3deg)}}
+@media(max-width:560px){.sq-lab{padding:15px}.sq-lab-options{grid-template-columns:repeat(2,minmax(0,1fr))}.sq-lab-options button{min-height:83px}.sq-lab-tabs button{flex:1;padding:10px 7px}}
+@media(prefers-reduced-motion:reduce){.sq-lab *{animation:none!important;transition:none!important}}
