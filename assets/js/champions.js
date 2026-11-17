@@ -11,7 +11,7 @@ const save=d=>localStorage.setItem(KEY,JSON.stringify(d));
 const active=()=>get().find(p=>p.id===localStorage.getItem(ACTIVE))||null;
 function record(game,score){const p=active();if(!p||!games.some(g=>g[0]===game))return;const d=get(),q=d.find(x=>x.id===p.id);if(!q)return;q.scores=q.scores||{};q.scores[game]=Math.max(q.scores[game]||0,Math.max(0,Math.floor(Number(score)||0)));save(d);window.dispatchEvent(new Event('sq-profile-updated'))}
 window.SQChampions={active,record,leaderboard:game=>get().filter(p=>p.scores&&p.scores[game]!=null).sort((a,b)=>b.scores[game]-a.scores[game]).slice(0,20)};
-const style=document.createElement('link');style.rel='stylesheet';style.href=((location.pathname.includes('/missions/')||location.pathname.includes('/arcade/'))?'../':'')+'assets/css/champions.css?v=1';document.head.appendChild(style);
+const style=document.createElement('link');style.rel='stylesheet';style.href=((location.pathname.includes('/missions/')||location.pathname.includes('/arcade/'))?'../':'')+'assets/css/champions.css?v=2';document.head.appendChild(style);
 const root=document.createElement('div');root.id='sq-champions';document.body.appendChild(root);
 const base=location.pathname.includes('/missions/')||location.pathname.includes('/arcade/');
 const arcadeUrl=base?'../arcade.html':'arcade.html';
