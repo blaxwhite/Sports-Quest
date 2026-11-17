@@ -692,7 +692,7 @@ function showGate(){
 }
 function finishRun(){
  state.over=true;state.active=false;cancelAnimationFrame(raf);
- highScore=Math.max(highScore,state.score);localStorage.setItem('sqRunnerHighScore',String(highScore));updateHud();
+ if(window.SQChampions)window.SQChampions.record('runner',state.score);highScore=Math.max(highScore,state.score);localStorage.setItem('sqRunnerHighScore',String(highScore));updateHud();
  $('end-title').textContent=state.lives>0?'Champion Run!':'Game Over';
  $('end-summary').textContent='Distance: '+Math.floor(state.dist)+' m · Score: '+state.score+' · XP earned: '+state.xp+'.';
  overlays.end.classList.remove('hidden');
@@ -781,5 +781,5 @@ document.addEventListener('visibilitychange',function(){if(document.hidden&&stat
 state=freshState();updateHud();drawScene();
 });
 </script>
-<script defer src="../assets/js/sports-buddy.js?v=2"></script></body>
+<script defer src="../assets/js/sports-buddy.js?v=2"></script><script defer src="../assets/js/champions.js?v=1"></script></body>
 </html>
