@@ -52,6 +52,7 @@ canvas{display:block;width:100%;height:auto;aspect-ratio:480/560;touch-action:no
 #start-screen .panel h1.title-animated{animation:gameTitleBreathe 2.8s ease-in-out infinite;transform-origin:center;will-change:transform}
 @keyframes gameTitleBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
 @media(prefers-reduced-motion:reduce){#start-screen .panel h1.title-animated{animation:none;transform:none}}
+#asset-loading{position:absolute;inset:0;z-index:30;background:#0c1b2b;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;line-height:1.7;color:#ffe5a7}#asset-loading .load-panel{width:min(330px,100%);padding:24px 18px;border:2px solid #dfb765;border-radius:14px;background:linear-gradient(#244654,#112c3b)}#asset-loading .load-meter{height:9px;background:#0a1c29;border:1px solid #68898e;border-radius:20px;overflow:hidden;margin:17px 0}#asset-loading .load-meter span{display:block;height:100%;width:0%;background:#f6c76c;transition:width .25s}#asset-loading p{font-size:12px;color:#d9e6e3}#start-btn:disabled{opacity:.6;cursor:wait}
 </style>
 <link rel="stylesheet" href="../assets/css/sports-buddy.css?v=2"></head>
 <body>
@@ -67,7 +68,7 @@ canvas{display:block;width:100%;height:auto;aspect-ratio:480/560;touch-action:no
 <div id="canvas-container">
 <canvas id="runner-canvas" width="480" height="560" aria-label="Runner on a three-lane kingdom track"></canvas>
 <button id="pause-control" type="button" aria-label="Pause game" title="Pause game">Ⅱ</button>
-<div id="start-screen" class="overlay"><div class="panel"><div class="eyebrow">KINGDOM OF CHAMPIONS · ARCADE QUEST</div><h1 class="title-animated">SPORTS KINGDOM RUNNER</h1><p>Race through the royal stadium! Switch between three lanes, jump over hurdles, avoid cones and collect golden stars.</p><p><b>KEYBOARD</b><br>← → or A / D to change lanes<br>↑, W or SPACE to jump · ↓ or S to slide</p><p><b>MOBILE</b><br>Swipe left or right to switch lanes, up to jump, down to slide.</p><button id="start-btn" class="main-btn">START RUN</button></div></div>
+<div id="asset-loading" role="status" aria-live="polite"><div class="load-panel"><div style="font-size:30px">🏰</div><strong>PREPARING YOUR KINGDOM</strong><div class="load-meter"><span id="asset-progress"></span></div><p id="asset-status">Loading artwork before your adventure...</p></div></div><div id="start-screen" class="overlay"><div class="panel"><div class="eyebrow">KINGDOM OF CHAMPIONS · ARCADE QUEST</div><h1 class="title-animated">SPORTS KINGDOM RUNNER</h1><p>Race through the royal stadium! Switch between three lanes, jump over hurdles, avoid cones and collect golden stars.</p><p><b>KEYBOARD</b><br>← → or A / D to change lanes<br>↑, W or SPACE to jump · ↓ or S to slide</p><p><b>MOBILE</b><br>Swipe left or right to switch lanes, up to jump, down to slide.</p><button id="start-btn" class="main-btn">START RUN</button></div></div>
 <div id="quiz-gate" class="overlay hidden"><div class="panel"><div class="eyebrow">✦ WISDOM GATE CHALLENGE ✦</div><h2>Prove Your Sports Knowledge</h2><p id="quiz-question-box">Loading question...</p><div id="quiz-options-box" class="options-list"></div><p id="quiz-feedback" aria-live="polite"></p></div></div>
 <div id="pause-screen" class="overlay hidden"><div class="panel"><div class="eyebrow">RUN PAUSED</div><h2>Take a Breather</h2><p>Your progress is safe. Ready to return to the track?</p><button id="resume-btn" class="main-btn">RESUME RUN</button></div></div>
 <div id="end-screen" class="overlay hidden"><div class="panel"><div class="eyebrow">RUN COMPLETE</div><h2 id="end-title">Game Over</h2><p id="end-summary"></p><button id="restart-btn" class="main-btn">RUN AGAIN</button></div></div>
@@ -88,6 +89,7 @@ const ctx=canvas.getContext('2d');
 const $=id=>document.getElementById(id);
 const hud={dist:$('stat-dist'),score:$('stat-score'),hp:$('stat-hp'),xp:$('stat-xp')};
 const overlays={start:$('start-screen'),quiz:$('quiz-gate'),pause:$('pause-screen'),end:$('end-screen')};
+$('start-btn').disabled=true;
 const assetFiles={playerRun:'player_run.png',playerJump:'player_jump.png',hurdle:'hurdle.png',star:'star.png',runnerSheet:'sports_runner_animations.png'};
 const assets={};
 Object.keys(assetFiles).forEach(function(k){const im=new Image();assets[k]=im;
@@ -778,7 +780,14 @@ $('start-btn').addEventListener('click',startRun);
 $('restart-btn').addEventListener('click',startRun);
 $('resume-btn').addEventListener('click',resumeRun);
 document.addEventListener('visibilitychange',function(){if(document.hidden&&state.active)pauseRun();});
-state=freshState();updateHud();drawScene();
+state=freshState();updateHud();
+// Keep the entire canvas concealed until the artwork is loaded so assets never pop in one by one.
+const essential=[...Object.values(assets),kingdomRoadImage,kingdomCastleImage,mountainHorizonImage,kingdomTerrainImage,goldenStarSheet];
+let revealDone=false;const loadingAt=Date.now();
+function revealWhenReady(){if(revealDone)return;const complete=essential.filter(im=>im.complete&&im.naturalWidth>0).length;const settled=essential.filter(im=>im.complete).length;const percent=Math.round(complete/essential.length*100);$('asset-progress').style.width=percent+'%';$('asset-status').textContent='Preparing artwork... '+complete+' / '+essential.length;
+if(settled===essential.length||Date.now()-loadingAt>18000){revealDone=true;drawScene();$('asset-loading').remove();$('start-btn').disabled=false;if(complete<essential.length)$('asset-status').textContent='Some optional artwork may be unavailable.';return}
+setTimeout(revealWhenReady,150)}
+revealWhenReady();
 });
 </script>
 <script defer src="../assets/js/sports-buddy.js?v=2"></script><script defer src="../assets/js/champions.js?v=10"></script></body>
