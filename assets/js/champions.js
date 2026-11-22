@@ -1,5 +1,6 @@
 (function(){
 'use strict';
+const syncModule=document.createElement('script');syncModule.type='module';syncModule.src=((location.pathname.includes('/missions/')||location.pathname.includes('/arcade/'))?'../':'')+'assets/js/student-sync.js?v=1';document.head.appendChild(syncModule);
 const KEY='sqChampionsV1',ACTIVE='sqActiveChampionV1';
 const ENTRY='sqChampionEnteredV1';
 const entered=()=>{try{return sessionStorage.getItem(ENTRY)==='yes'}catch(e){return false}};
